@@ -74,4 +74,8 @@ export class MarketplaceLoader {
   }
 
   display(tenant, marketplace) { return "Selected Marketplace: " + tenant + "/" + marketplace; }
+
+  static networkNumber(networkName) {
+    return networkName == "main" ? "955305" : "955210";
+  }
 }

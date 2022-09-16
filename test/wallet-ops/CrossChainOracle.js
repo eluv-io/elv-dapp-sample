@@ -20,9 +20,9 @@ export class CrossChainOracle {
       "chain_type": "eip155",
       "chain_id": "955210",
       "asset_type": "erc20",
-      "asset_id": "0xc21ea77699666e2bb6b96dd20157db08f22cb9c3",
+      "asset_id": "0x43842733179fa1c38560a44f1d9067677461c8ca",
+      //"asset_id": "0xc21ea77699666e2bb6b96dd20157db08f22cb9c3",
       "method": "balance",
-      "params": { "owner": "0x80ff0c9b1e7aa9a3c4b665e3a601d648d402bd7e" }
     };
 
     this.flowSampleXcMsg = {
@@ -31,7 +31,7 @@ export class CrossChainOracle {
       "asset_type": "NonFungibleToken",
       "asset_id": "0x329feb3ab062d289:CNN_NFT",
       "method": "balance",
-      "params": { "owner":"0xcbd420284fd5e19b" }
+      "user": "0xcbd420284fd5e19b",
     };
 
     // starflicks content
@@ -77,27 +77,28 @@ export class CrossChainOracle {
     };
 
     // To use a local authd dev instance:
-    //this.client.authServiceURIs = ["http://127.0.0.1:6546"];
-    //this.client.AuthHttpClient.uris = this.client.authServiceURIs;
-    //this.authServicePath = "/xco/view";   // On local authd as /xco/view instead of /as/xco/view
+    this.client.authServiceURIs = ["http://127.0.0.1:6546"];
+    this.client.AuthHttpClient.uris = this.client.authServiceURIs;
+    this.authServicePath = "/xco/view";   // On local authd as /xco/view instead of /as/xco/view
   }
 
-  GetXcMessage = (type, asset, owner) => {
+  GetXcoMessage = (type, asset, owner) => {
     let msg = type == "eth" ? this.ethSampleXcMsg : this.flowSampleXcMsg;
-    msg.params.owner = !owner ? msg.params.owner : owner;
+    msg.user = !owner ? msg.user : owner;
     msg.asset_id = !asset ? msg.asset_id : asset;
     return msg;
   }
 
   /**
-   * Make a cross-chain oracle call
+   * Make a cross-chain oracle 'view' API call
    */
-  XcoMessage = async ({msg}) => {
-    // Create a client-signed-token in order to access the cross-chain oracle API
-    const token = await this.client.CreateFabricToken({duration: 60 * 60 * 1000});
+  SendXcoMessage = async ({msg}) => {
+    // Need an owner-signed token in order to access the cross-chain oracle API
+    const token = await this.client.staticToken;
+    window.console.log("submitting xco msg", msg);
+    window.console.log("with token", token, client.utils.DecodeSignedToken(token));
 
-    // Call the cross-chain oracle 'view' API
-    let res = await Utils.ResponseToFormat(
+    return await Utils.ResponseToFormat(
       "json",
       this.client.authClient.MakeAuthServiceRequest({
         method: "POST",
@@ -108,15 +109,13 @@ export class CrossChainOracle {
         },
       })
     );
-
-    return res;
   };
 
   /**
    * Retrieve playout URLs
    */
-  Play = async ({token}) => {
-    this.client.SetStaticToken({ token });
+  GetPlayout = async () => {
+    //this.client.SetStaticToken({ token }); // token was passed as arg
 
     // First retrieve title metadata (title, synopsis, cast, ...)
     let meta = await this.client.ContentObjectMetadata({
@@ -146,16 +145,19 @@ export class CrossChainOracle {
     window.console.log("using", this.item);
 
     // Call the oracle cross-chain 'view' API 'balance'
-    let xcMsg = await this.XcoMessage({msg: msg});
+    let xcMsg = await this.SendXcoMessage({msg: msg});
     const balance = xcMsg?.ctx?.xc_msg?.results?.balance;
     window.console.log("balance", balance);
 
+    // Create a client-signed-token? maybe that will fix access?
+    const fabric_token = await this.client.CreateFabricToken({duration: 60 * 60 * 1000});
+
     if(balance <= 0) {
-      return { balance: balance };
+      return { msg: xcMsg };
     } else {
-      // let playoutOptions = await this.Play({token: accessToken});
-      // window.console.log("PLAYOUT", playoutOptions);
-      return { balance: balance, msg: xcMsg };
+      let playoutOptions = await this.GetPlayout();
+      window.console.log("PLAYOUT", playoutOptions);
+      return { msg: xcMsg, fabric_token: fabric_token };
     }
   };
 }

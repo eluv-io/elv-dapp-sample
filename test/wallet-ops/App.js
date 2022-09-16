@@ -202,7 +202,7 @@ const App = () => {
     const provider = await new CrossChainOracle(walletClient);
     const addr =  getInput("nftAddressToVerify");
     const owner = getInput("nftOwnerToVerify");
-    const xcMsg = provider.GetXcMessage(type, addr, owner);
+    const xcMsg = provider.GetXcoMessage(type, addr, owner);
 
     setInputs(xcMsg);
     setEmbed("");
@@ -244,9 +244,8 @@ const App = () => {
             <div className="button-row">
               <label htmlFor="nftAddressToVerify">Verify NFT ownership (contract address):</label>
               <input type="text" size="50" id="nftAddressToVerify" name="nftAddressToVerify" />
-              <button onClick={CheckNft}>Verify NFT</button>
+              <button onClick={CheckNft}>Verify Eluvio NFT</button>
             </div>
-            <br/>
             <div className="button-row">
               <label className="hidden-placeholder"></label>
               <input type="text" size="50" className="hidden-placeholder" />
@@ -298,7 +297,7 @@ const App = () => {
           <div>
             <div className="preformat-header">Input</div>
             <pre>{stringify(inputs)}</pre>
-          </div> : null
+          </div> : <><br/><br/><br/></>
       }
 
       {
