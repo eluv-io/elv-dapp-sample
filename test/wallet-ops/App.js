@@ -50,13 +50,9 @@ const AuthSection = ({walletClient}) => {
   if(!loggedIn) {
     return (
       <div className="section">
-        <h2>Login</h2>
         <div className="button-row">
           <button onClick={() => LogIn({method: "redirect"})}>
-            Redirect
-          </button>
-          <button onClick={() => LogIn({method: "popup"})}>
-            Popup
+            Login
           </button>
         </div>
       </div>
@@ -205,6 +201,7 @@ const App = () => {
     const xcMsg = provider.GetXcoMessage(type, addr, owner);
 
     setInputs(xcMsg);
+    setResults("<operation pending>");
     setEmbed("");
     let res = await provider.Run(type, xcMsg)
       .catch(err => { return err; });

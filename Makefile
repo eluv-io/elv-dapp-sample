@@ -8,7 +8,7 @@ build:
 clean:
 	rm -rf dist/
 
-wallet-ops-deploy:
+deploy:
 	firebase use production-260101
 	npm run build-wallet-ops-test && firebase deploy --only hosting:elv-dapp-sample	
 
