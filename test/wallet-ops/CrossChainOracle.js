@@ -77,16 +77,16 @@ export class CrossChainOracle {
     };
 
     // To use a local authd dev instance:
-    this.client.authServiceURIs = ["http://127.0.0.1:6546"];
-    this.client.AuthHttpClient.uris = this.client.authServiceURIs;
-    this.authServicePath = "/xco/view";   // On local authd as /xco/view instead of /as/xco/view
+    //this.client.authServiceURIs = ["http://127.0.0.1:6546"];
+    //this.client.AuthHttpClient.uris = this.client.authServiceURIs;
+    //this.authServicePath = "/xco/view";   // On local authd as /xco/view instead of /as/xco/view
   }
 
   GetXcoMessage = (type, asset, owner, chain_id) => {
     let msg = type == "eth" ? this.ethSampleXcMsg : this.flowSampleXcMsg;
     msg.user = !owner ? msg.user : owner;
     msg.asset_id = !asset ? msg.asset_id : asset;
-    msg.chain_id = !chain_id ? msg.chain_id : chain_id;
+    msg.chain_id = type != "eth" || !chain_id ? msg.chain_id : chain_id;
     return msg;
   }
 
