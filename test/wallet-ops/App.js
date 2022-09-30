@@ -198,7 +198,7 @@ const App = () => {
     const provider = await new CrossChainOracle(walletClient);
     const addr =  getInput("nftAddressToVerify");
     const owner = getInput("nftOwnerToVerify");
-    const xcMsg = provider.GetXcoMessage(type, addr, owner);
+    const xcMsg = provider.GetXcoMessage(type, addr, owner, networkNumber(network));
 
     setInputs(xcMsg);
     setResults("<operation pending>");
@@ -206,6 +206,10 @@ const App = () => {
     let res = await provider.Run(type, xcMsg)
       .catch(err => { return err; });
     setResults({rpcResult: res, policyFor: provider.item});
+  };
+
+  const networkNumber = (networkName) => {
+    return networkName == "main" ? "955305" : "955210";
   };
 
   // TODO: this is getting called too much: twice on start, and after method calls

@@ -82,10 +82,11 @@ export class CrossChainOracle {
     this.authServicePath = "/xco/view";   // On local authd as /xco/view instead of /as/xco/view
   }
 
-  GetXcoMessage = (type, asset, owner) => {
+  GetXcoMessage = (type, asset, owner, chain_id) => {
     let msg = type == "eth" ? this.ethSampleXcMsg : this.flowSampleXcMsg;
     msg.user = !owner ? msg.user : owner;
     msg.asset_id = !asset ? msg.asset_id : asset;
+    msg.chain_id = !chain_id ? msg.chain_id : chain_id;
     return msg;
   }
 
