@@ -85,8 +85,13 @@ export class CrossChainOracle {
   GetXcoMessage = (type, asset, owner, chain_id) => {
     let msg = type == "eth" ? this.ethSampleXcMsg : this.flowSampleXcMsg;
     msg.user = !owner ? msg.user : owner;
-    msg.asset_id = !asset ? msg.asset_id : asset;
     msg.chain_id = type != "eth" || !chain_id ? msg.chain_id : chain_id;
+
+    // hacky, default to valid contract on mainnet
+    msg.asset_id = type == "eth" && chain_id == "955305" ? "0xddca2448a13b26986da0a934386277759ac0e412" : msg.asset_id;
+    // then override with typed, if set
+    msg.asset_id = !asset ? msg.asset_id : asset;
+
     return msg;
   }
 
@@ -150,15 +155,12 @@ export class CrossChainOracle {
     const balance = xcMsg?.ctx?.xc_msg?.results?.balance;
     window.console.log("balance", balance);
 
-    // Create a client-signed-token? maybe that will fix access?
-    const fabric_token = await this.client.CreateFabricToken({duration: 60 * 60 * 1000});
-
     if(balance <= 0) {
       return { msg: xcMsg };
     } else {
       let playoutOptions = await this.GetPlayout();
       window.console.log("PLAYOUT", playoutOptions);
-      return { msg: xcMsg, fabric_token: fabric_token };
+      return { msg: xcMsg };
     }
   };
 }
