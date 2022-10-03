@@ -1,5 +1,5 @@
 #
-# currently only used for the wallet-ops-deploy
+# currently only used for the wallet-ops-deploy, which is the source of https://dapp-sample.app.eluv.io/
 #
 
 build:
