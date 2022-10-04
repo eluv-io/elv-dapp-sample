@@ -6,20 +6,19 @@ Given, say,
 "policyFor": {
     "objectId": "iq__SoPtztGZavHUaSnkMRPQ6T138mp",
     "hash": "hq__8xLaEZhWVTjFifiCZRKNQ3m1BdBRjJ9Q7EwGd6K73TKbtFruiCFeptWcGF9tNkhqNV6Ho5gqr2",
-    "filename": "NSilva_wave2.mp4",
-    "description": "New York in Black and White, 4x4 grid"
   }
 ```
 
-get the existing policy:
+let's set a cross-chain policy for it.
+
+First, get the existing policy, in case we need to restore it:
 
 ```
 $ ./elv-live nft_get_policy_permissions iq__SoPtztGZavHUaSnkMRPQ6T138mp 2>/dev/null | grep -v "NFT.Get" | grep -v Object | grep -v verbose | grep -v Network |  yq eval .policy | jq -r .auth_policy.body | sed 's/\\n/\n/g'
 ```
 
-in case we need to restore it.  then, set to new policy.
-
-create file ~/ops/policy/nft-cross-chain.yml:
+Save that to a file for later use and edit it as appropriate.  Based on that,
+we create file ~/ops/policy/nft-cross-chain.yml:
 ```
 name: policy nft-cross-chain
 desc: |
@@ -70,7 +69,9 @@ rules:
       - rule: isValidXcmsg
 ```
 
-then save it using the `bcl-live-elv-admin` `PRIVATE_KEY`:
+Finally, then set this policy into the Content Fabric:
 ```
 $ ./elv-live nft_set_policy_permissions iq__SoPtztGZavHUaSnkMRPQ6T138mp ~/ops/policy/nft-cross-chain.yml
 ```
+
+
