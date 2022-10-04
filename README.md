@@ -1,8 +1,11 @@
 
-## [Eluvio dapp-sample](https://dapp-sample.app.eluv.io/)
+## [Eluvio DApp-sample](https://dapp-sample.app.eluv.io/)
 
 This respository contains code that illustrates to developers how to work
 with an Eluvio Content Fabric crypto wallet.
+
+A version is hosted for your convenience at
+[https://dapp-sample.app.eluv.io/](https://dapp-sample.app.eluv.io/).
 
 Various sample operations highlighted include:
 - wallet login
