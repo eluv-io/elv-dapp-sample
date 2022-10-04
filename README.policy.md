@@ -73,5 +73,6 @@ Finally, then set this policy into the Content Fabric:
 ```
 $ ./elv-live nft_set_policy_permissions iq__SoPtztGZavHUaSnkMRPQ6T138mp ~/ops/policy/nft-cross-chain.yml
 ```
+(`bcl-live-elv-admin` `PRIVATE_KEY`)
 
 

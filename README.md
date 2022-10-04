@@ -31,3 +31,10 @@ Furthermore, cross-chain features are available through the The Eluvio Javascrip
 [Eluvio Javascript Client Documentation](https://eluv-io.github.io/elv-client-js/index.html).
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
 
+### TODO
+
+Currently this repo HAS THE ENTIRE elv-media-wallet source inside it.
+
+First order of business is to get rid of all that and import it instead.
+
+
