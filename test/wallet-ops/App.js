@@ -255,7 +255,7 @@ const App = () => {
             <div className="button-row">
               <label className="hidden-placeholder"></label>
               <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Query - eip155/erc20</button>
+              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Query - eth</button>
             </div>
             <br/>
             <div className="button-row">
