@@ -15,6 +15,7 @@ Various sample operations highlighted include:
 - NFT owenership validation
 - token-gated content access
 
+![dapp-sample-screenshot.png](dapp-sample-screenshot.png)
 
 This DApp is built atop the [Eluvio Media Wallet](https://github.com/eluv-io/elv-media-wallet)
 library.  It is used for retrieving various information about the user
