@@ -15,7 +15,7 @@ Various sample operations highlighted include:
 - NFT owenership validation
 - token-gated content access
 
-![dapp-sample-screenshot.png](dapp-sample-screenshot.png)
+![sample screenshot](images/dapp-sample-screenshot.png)
 
 This DApp is built atop the [Eluvio Media Wallet](https://github.com/eluv-io/elv-media-wallet)
 library.  It is used for retrieving various information about the user
@@ -32,10 +32,18 @@ Furthermore, cross-chain features are available through the The Eluvio Javascrip
 [Eluvio Javascript Client Documentation](https://eluv-io.github.io/elv-client-js/index.html).
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
 
+
+## Source code
+
+The matching source code for the sample is in the `test/wallet-ops` subdirectory.  It was built atop a clone 
+of the wallet client, and this remains in the main `src/` directory for reference.  We have left this in
+this state, alongside a few other `test` apps, to make is easy to build new ones alongside it.
+
+
 ### TODO
 
 Currently this repo HAS THE ENTIRE elv-media-wallet source inside it.
 
-First order of business is to get rid of all that and import it instead.
+Next order of business is to get rid of all that and import it instead.
 
 
