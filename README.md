@@ -12,7 +12,7 @@ Various sample operations highlighted include:
 - wallet login
 - user information access
 - marketplace access
-- NFT owenership validation
+- NFT ownership validation
 - token-gated content access
 
 ![sample screenshot](images/dapp-sample-screenshot.png)
@@ -20,7 +20,7 @@ Various sample operations highlighted include:
 This DApp is built atop the [Eluvio Media Wallet](https://github.com/eluv-io/elv-media-wallet)
 library.  It is used for retrieving various information about the user
 and their wallet, signing transactions (via built-in custodial signing
-or connected non-custodial signing wallets), and operating backend
+or connected noncustodial signing wallets), and operating backend
 Marketplace objects.
 
 The Eluvio Media Wallet is available in the Eluvio Wallet Client, documented here:
