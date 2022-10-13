@@ -32,14 +32,14 @@ For information on setting such cross-chain policies, see [README.policy.md](REA
 
 ### Explanation of the controls
 
-- Sign: Simply sign a message, a primitive to prove ownership or provence
+- Sign: Sign a message, a primitive to prove ownership or provence
 
 - Verify NFT ownership:
    - verify ownership of an Eluvio NFT (demo or main net)
    - Use a cross-chain oracle query to check for ownership on the flow blockchain
-   - Use a cross-chain oracle query to check for ownership on an ethereum blockchain
+   - Use a cross-chain oracle query to check for ownership on an external EVM blockchain
 
-- Embed gated content: This is used to show how to embed streaming content
+- Embed gated content: used to show how to simplify the embedding of fabric streaming content
 
 - User Methods: calls that get info on the currently logged-in user
 
@@ -49,6 +49,6 @@ For information on setting such cross-chain policies, see [README.policy.md](REA
 ## Source code
 
 The matching source code for the sample is in the `test/wallet-ops` subdirectory.  It was built atop a clone 
-of the wallet client, and this remains in the main `src/` directory for reference.  We have left this in
-this state, alongside a few other `test` apps, to most easily show how
-to build variations alongside it.
+of the wallet client, and that code remains in the main `src/` directory for reference. 
+
+There are other samples alongside it in the `test/` directory, feel free to run and reference them, too.
