@@ -39,12 +39,3 @@ The matching source code for the sample is in the `test/wallet-ops` subdirectory
 of the wallet client, and this remains in the main `src/` directory for reference.  We have left this in
 this state, alongside a few other `test` apps, to most easily show how
 to build variations alongside it.
-
-
-## TODO
-
-Currently this repo HAS THE ENTIRE elv-media-wallet source inside it.
-
-Next order of business is to get rid of all that and import it instead.
-
-
