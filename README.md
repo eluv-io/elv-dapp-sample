@@ -40,7 +40,7 @@ of the wallet client, and this remains in the main `src/` directory for referenc
 this state, alongside a few other `test` apps, to make is easy to build new ones alongside it.
 
 
-### TODO
+## TODO
 
 Currently this repo HAS THE ENTIRE elv-media-wallet source inside it.
 
