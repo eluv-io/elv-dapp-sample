@@ -2,33 +2,31 @@
 ## [Eluvio DApp-sample](https://dapp-sample.app.eluv.io/)
 
 This repository illustrates how to develop for the
-Eluvio Content Fabric CDN and Marketplace, specificaully via an Eluvio
+Eluvio Content Fabric CDN and Marketplace, specifically via an Eluvio
 Content Fabric crypto wallet and its associated libraries.
 
 A version of this app is hosted for your convenience at
 [https://dapp-sample.app.eluv.io/](https://dapp-sample.app.eluv.io/).
 
-Various sample operations highlighted include:
-- wallet login
-- user information access
-- marketplace access
-- NFT ownership validation
-- token-gated content access
-
 ![sample screenshot](images/dapp-sample-screenshot.png)
 
 This DApp is built atop the [Eluvio Media Wallet](https://github.com/eluv-io/elv-media-wallet)
-library.  It is used for retrieving various information about the user
-and their wallet, signing transactions (via built-in custodial signing
-or connected noncustodial signing wallets), and operating backend
-Marketplace objects.
+library, and the underlying [Eluvio JS Client Library](https://eluv-io.github.io/eluv-io/elv-client-js).
 
-The Eluvio Media Wallet is available in the Eluvio Wallet Client, documented here:
+The library is used for login, retrieving information about the user's assets,
+signing transactions (via built-in custodial signing
+or connected noncustodial signing wallets), and operating backend
+Marketplaces. Additional operations highlighted by this sample:
+- NFT ownership validation
+- token-gated content access
+- embedding of fabric-hosted DRM video in an `<iframe>`
+ 
+The library is documented here:
 [Eluvio Wallet Client Documentation](https://eluv-io.github.io/elv-client-js/wallet-client/index.html).
 For information about implementing other login options using the wallet and/or frame client, please see
 [Login Samples](https://core.test.contentfabric.io/elv-media-wallet-client-test/test-login/).
 
-Furthermore, cross-chain features are available through the The Eluvio Javascript Client, documented here:
+Furthermore, cross-chain features are available through the Eluvio Javascript Client, documented here:
 [Eluvio Javascript Client Documentation](https://eluv-io.github.io/elv-client-js/index.html).
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
 
