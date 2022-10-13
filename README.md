@@ -32,6 +32,21 @@ Furthermore, cross-chain features are available through the The Eluvio Javascrip
 [Eluvio Javascript Client Documentation](https://eluv-io.github.io/elv-client-js/index.html).
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
 
+### Explanation of the controls
+
+- Sign: Simply sign a message, a primitive to prove ownership or provence
+
+- Verify NFT ownership:
+   - verify ownership of an Eluvio NFT (demo or main net)
+   - Use a cross-chain oracle query to check for ownership on the flow blockchain
+   - Use a cross-chain oracle query to check for ownership on an ethereum blockchain
+
+- Embed gated content: This is used to show how to embed streaming content
+
+- User Methods: calls that get info on the currently logged-in user
+
+- Marketplace methods: calls that get info on the marketplaces for primary and secondary sales
+
 
 ## Source code
 
