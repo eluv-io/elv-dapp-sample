@@ -280,6 +280,9 @@ const App = () => {
             </div>
             <div className="button-row">
               <button onClick={async () => clearAndShow(await walletClient.client.CreateFabricToken())}>CreateFabricToken</button>
+              <button onClick={async () => clearAndShow(
+                JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
+              )}>DecodeSignedToken</button>
             </div>
             <br/>
             <h2>Marketplace Methods</h2>
