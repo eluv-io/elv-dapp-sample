@@ -29,6 +29,7 @@ For information about implementing other login options using the wallet and/or f
 Furthermore, cross-chain features are available through the Eluvio Javascript Client, documented here:
 [Eluvio Javascript Client Documentation](https://eluv-io.github.io/elv-client-js/index.html).
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
+This operation requires access to the `elv-live` tool [elv-live-js](https://github.com/eluv-io/elv-live-js).
 
 ### Explanation of the controls
 
