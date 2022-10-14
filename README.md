@@ -1,5 +1,5 @@
 
-## Eluvio DApp-sample
+# Eluvio DApp-sample
 
 This repository illustrates how to develop for the
 Eluvio Content Fabric CDN and Marketplace, specifically via an Eluvio
@@ -31,7 +31,7 @@ Furthermore, cross-chain features are available through the Eluvio Javascript Cl
 For information on setting such cross-chain policies, see [README.policy.md](README.policy.md).
 This operation requires use of the `elv-live` CLI tool [elv-live-js](https://github.com/eluv-io/elv-live-js).
 
-### Explanation of the controls
+## Description of the controls
 
 - Sign: Sign a message, a primitive to prove ownership or provence
 
@@ -46,8 +46,46 @@ This operation requires use of the `elv-live` CLI tool [elv-live-js](https://git
 
 - Marketplace methods: calls that get info on the marketplaces for primary and secondary sales
 
+## Setup
 
-## Source code
+To run this sample:
+- clone this repo
+- run `npm install`
+- run `npm run serve-wallet-ops-test`
+- open your browser to [https://localhost:8094](https://localhost:8094)
+
+## Operation
+
+### Getting Started
+
+To get started, you'll need a Content Fabric account.  You can set one up as part of clicking "Login".
+Select either the "demo" or "main" network depending on which network you want to access.  
+Demo is most often the proper place to start. From there, the UI will expand to show similar to the screenshot above. 
+Feel free to press all the buttons.
+
+To browse the new wallet you created, go to either:
+- "main": [https://wallet.contentfabric.io/](https://wallet.contentfabric.io/#//profile)
+or
+- "demo": [https://wallet.demov3.contentfabric.io/](https://wallet.demov3.contentfabric.io/#/profile)
+
+Feel free to click around the various marketplaces and activity.
+
+### Adding Content
+
+Initially, your account will be empty. So, next, we'll want to fill this account with content.
+Obviously, one choice is to buy things from the primary markets (marketplaces), or from the secondary market (listings).
+Realistically, as a developer, you'll instead want to create your own content. 
+
+Thus, the next step is to link your account is up with the Content Fabric Browser - the _frowser_.
+
+The browser is available here:
+- "main": [https://core.v3.contentfabric.io/#/accounts](https://core.v3.contentfabric.io/#/accounts)
+  or
+- "demo": [https://core.demov3.contentfabric.io/#/accounts](https://core.demov3.contentfabric.io/#/accounts)
+
+Contact us for the rest of the directions.
+
+## Editing / Source Code Location
 
 The matching source code for the sample is in the `test/wallet-ops` subdirectory.  It was built atop a clone 
 of the wallet client, and that code remains in the main `src/` directory for reference. 
