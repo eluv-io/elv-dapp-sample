@@ -65,7 +65,6 @@ Feel free to press all the buttons.
 
 To browse the new wallet you created, go to either:
 - "main": [https://wallet.contentfabric.io/](https://wallet.contentfabric.io/#//profile)
-or
 - "demo": [https://wallet.demov3.contentfabric.io/](https://wallet.demov3.contentfabric.io/#/profile)
 
 Feel free to click around the various marketplaces and activity.
@@ -76,14 +75,13 @@ Initially, your account will be empty. So, next, we'll want to fill this account
 Obviously, one choice is to buy things from the primary markets (marketplaces), or from the secondary market (listings).
 Realistically, as a developer, you'll instead want to create your own content. 
 
-Thus, the next step is to link your account is up with the Content Fabric Browser - the _frowser_.
-
-The browser is available here:
+Thus, the next step is to link your account is up with the Content Fabric Browser - aka the _frowser_. 
+Frowsers are available here:
 - "main": [https://core.v3.contentfabric.io/#/accounts](https://core.v3.contentfabric.io/#/accounts)
-  or
 - "demo": [https://core.demov3.contentfabric.io/#/accounts](https://core.demov3.contentfabric.io/#/accounts)
 
-Contact us for the rest of the directions.
+And docs are here: [http://hub.elv/setup/](http://hub.elv/setup/).
+Please go there for the rest of the directions.
 
 ## Editing / Source Code Location
 
