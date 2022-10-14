@@ -11,7 +11,7 @@ A version of this app is hosted for your convenience at
 ![sample screenshot](images/dapp-sample-screenshot.png)
 
 This DApp is built atop the [Eluvio Media Wallet](https://github.com/eluv-io/elv-media-wallet)
-library, and the underlying [Eluvio JS Client Library](https://github.io/eluv-io/elv-client-js).
+library, and the underlying [Eluvio JS Client Library](https://github.com/eluv-io/elv-client-js).
 
 The library is used for login, retrieving information about the user's assets,
 signing transactions (via built-in custodial signing
