@@ -62,13 +62,13 @@ There are other samples alongside it in the `test/` directory, feel free to run 
 
 ### Getting Started
 
-To get started, you'll need a Content Fabric wallet account.  You can Sign Up as part of clicking "Login"
-on these pages, or, go to the URLs below. Select either the "demo" or "main" network, depending on which
-you want to access. Demo (our test network) is most often the best place to start.
+To get started, you'll need a Content Fabric wallet account.  You can Sign Up as part of clicking `Login`
+on these pages, or, go to the URLs below. Select either the _"demo"_ or _"main"_ network, depending on which
+you want to access. _Demo_ aka _demov3_ (our test network) is often the best place to start.
 
 To browse the new wallet you created, go to either:
-- "main": [https://wallet.contentfabric.io/](https://wallet.contentfabric.io/#//profile)
-- "demo": [https://wallet.demov3.contentfabric.io/](https://wallet.demov3.contentfabric.io/#/profile)
+- _main_: [https://wallet.contentfabric.io/](https://wallet.contentfabric.io/#//profile)
+- _demo_: [https://wallet.demov3.contentfabric.io/](https://wallet.demov3.contentfabric.io/#/profile)
 
 Click through to the various marketplaces, listings, and activity, and look at individual NFTs and
 their attached content, including their Contract Details.
@@ -86,8 +86,8 @@ Initially, your account will be empty, with no owned NFTs or access to any parti
 The section below will touch on creating your own content to be made available to users, but, before we
 get there, let's add some existing content.
 
-One choice is to buy things from the primary sales channels ("marketplaces"), or from the
-secondary ones ("listings").  On the demo network, the payment gateways are attached to staging
+One choice is to buy things from the primary sales channels ("Marketplaces"), or from the
+secondary ones ("Listings").  On the _demo_ network, the payment gateways are attached to staging
 networks, so feel free to do that, you won't be charged.
 Use card number 4242 4242 4242 4242, a valid future date, and any three-digit CVC.
 
@@ -100,10 +100,13 @@ interesting data.
 
 Realistically, though, as a developer, you'll instead want to create your own content.  To do this,
 the next step is to create an account with the Content Fabric Browser -- available here:
-- "main": [https://core.v3.contentfabric.io/#/accounts](https://core.v3.contentfabric.io/#/accounts)
-- "demo": [https://core.demov3.contentfabric.io/#/accounts](https://core.demov3.contentfabric.io/#/accounts)
+- _main_: [https://core.v3.contentfabric.io/#/accounts](https://core.v3.contentfabric.io/#/accounts)
+- _demo_: [https://core.demov3.contentfabric.io/#/accounts](https://core.demov3.contentfabric.io/#/accounts)
 
 The docs for this are here: [http://hub.elv/setup/](http://hub.elv/setup/).
 Please go there for the rest of the setup directions.  It will instruct you how to create an account
-there, with a private key you control and an account address of the form 0x0357111317AbCe…. Be ready to share
-that address with us, and we will fund it.
+there, with a private key you control, and an account address of the form 0x0357111317AbCe….
+Be ready to share that address with us, and we will fund it.  Once you have a funded account,
+use the _Browser App_ here:
+- _main_: [https://core.v3.contentfabric.io/#/apps/Eluvio%20Fabric%20Browser](https://core.v3.contentfabric.io/#/apps/Eluvio%20Fabric%20Browser)
+- _demo_: [https://core.demov3.contentfabric.io/#/apps/Eluvio%20Fabric%20Browser](https://core.demov3.contentfabric.io/#/apps/Eluvio%20Fabric%20Browser)
