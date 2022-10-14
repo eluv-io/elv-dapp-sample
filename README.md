@@ -1,5 +1,5 @@
 
-## [Eluvio DApp-sample](https://dapp-sample.app.eluv.io/)
+## Eluvio DApp-sample
 
 This repository illustrates how to develop for the
 Eluvio Content Fabric CDN and Marketplace, specifically via an Eluvio
