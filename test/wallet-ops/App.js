@@ -79,6 +79,7 @@ const App = () => {
   const [inputs, setInputs] = useState(undefined);
   const [results, setResults] = useState(undefined);
   const [embed, setEmbed] = useState(undefined);
+  const [pushService, setPushService] = useState(undefined);
 
   const clearAndShow = (results) => { setInputs(""); setEmbed(""); setResults(results); };
   const stringify = (o) => { if(typeof o === "string") { return o; } else return JSON.stringify(o, null, 2); };
@@ -116,6 +117,59 @@ const App = () => {
     let res = await walletClient.PersonalSign({message: msgToSign})
       .catch(err => { return err; });
     setResults(res);
+  };
+
+  const SignSolana = async () => {
+    // https://docs.phantom.app/solana/integrating-phantom/extension-and-in-app-browser-web-apps/signing-a-message
+    if("phantom" in window) {
+      const provider = window.phantom?.solana;
+      if(provider?.isPhantom) {
+        window.console.log("phantom.solana provider", provider);
+        try {
+          const resp = await provider.connect();
+          window.console.log("publicKey:", resp.publicKey.toString());
+          const message = "test";
+          const encodedMessage = new TextEncoder().encode(message);
+          //const sm = await provider.signMessage(encodedMessage, "utf8");
+          //window.console.log("signMessage():", new String(sm.publicKey), sm.signature);
+          const signedMessage = await provider.request({
+            method: "signMessage",
+            params: {message: encodedMessage, display: "hex"},
+          });
+          window.console.log("provider.request({method=signMessage}):", signedMessage);
+          setResults(signedMessage);
+        } catch(err) {
+          // { code: 4001, message: 'User rejected the request.' }
+          setResults(err);
+        }
+      } else {
+        window.console.error("connect with phantom first");
+        setResults("<connect with phantom first>");
+      }
+    }
+  };
+
+  // PushService SSE testing
+  const StartListening = async () => {
+    let count = 0;
+    const signature = await walletClient.client.CreateFabricToken({duration: 1000 * 30}).catch(err => { return err; });
+    const url = "http://localhost:3030/register/" + walletClient.UserAddress() + "/" + signature;
+    const source = new EventSource(url);
+    window.console.log("url:", source.url, "withCreds:", source.withCredentials, "ready:", source.readyState);
+
+    source.onmessage = (event) => {
+      window.console.log("OnMessage Called[", count, "]:", event, JSON.parse(event.data));
+      count++;
+    };
+    source.onopen = function() { window.console.log("Connection to server opened."); };
+    source.onerror = (event) => { window.console.log("OnError Called:", event); };
+
+    setPushService(source);
+  };
+
+  const StopListening = async () => {
+    window.console.log("StopListening:", pushService);
+    pushService.close();
   };
 
   const CheckNft = async () => {
@@ -250,12 +304,12 @@ const App = () => {
             <div className="button-row">
               <label className="hidden-placeholder"></label>
               <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth()}>Cross-chain Oracle Query - flow:mainnet</button>
+              <button onClick={async () => await CrossChainAuth()}>Cross-chain Oracle Flow Query</button>
             </div>
             <div className="button-row">
               <label className="hidden-placeholder"></label>
               <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Query - eth</button>
+              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Eth Query</button>
             </div>
             <br/>
             <div className="button-row">
@@ -268,6 +322,16 @@ const App = () => {
               <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
               <button onClick={Playout}>Embed</button>
             </div>
+            <br />
+            <h2>PushServer Methods</h2>
+            <div className="button-row">
+              <button onClick={async () => await StartListening()}>PushServer listen</button>
+              <button onClick={async () => await StopListening()}>PushServer listen stop</button>
+            </div>
+            <div className="button-row">
+              <button onClick={async () => await SignSolana()}>Sign with Solana</button>
+            </div>
+
             <br />
             <h2>User Methods</h2>
             <div className="button-row">
