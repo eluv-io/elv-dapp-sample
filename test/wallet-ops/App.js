@@ -171,7 +171,10 @@ const App = () => {
   const StartListening = async () => {
     let count = 0;
     const signature = await walletClient.client.CreateFabricToken({duration: 1000 * 30}).catch(err => { return err; });
-    const url = "http://localhost:3030/register/" + walletClient.UserAddress() + "/" + signature;
+    // url for local testing
+    //const url = "http://localhost:3030/register/" +
+    const url = "https://appsvc.svc.eluv.io/push/dv3/register/" +
+      walletClient.UserAddress() + "/" + signature;
     const source = new EventSource(url);
     window.console.log("url:", source.url, "withCreds:", source.withCredentials, "ready:", source.readyState);
 
@@ -345,13 +348,6 @@ const App = () => {
               <button onClick={Playout}>Embed</button>
             </div>
             <br />
-            <h2>PushServer Methods</h2>
-            <div className="button-row">
-              <button onClick={async () => await StartListening()}>PushServer listen</button>
-              <button onClick={async () => await StopListening()}>PushServer listen stop</button>
-            </div>
-
-            <br />
             <h2>User Methods</h2>
             <div className="button-row">
               <button onClick={async () => clearAndShow(await walletClient.UserInfo())}>UserInfo</button>
@@ -366,6 +362,12 @@ const App = () => {
               <button onClick={async () => clearAndShow(
                 JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
               )}>DecodeSignedToken</button>
+            </div>
+            <br />
+            <h2>PushServer Methods</h2>
+            <div className="button-row">
+              <button onClick={async () => await StartListening()}>PushServer listen</button>
+              <button onClick={async () => await StopListening()}>PushServer listen stop</button>
             </div>
             <br/>
             <h2>Marketplace Methods</h2>
