@@ -142,11 +142,11 @@ const App = () => {
           window.console.log("provider.request({method=signMessage}):", signedMessage);
           const xcMsg = {
             "chain_type": "solana",
-            "chain_id": "mainnet",
+            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
             "asset_type": "NonFungibleToken",
             "asset_id": input,
             "method": "balance",
-            "user": signedMessage,
+            "user": JSON.stringify(signedMessage),
           };
           setInputs(xcMsg);
 
