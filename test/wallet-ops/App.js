@@ -120,6 +120,9 @@ const App = () => {
   };
 
   const SignSolana = async () => {
+    const input = getInput("solanaNft") || "9eRpYSud54nfh3igq5CXw23FFtXaKQnfXiP2n6h8tMFM";
+    setInputs({ "solana contract address": input });
+    setResults("<operation pending>");
     // https://docs.phantom.app/solana/integrating-phantom/extension-and-in-app-browser-web-apps/signing-a-message
     if("phantom" in window) {
       const provider = window.phantom?.solana;
@@ -137,7 +140,20 @@ const App = () => {
             params: {message: encodedMessage, display: "hex"},
           });
           window.console.log("provider.request({method=signMessage}):", signedMessage);
-          setResults(signedMessage);
+          const xcMsg = {
+            "chain_type": "solana",
+            "chain_id": "mainnet",
+            "asset_type": "NonFungibleToken",
+            "asset_id": input,
+            "method": "balance",
+            "user": signedMessage,
+          };
+          setInputs(xcMsg);
+
+          const cco = await new CrossChainOracle(walletClient);
+          window.console.log("cco:", cco);
+          let res = await cco.Run("solana", xcMsg).catch(err => { setResults(err); });
+          setResults({rpcResult: res, policyFor: provider.item});
         } catch(err) {
           // { code: 4001, message: 'User rejected the request.' }
           setResults(err);
@@ -249,17 +265,16 @@ const App = () => {
   };
 
   const CrossChainAuth = async (type) => {
-    const provider = await new CrossChainOracle(walletClient);
+    const cco = await new CrossChainOracle(walletClient);
     const addr =  getInput("nftAddressToVerify");
     const owner = getInput("nftOwnerToVerify");
-    const xcMsg = provider.GetXcoMessage(type, addr, owner, networkNumber(network));
+    const xcMsg = cco.GetXcoMessage(type, addr, owner, networkNumber(network));
 
     setInputs(xcMsg);
     setResults("<operation pending>");
     setEmbed("");
-    let res = await provider.Run(type, xcMsg)
-      .catch(err => { return err; });
-    setResults({rpcResult: res, policyFor: provider.item});
+    let res = await cco.Run(type, xcMsg).catch(err => { return err; });
+    setResults({rpcResult: res, policyFor: cco.item});
   };
 
   const networkNumber = (networkName) => {
@@ -309,7 +324,12 @@ const App = () => {
             <div className="button-row">
               <label className="hidden-placeholder"></label>
               <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Eth Query</button>
+              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle EVM Query</button>
+            </div>
+            <div className="button-row">
+              <label htmlFor="solanaNft">Solana NFT contract address:</label>
+              <input type="text" size="50" id="solanaNft" name="solanaNft" />
+              <button onClick={async () => await SignSolana()}>Cross-chain Oracle Solana Query</button>
             </div>
             <br/>
             <div className="button-row">
@@ -327,9 +347,6 @@ const App = () => {
             <div className="button-row">
               <button onClick={async () => await StartListening()}>PushServer listen</button>
               <button onClick={async () => await StopListening()}>PushServer listen stop</button>
-            </div>
-            <div className="button-row">
-              <button onClick={async () => await SignSolana()}>Sign with Solana</button>
             </div>
 
             <br />
