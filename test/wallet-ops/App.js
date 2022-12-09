@@ -131,8 +131,15 @@ const App = () => {
         try {
           const resp = await provider.connect();
           window.console.log("publicKey:", resp.publicKey.toString());
-          const message = "test";
-          const encodedMessage = new TextEncoder().encode(message);
+          const xcMsg = {
+            "chain_type": "solana",
+            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
+            "asset_type": "NonFungibleToken",
+            "asset_id": input,
+            "method": "balance",
+            "user": resp.publicKey.toString(),
+          };
+          const encodedMessage = new TextEncoder().encode(xcMsg);
           //const sm = await provider.signMessage(encodedMessage, "utf8");
           //window.console.log("signMessage():", new String(sm.publicKey), sm.signature);
           const signedMessage = await provider.request({
@@ -140,14 +147,9 @@ const App = () => {
             params: {message: encodedMessage, display: "hex"},
           });
           window.console.log("provider.request({method=signMessage}):", signedMessage);
-          const xcMsg = {
-            "chain_type": "solana",
-            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
-            "asset_type": "NonFungibleToken",
-            "asset_id": input,
-            "method": "balance",
-            "user": JSON.stringify(signedMessage),
-          };
+
+          // XXX include all the info into the user field just for testing
+          xcMsg.user = JSON.stringify(signedMessage);
           setInputs(xcMsg);
 
           const cco = await new CrossChainOracle(walletClient);
