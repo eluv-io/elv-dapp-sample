@@ -332,7 +332,7 @@ const App = () => {
                 await CrossChainAuth("eth", getInput("evmNft"))}>EVM Cross-chain Oracle Query</button>
             </div>
             <div className="button-row">
-              <label htmlFor="solanaNft">Solana NFT contract address:</label>
+              <label htmlFor="solanaNft">Verify Solana NFT (contract address):</label>
               <input type="text" size="50" id="solanaNft" name="solanaNft" />
               <button onClick={async () => await SignSolana()}>Solana Cross-chain Oracle Query</button>
             </div>
