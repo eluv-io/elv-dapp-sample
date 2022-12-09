@@ -269,11 +269,9 @@ const App = () => {
     await new MarketplaceLoader(walletClient, marketplaceParams).setMarketplace(event);
   };
 
-  const CrossChainAuth = async (type) => {
+  const CrossChainAuth = async (type, addr) => {
     const cco = await new CrossChainOracle(walletClient);
-    const addr =  getInput("nftAddressToVerify");
-    const owner = getInput("nftOwnerToVerify");
-    const xcMsg = cco.GetXcoMessage(type, addr, owner, networkNumber(network));
+    const xcMsg = cco.GetXcoMessage(type, addr, "", networkNumber(network));
 
     setInputs(xcMsg);
     setResults("<operation pending>");
@@ -312,29 +310,31 @@ const App = () => {
             </div>
             <br/>
             <div className="button-row">
-              <label htmlFor="nftOwnerToVerify">Verify NFT ownership (owner address):</label>
+              <label htmlFor="nftOwnerToVerify">Verify ELV NFT (owner address):</label>
               <input type="text" size="50" id="nftOwnerToVerify" name="nftOwnerToVerify" />
               <button className="hidden-placeholder"></button>
             </div>
             <div className="button-row">
-              <label htmlFor="nftAddressToVerify">Verify NFT ownership (contract address):</label>
+              <label htmlFor="nftAddressToVerify">Verify ELV NFT (contract address):</label>
               <input type="text" size="50" id="nftAddressToVerify" name="nftAddressToVerify" />
               <button onClick={CheckNft}>Verify Eluvio NFT</button>
             </div>
             <div className="button-row">
-              <label className="hidden-placeholder"></label>
-              <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth()}>Cross-chain Oracle Flow Query</button>
+              <label htmlFor="flowNft">Verify Flow NFT (contract address):</label>
+              <input type="text" size="50" id="flowNft" name="flowNft" />
+              <button onClick={async () =>
+                await CrossChainAuth("flow", getInput("flowNft"))}>Flow Cross-chain Oracle Query</button>
             </div>
             <div className="button-row">
-              <label className="hidden-placeholder"></label>
-              <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle EVM Query</button>
+              <label htmlFor="evmNft">Verify EVM NFT (contract address):</label>
+              <input type="text" size="50" id="evmNft" name="evmNft" />
+              <button onClick={async () =>
+                await CrossChainAuth("eth", getInput("evmNft"))}>EVM Cross-chain Oracle Query</button>
             </div>
             <div className="button-row">
               <label htmlFor="solanaNft">Solana NFT contract address:</label>
               <input type="text" size="50" id="solanaNft" name="solanaNft" />
-              <button onClick={async () => await SignSolana()}>Cross-chain Oracle Solana Query</button>
+              <button onClick={async () => await SignSolana()}>Solana Cross-chain Oracle Query</button>
             </div>
             <br/>
             <div className="button-row">
