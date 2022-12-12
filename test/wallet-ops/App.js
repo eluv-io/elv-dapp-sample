@@ -120,10 +120,13 @@ const App = () => {
   };
 
   const SignSolana = async () => {
-    const input = getInput("solanaNft") || "9eRpYSud54nfh3igq5CXw23FFtXaKQnfXiP2n6h8tMFM";
+    // https://magiceden.io/item-details/Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
+    // mint address: Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
+    // token address: 92re67tGbkpyQ9e1oXZ1RLJSwfGLmR65zgUjERwsKU6U
+    // owner: 4PXXepLUr7vyB8ReRgC3qhsDxXTMbAAmh2MBb6DP6FdZ
+    const input = getInput("solanaNft") || "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q";
     setInputs({ "solana contract address": input });
     setResults("<operation pending>");
-    // https://docs.phantom.app/solana/integrating-phantom/extension-and-in-app-browser-web-apps/signing-a-message
     if("phantom" in window) {
       const provider = window.phantom?.solana;
       if(provider?.isPhantom) {
@@ -139,9 +142,10 @@ const App = () => {
             "method": "balance",
             "user": resp.publicKey.toString(),
           };
-          const encodedMessage = new TextEncoder().encode(xcMsg);
-          //const sm = await provider.signMessage(encodedMessage, "utf8");
-          //window.console.log("signMessage():", new String(sm.publicKey), sm.signature);
+
+          // XXX just encode the asset until we have a proper way to pass the signature outside the xcMsg
+          const encodedMessage = new TextEncoder().encode(input);
+
           const signedMessage = await provider.request({
             method: "signMessage",
             params: {message: encodedMessage, display: "hex"},
