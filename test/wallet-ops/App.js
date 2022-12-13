@@ -176,8 +176,8 @@ const App = () => {
     const signature = await walletClient.client.CreateFabricToken({duration: 1000 * 30}).catch(err => { return err; });
     // url for local testing
     //const url = "http://localhost:3030/register/" +
-    const url = "https://appsvc.svc.eluv.io/push/dv3/register/" +
-      walletClient.UserAddress() + "/" + signature;
+    const url = "https://appsvc.svc.eluv.io/push/" + (network == "main" ? "main/" : "dv3/") +
+      "register/" + walletClient.UserAddress() + "/" + signature;
     const source = new EventSource(url);
     window.console.log("url:", source.url, "withCreds:", source.withCredentials, "ready:", source.readyState);
 
