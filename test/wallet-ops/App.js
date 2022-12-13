@@ -368,10 +368,10 @@ const App = () => {
               )}>DecodeSignedToken</button>
             </div>
             <br />
-            <h2>PushServer Methods</h2>
+            <h2>Notification Service Methods</h2>
             <div className="button-row">
-              <button onClick={async () => await StartListening()}>PushServer listen</button>
-              <button onClick={async () => await StopListening()}>PushServer listen stop</button>
+              <button onClick={async () => await StartListening()}>PushService listen</button>
+              <button onClick={async () => await StopListening()}>PushService stop</button>
             </div>
             <br/>
             <h2>Marketplace Methods</h2>
