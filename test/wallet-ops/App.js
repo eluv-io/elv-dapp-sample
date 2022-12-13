@@ -120,11 +120,10 @@ const App = () => {
   };
 
   const SignSolana = async () => {
-    // https://magiceden.io/item-details/Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
-    // mint address: Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
-    // token address: 92re67tGbkpyQ9e1oXZ1RLJSwfGLmR65zgUjERwsKU6U
-    // owner: 4PXXepLUr7vyB8ReRgC3qhsDxXTMbAAmh2MBb6DP6FdZ
+    // input is a Mint address, not Token address
     const input = getInput("solanaNft") || "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q";
+    // alternative valid contract to test balance == 0: "7bRxdUMy7KoZAv4SXPBNTciWZGGATkSUczv1AjYqWnsT"
+
     setInputs({ "solana contract address": input });
     setResults("<operation pending>");
     if("phantom" in window) {
@@ -137,6 +136,7 @@ const App = () => {
           const xcMsg = {
             "chain_type": "solana",
             "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
+            //"chain_id": "mainnet",
             "asset_type": "NonFungibleToken",
             "asset_id": input,
             "method": "balance",
