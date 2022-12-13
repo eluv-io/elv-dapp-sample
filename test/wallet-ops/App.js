@@ -135,7 +135,7 @@ const App = () => {
           window.console.log("publicKey:", resp.publicKey.toString());
           const xcMsg = {
             "chain_type": "solana",
-            "chain_id": "mainnet",
+            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
             "asset_type": "NonFungibleToken",
             "asset_id": input,
             "method": "balance",
