@@ -135,8 +135,7 @@ const App = () => {
           window.console.log("publicKey:", resp.publicKey.toString());
           const xcMsg = {
             "chain_type": "solana",
-            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
-            //"chain_id": "mainnet",
+            "chain_id": "mainnet",
             "asset_type": "NonFungibleToken",
             "asset_id": input,
             "method": "balance",
@@ -152,7 +151,7 @@ const App = () => {
           });
           window.console.log("provider.request({method=signMessage}):", signedMessage);
 
-          // XXX include all the info into the user field just for testing
+          // XXX include all the info into the user field until we have a proper way to pass the signature
           xcMsg.user = JSON.stringify(signedMessage);
           setInputs(xcMsg);
 
@@ -185,6 +184,7 @@ const App = () => {
     source.onmessage = (event) => {
       window.console.log("OnMessage Called[", count, "]:", event, JSON.parse(event.data));
       count++;
+      setResults({ "notification received": JSON.parse(event.data) });
     };
     source.onopen = function() { window.console.log("Connection to server opened."); };
     source.onerror = (event) => { window.console.log("OnError Called:", event); };
