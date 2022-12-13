@@ -157,8 +157,9 @@ const App = () => {
 
           const cco = await new CrossChainOracle(walletClient);
           window.console.log("cco:", cco);
-          let res = await cco.Run("solana", xcMsg).catch(err => { setResults(err); });
-          setResults({rpcResult: res, policyFor: provider.item});
+
+          let res = await cco.Run("solana", xcMsg).catch(err => { return err; });
+          setResults({rpcResult: res, policyFor: cco.item});
         } catch(err) {
           // { code: 4001, message: 'User rejected the request.' }
           setResults(err);
