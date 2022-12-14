@@ -79,6 +79,7 @@ const App = () => {
   const [inputs, setInputs] = useState(undefined);
   const [results, setResults] = useState(undefined);
   const [embed, setEmbed] = useState(undefined);
+  const [pushService, setPushService] = useState(undefined);
 
   const clearAndShow = (results) => { setInputs(""); setEmbed(""); setResults(results); };
   const stringify = (o) => { if(typeof o === "string") { return o; } else return JSON.stringify(o, null, 2); };
@@ -116,6 +117,85 @@ const App = () => {
     let res = await walletClient.PersonalSign({message: msgToSign})
       .catch(err => { return err; });
     setResults(res);
+  };
+
+  const SignSolana = async () => {
+    // input is a Mint address, not Token address
+    const input = getInput("solanaNft") || "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q";
+    // alternative valid contract to test balance == 0: "7bRxdUMy7KoZAv4SXPBNTciWZGGATkSUczv1AjYqWnsT"
+
+    setInputs({ "solana contract address": input });
+    setResults("<operation pending>");
+    if("phantom" in window) {
+      const provider = window.phantom?.solana;
+      if(provider?.isPhantom) {
+        window.console.log("phantom.solana provider", provider);
+        try {
+          const resp = await provider.connect();
+          window.console.log("publicKey:", resp.publicKey.toString());
+          const xcMsg = {
+            "chain_type": "solana",
+            "chain_id": "4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ",
+            "asset_type": "NonFungibleToken",
+            "asset_id": input,
+            "method": "balance",
+            "user": resp.publicKey.toString(),
+          };
+
+          // XXX just encode the asset until we have a proper way to pass the signature outside the xcMsg
+          const encodedMessage = new TextEncoder().encode(input);
+
+          const signedMessage = await provider.request({
+            method: "signMessage",
+            params: {message: encodedMessage, display: "hex"},
+          });
+          window.console.log("provider.request({method=signMessage}):", signedMessage);
+
+          // XXX include all the info into the user field until we have a proper way to pass the signature
+          xcMsg.user = JSON.stringify(signedMessage);
+          setInputs(xcMsg);
+
+          const cco = await new CrossChainOracle(walletClient);
+          window.console.log("cco:", cco);
+
+          let res = await cco.Run("solana", xcMsg).catch(err => { return err; });
+          setResults({rpcResult: res, policyFor: cco.item});
+        } catch(err) {
+          // { code: 4001, message: 'User rejected the request.' }
+          setResults(err);
+        }
+      } else {
+        window.console.error("connect with phantom first");
+        setResults("<connect with phantom first>");
+      }
+    }
+  };
+
+  // PushService SSE testing
+  const StartListening = async () => {
+    let count = 0;
+    const signature = await walletClient.client.CreateFabricToken({duration: 1000 * 30}).catch(err => { return err; });
+    // url for local testing
+    //const url = "http://localhost:3030/register/" +
+    const url = "https://appsvc.svc.eluv.io/push/" + (network == "main" ? "main/" : "dv3/") +
+      "register/" + walletClient.UserAddress() + "/" + signature;
+    const source = new EventSource(url);
+    window.console.log("url:", source.url, "withCreds:", source.withCredentials, "ready:", source.readyState);
+
+    source.onmessage = (event) => {
+      window.console.log("OnMessage Called[", count, "]:", event, JSON.parse(event.data));
+      count++;
+      setResults({ "notification received": JSON.parse(event.data) });
+    };
+    source.onopen = function() { window.console.log("Connection to server opened."); };
+    source.onerror = (event) => { window.console.log("OnError Called:", event); };
+
+    setPushService(source);
+  };
+
+  const StopListening = async () => {
+    window.console.log("StopListening:", pushService);
+    pushService.close();
   };
 
   const CheckNft = async () => {
@@ -194,18 +274,15 @@ const App = () => {
     await new MarketplaceLoader(walletClient, marketplaceParams).setMarketplace(event);
   };
 
-  const CrossChainAuth = async (type) => {
-    const provider = await new CrossChainOracle(walletClient);
-    const addr =  getInput("nftAddressToVerify");
-    const owner = getInput("nftOwnerToVerify");
-    const xcMsg = provider.GetXcoMessage(type, addr, owner, networkNumber(network));
+  const CrossChainAuth = async (type, addr) => {
+    const cco = await new CrossChainOracle(walletClient);
+    const xcMsg = cco.GetXcoMessage(type, addr, "", networkNumber(network));
 
     setInputs(xcMsg);
     setResults("<operation pending>");
     setEmbed("");
-    let res = await provider.Run(type, xcMsg)
-      .catch(err => { return err; });
-    setResults({rpcResult: res, policyFor: provider.item});
+    let res = await cco.Run(type, xcMsg).catch(err => { return err; });
+    setResults({rpcResult: res, policyFor: cco.item});
   };
 
   const networkNumber = (networkName) => {
@@ -238,24 +315,31 @@ const App = () => {
             </div>
             <br/>
             <div className="button-row">
-              <label htmlFor="nftOwnerToVerify">Verify NFT ownership (owner address):</label>
+              <label htmlFor="nftOwnerToVerify">Verify ELV NFT (owner address):</label>
               <input type="text" size="50" id="nftOwnerToVerify" name="nftOwnerToVerify" />
               <button className="hidden-placeholder"></button>
             </div>
             <div className="button-row">
-              <label htmlFor="nftAddressToVerify">Verify NFT ownership (contract address):</label>
+              <label htmlFor="nftAddressToVerify">Verify ELV NFT (contract address):</label>
               <input type="text" size="50" id="nftAddressToVerify" name="nftAddressToVerify" />
               <button onClick={CheckNft}>Verify Eluvio NFT</button>
             </div>
             <div className="button-row">
-              <label className="hidden-placeholder"></label>
-              <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth()}>Cross-chain Oracle Query - flow:mainnet</button>
+              <label htmlFor="flowNft">Verify Flow NFT (contract address):</label>
+              <input type="text" size="50" id="flowNft" name="flowNft" />
+              <button onClick={async () =>
+                await CrossChainAuth("flow", getInput("flowNft"))}>Flow Cross-chain Oracle Query</button>
             </div>
             <div className="button-row">
-              <label className="hidden-placeholder"></label>
-              <input type="text" size="50" className="hidden-placeholder" />
-              <button onClick={async () => await CrossChainAuth("eth")}>Cross-chain Oracle Query - eth</button>
+              <label htmlFor="evmNft">Verify EVM NFT (contract address):</label>
+              <input type="text" size="50" id="evmNft" name="evmNft" />
+              <button onClick={async () =>
+                await CrossChainAuth("eth", getInput("evmNft"))}>EVM Cross-chain Oracle Query</button>
+            </div>
+            <div className="button-row">
+              <label htmlFor="solanaNft">Verify Solana NFT (contract address):</label>
+              <input type="text" size="50" id="solanaNft" name="solanaNft" />
+              <button onClick={async () => await SignSolana()}>Solana Cross-chain Oracle Query</button>
             </div>
             <br/>
             <div className="button-row">
@@ -283,6 +367,12 @@ const App = () => {
               <button onClick={async () => clearAndShow(
                 JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
               )}>DecodeSignedToken</button>
+            </div>
+            <br />
+            <h2>Notification Service Methods</h2>
+            <div className="button-row">
+              <button onClick={async () => await StartListening()}>PushService listen</button>
+              <button onClick={async () => await StopListening()}>PushService stop</button>
             </div>
             <br/>
             <h2>Marketplace Methods</h2>
