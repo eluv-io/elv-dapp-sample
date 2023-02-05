@@ -360,7 +360,7 @@ const App = () => {
             </div>
             <div className="button-row">
               <button onClick={async () => clearAndShow(await walletClient.UserItemInfo())}>UserItemInfo</button>
-              <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketPlaces</button>
+              <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
             </div>
             <div className="button-row">
               <button onClick={async () => clearAndShow(await walletClient.client.CreateFabricToken())}>CreateFabricToken</button>
