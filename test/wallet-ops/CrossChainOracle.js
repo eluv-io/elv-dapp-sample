@@ -19,9 +19,8 @@ export class CrossChainOracle {
     this.ethSampleXcMsg = {
       "chain_type": "eip155",
       "chain_id": "955210",
-      "asset_type": "erc20",
+      "asset_type": "erc721",
       "asset_id": "0x43842733179fa1c38560a44f1d9067677461c8ca",
-      //"asset_id": "0xc21ea77699666e2bb6b96dd20157db08f22cb9c3",
       "method": "balance",
     };
 
@@ -85,7 +84,7 @@ export class CrossChainOracle {
   GetXcoMessage = (type, asset, owner, chain_id) => {
     let msg = type == "eth" ? this.ethSampleXcMsg : this.flowSampleXcMsg;
     msg.user = !owner ? msg.user : owner;
-    msg.chain_id = type != "eth" || !chain_id ? msg.chain_id : chain_id;
+    msg.chain_id = chain_id;
 
     // hacky, default to valid contract on mainnet
     msg.asset_id = type == "eth" && chain_id == "955305" ? "0xddca2448a13b26986da0a934386277759ac0e412" : msg.asset_id;

@@ -274,9 +274,15 @@ const App = () => {
     await new MarketplaceLoader(walletClient, marketplaceParams).setMarketplace(event);
   };
 
-  const CrossChainAuth = async (type, addr) => {
+  const CrossChainAuth = async (type, addr, chainId) => {
+    window.console.log("CrossChainAuth:", type, addr, chainId);
+    if(type == "eth" && !chainId) {
+      window.console.log("set default eth network:", networkNumber(network));
+      chainId = networkNumber(network);
+    }
+
     const cco = await new CrossChainOracle(walletClient);
-    const xcMsg = cco.GetXcoMessage(type, addr, "", networkNumber(network));
+    const xcMsg = cco.GetXcoMessage(type, addr, "", chainId);
 
     setInputs(xcMsg);
     setResults("<operation pending>");
@@ -328,13 +334,18 @@ const App = () => {
               <label htmlFor="flowNft">Verify Flow NFT (contract address):</label>
               <input type="text" size="50" id="flowNft" name="flowNft" />
               <button onClick={async () =>
-                await CrossChainAuth("flow", getInput("flowNft"))}>Flow Cross-chain Oracle Query</button>
+                await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Flow Cross-chain Oracle Query</button>
+            </div>
+            <div className="button-row">
+              <label htmlFor="evmNft">Verify EVM NFT (chain ID):</label>
+              <input type="text" size="50" id="evmChain" name="evmChain" />
+              <button className="hidden-placeholder"></button>
             </div>
             <div className="button-row">
               <label htmlFor="evmNft">Verify EVM NFT (contract address):</label>
               <input type="text" size="50" id="evmNft" name="evmNft" />
               <button onClick={async () =>
-                await CrossChainAuth("eth", getInput("evmNft"))}>EVM Cross-chain Oracle Query</button>
+                await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>EVM Cross-chain Oracle Query</button>
             </div>
             <div className="button-row">
               <label htmlFor="solanaNft">Verify Solana NFT (contract address):</label>
