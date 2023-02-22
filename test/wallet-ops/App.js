@@ -303,6 +303,9 @@ const App = () => {
       <h1>DApp Wallet Examples</h1>
 
       <div className="button-row">
+        <a href="https://github.com/eluv-io/elv-dapp-sample/">https://github.com/eluv-io/elv-dapp-sample/</a>
+      </div>
+      <div className="button-row">
         <select value={network} onChange={ChangeNetwork}>
           <option value="main">Selected Network: main</option>
           <option value="demo">Selected Network: demo</option>
