@@ -324,47 +324,37 @@ const App = () => {
             </div>
             <br/>
             <div className="button-row">
-              <label htmlFor="nftOwnerToVerify">Verify ELV NFT (owner address):</label>
-              <input type="text" size="50" id="nftOwnerToVerify" name="nftOwnerToVerify" />
-              <button className="hidden-placeholder"></button>
-            </div>
-            <div className="button-row">
-              <label htmlFor="nftAddressToVerify">Verify ELV NFT (contract address):</label>
-              <input type="text" size="50" id="nftAddressToVerify" name="nftAddressToVerify" />
-              <button onClick={CheckNft}>Verify Eluvio NFT</button>
-            </div>
-            <div className="button-row">
-              <label htmlFor="flowNft">Verify Flow NFT (contract address):</label>
-              <input type="text" size="50" id="flowNft" name="flowNft" />
-              <button onClick={async () =>
-                await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Flow Cross-chain Oracle Query</button>
-            </div>
-            <div className="button-row">
-              <label htmlFor="evmNft">Verify EVM NFT (chain ID):</label>
+              <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
               <button className="hidden-placeholder"></button>
             </div>
             <div className="button-row">
-              <label htmlFor="evmNft">Verify EVM NFT (contract address):</label>
+              <label htmlFor="evmNft">EVM NFT contract address:</label>
               <input type="text" size="50" id="evmNft" name="evmNft" />
               <button onClick={async () =>
-                await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>EVM Cross-chain Oracle Query</button>
+                await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
             </div>
             <div className="button-row">
-              <label htmlFor="solanaNft">Verify Solana NFT (contract address):</label>
+              <label htmlFor="flowNft">Flow NFT contract address:</label>
+              <input type="text" size="50" id="flowNft" name="flowNft" />
+              <button onClick={async () =>
+                await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Query Flow Cross-chain Oracle</button>
+            </div>
+            <div className="button-row">
+              <label htmlFor="solanaNft">Solana NFT contract address:</label>
               <input type="text" size="50" id="solanaNft" name="solanaNft" />
-              <button onClick={async () => await SignSolana()}>Solana Cross-chain Oracle Query</button>
+              <button onClick={async () => await SignSolana()}>Query Solana Cross-chain Oracle</button>
             </div>
             <br/>
             <div className="button-row">
-              <label htmlFor="playoutToken">Embed gated content (access token):</label>
+              <label htmlFor="playoutToken">Gated content access token:</label>
               <input type="text" size="50" id="playoutToken" name="playoutToken" />
               <button className="hidden-placeholder"></button>
             </div>
             <div className="button-row">
-              <label htmlFor="playoutVersionHash">Embed gated content (version hash):</label>
+              <label htmlFor="playoutVersionHash">Gated content version hash:</label>
               <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
-              <button onClick={Playout}>Embed</button>
+              <button onClick={Playout}>Embed content</button>
             </div>
             <br />
             <h2>User Methods</h2>
