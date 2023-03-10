@@ -142,19 +142,18 @@ const App = () => {
             "user": resp.publicKey.toString(),
           };
 
-          // XXX just encode the asset until we have a proper way to pass the signature outside the xcMsg
           const encodedMessage = new TextEncoder().encode(input);
-
           const signedMessage = await provider.request({
             method: "signMessage",
             params: {message: encodedMessage, display: "hex"},
           });
           window.console.log("provider.request({method=signMessage}):", signedMessage);
 
-          // XXX include all the info into the user field until we have a proper way to pass the signature
-          xcMsg.user = JSON.stringify(signedMessage);
-          setInputs(xcMsg);
+          // OPTIONAL: signature validation.  to use, uncomment the line below, which will overload a user/signature pair
+          //           into the user field (a workaround until we pass the signature as part of the bearer auth header)
+          //xcMsg.user = JSON.stringify(signedMessage);
 
+          setInputs(xcMsg);
           const cco = await new CrossChainOracle(walletClient);
           window.console.log("cco:", cco);
 
