@@ -149,9 +149,9 @@ const App = () => {
           });
           window.console.log("provider.request({method=signMessage}):", signedMessage);
 
-          // OPTIONAL: signature validation.  to use, uncomment the line below, which will overload a user/signature pair
-          //           into the user field (a workaround until we pass the signature as part of the bearer auth header)
-          //xcMsg.user = JSON.stringify(signedMessage);
+          // OPTIONAL: Signature validation. This overloads a user/signature pair into the user field (a workaround
+          // until we pass the signature as part of the bearer auth header). To disable, comment out the line below.
+          xcMsg.user = JSON.stringify(signedMessage);
 
           setInputs(xcMsg);
           const cco = await new CrossChainOracle(walletClient);
