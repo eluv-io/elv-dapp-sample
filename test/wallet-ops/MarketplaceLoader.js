@@ -58,7 +58,7 @@ export class MarketplaceLoader {
    */
   static parseMarketplaceParams() {
     const searchParams = new URLSearchParams(window.location.search);
-    const network = searchParams.get("network-name") || "demo";
+    const network = searchParams.get("network-name") || "main";
     const [tenantDefault, marketplaceDefault] = network == "main" ?
       [ "bcl", "maskverse-marketplace" ] :
       [ "starflicks", "starflicks-marketplace"];

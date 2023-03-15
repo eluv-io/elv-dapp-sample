@@ -15,7 +15,7 @@ import { CrossChainOracle } from "./CrossChainOracle.js";
 const mode = "staging";
 
 // eluvio backend network configuration -- "main" or "demo"
-const network = new URLSearchParams(window.location.search).get("network-name") || "demo";
+const network = new URLSearchParams(window.location.search).get("network-name") || "main";
 
 // marketplace configuration -- returns { tenantSlug:, marketplaceSlug: }
 const marketplaceParams = MarketplaceLoader.parseMarketplaceParams();
