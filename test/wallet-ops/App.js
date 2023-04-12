@@ -272,25 +272,29 @@ const App = () => {
       </div>
 
       <AuthSection walletClient={walletClient} />
+      <br/><br/><br/>
 
       {
         walletClient.loggedIn ?
           <>
-            <div className="button-row">
+            <div className="iframe-row">
               <div className="embed-frame">
-                <iframe id="iframe1" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe1" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc"/>
-                <label>Tears of Steel -- EVM wallet</label>
+                <label>Tears of Steel</label>
+                <label>EVM wallet</label>
               </div>
               <div className="embed-frame">
-                <iframe id="iframe2" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe2" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__CH4Efhpbr2sEkeFkFiLkAc9dcWCy3Ev6L4sLTusCTFDvvEPYcfzSMkqb6BUjwQTS77M8pBmM9w"/>
-                <label>Caminandes - Ep 1 -- Flow wallet</label>
+                <label>Caminandes (Episode 1) </label>
+                <label>Flow wallet</label>
               </div>
               <div className="embed-frame">
-                <iframe id="iframe3" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe3" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s"/>
-                <label>Meridian -- Solana Wallet</label>
+                <label>Meridian</label>
+                <label>Solana Wallet</label>
               </div>
             </div>
 

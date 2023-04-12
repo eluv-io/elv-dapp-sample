@@ -42,7 +42,8 @@ select {
 
 .embed-frame {
   float:left;
-  margin-right:20px;
+  padding-right: 24px;
+  max-width: 100%;
 }
 .clear{
   clear:both;
@@ -137,6 +138,18 @@ select {
   }
 }
 
+.iframe-row {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: auto auto 10px;
+  width: 90%;
+
+  p {
+    margin-right: 10px;
+  }
+}
+
 .button-row {
   align-items: center;
   display: flex;
@@ -196,7 +209,7 @@ select {
 label {
   float: left;
   clear: left;
-  width: 15em;
+  width: 14.25em;
   //padding-right: .5em;
 }
 
