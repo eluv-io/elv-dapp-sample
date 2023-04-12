@@ -278,17 +278,17 @@ const App = () => {
           <>
             <div className="button-row">
               <div className="embed-frame">
-                <iframe id="iframe1" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe1" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc"/>
                 <label>Tears of Steel -- EVM wallet</label>
               </div>
               <div className="embed-frame">
-                <iframe id="iframe2" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe2" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__CH4Efhpbr2sEkeFkFiLkAc9dcWCy3Ev6L4sLTusCTFDvvEPYcfzSMkqb6BUjwQTS77M8pBmM9w"/>
                 <label>Caminandes - Ep 1 -- Flow wallet</label>
               </div>
               <div className="embed-frame">
-                <iframe id="iframe3" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                <iframe id="iframe3" width="640" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                   src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s"/>
                 <label>Meridian -- Solana Wallet</label>
               </div>
@@ -306,12 +306,14 @@ const App = () => {
               <button onClick={async () =>
                 await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
             </div>
+            <br/>
             <div className="button-row">
               <label htmlFor="flowNft">Flow NFT contract address:</label>
               <input type="text" size="50" id="flowNft" name="flowNft" />
               <button onClick={async () =>
                 await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Query Flow Cross-chain Oracle</button>
             </div>
+            <br/>
             <div className="button-row">
               <label htmlFor="solanaNft">Solana NFT contract address:</label>
               <input type="text" size="50" id="solanaNft" name="solanaNft" />
