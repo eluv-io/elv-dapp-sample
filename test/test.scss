@@ -40,6 +40,14 @@ select {
   background: linear-gradient(305deg, darken($elv-color-darkblue, 15%), darken($elv-color-darkblue, 12%), darken($elv-color-darkblue, 20%));
 }
 
+.embed-frame {
+  float:left;
+  margin-right:20px;
+}
+.clear{
+  clear:both;
+}
+
 .lds-default__element {
   background: gray!important;
 }

@@ -149,6 +149,8 @@ const App = () => {
 
           let res = await cco.Run("solana", xcMsg).catch(err => { return err; });
           setResults({rpcResult: res, policyFor: cco.item});
+
+          UpdateAuthTokens(res);
         } catch(err) {
           // { code: 4001, message: 'User rejected the request.' }
           setResults(err);
@@ -213,10 +215,6 @@ const App = () => {
     await new MarketplaceLoader(walletClient, marketplaceParams).loadMarketplaces();
   };
 
-  const ChangeMarketplace = async (event) => {
-    await new MarketplaceLoader(walletClient, marketplaceParams).setMarketplace(event);
-  };
-
   const CrossChainAuth = async (type, addr, chainId) => {
     window.console.log("CrossChainAuth:", type, addr, chainId);
     if(type == "eth" && !chainId) {
@@ -232,6 +230,20 @@ const App = () => {
     setEmbed("");
     let res = await cco.Run(type, xcMsg).catch(err => { return err; });
     setResults({rpcResult: res, policyFor: cco.item});
+    UpdateAuthTokens(res);
+  };
+
+  const UpdateAuthTokens = (res) => {
+    window.console.log("UpdateAuthTokens:", res);
+    const token = res?.msg?.token;
+    for(const i of [1, 2, 3]) {
+      const iframe = document.getElementById("iframe" + i);
+      const src = iframe.src;
+      window.console.log("iframe" + i, iframe);
+      let href = new URL(src);
+      href.searchParams.set("ath", token);
+      iframe.src = href.toString();
+    }
   };
 
   const networkNumber = (networkName) => {
@@ -264,7 +276,25 @@ const App = () => {
       {
         walletClient.loggedIn ?
           <>
-            <br/>
+            <div className="button-row">
+              <div className="embed-frame">
+                <iframe id="iframe1" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                  src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc"/>
+                <label>Tears of Steel -- EVM wallet</label>
+              </div>
+              <div className="embed-frame">
+                <iframe id="iframe2" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                  src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__CH4Efhpbr2sEkeFkFiLkAc9dcWCy3Ev6L4sLTusCTFDvvEPYcfzSMkqb6BUjwQTS77M8pBmM9w"/>
+                <label>Caminandes - Ep 1 -- Flow wallet</label>
+              </div>
+              <div className="embed-frame">
+                <iframe id="iframe3" width="427" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                  src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s"/>
+                <label>Meridian -- Solana Wallet</label>
+              </div>
+            </div>
+
+            <br/><br/><br/>
             <div className="button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
