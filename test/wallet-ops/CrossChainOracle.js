@@ -33,6 +33,14 @@ export class CrossChainOracle {
       "user": "0xcbd420284fd5e19b",
     };
 
+    this.solanaContents = {
+      "0": {
+        description: "Meridian",
+        hash: "hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s",
+        objectId: "iq__2b7yLgWuVRZKyFXdew7kbSCu5deD",
+      }
+    };
+
     // starflicks content
     this.ethContents = {
       "0xc21ea77699666e2bb6b96dd20157db08f22cb9c3": {
@@ -41,37 +49,30 @@ export class CrossChainOracle {
         objectId: "iq__43HBatpRLVM2LwEUxChe7C9eBRMo",
         contractAddress: "0xc21ea77699666e2bb6b96dd20157db08f22cb9c3",
       },
-      "0x43842733179fa1c38560a44f1d9067677461c8ca": {
+      "0x43842733179fa1c38560a44f1d9067677461c8ca-prev": {
         description: "Meridian",
         hash: "hq__JHFZaD9f4q8LqZNANFq8MLhjRRMAXxSjKRwqR9KdBEydAH7Bb6XkdV2s7dNJQ6W4KPzHFct87c",
         objectId: "iq__GGchzeLUFdGwJD4gyS9ZXR2867k",
         contractAddress: "0x43842733179fa1c38560a44f1d9067677461c8ca",
       },
+      "0x43842733179fa1c38560a44f1d9067677461c8ca": {
+        description: "Tears of Steel",
+        hash: "hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc",
+        objectId: "iq__3SpYjqE2gsMkbKtxaLA1HB1Pb6Mg",
+        contractAddress: "0x43842733179fa1c38560a44f1d9067677461c8ca",
+      },
       "default": {
-        description: "Caminades - Ep 1",
-        hash: "hq__93SK4rgxMarq1ZeDSEu9WJkDoptTKYiA2GmYocK7inMthUssGkG6Q9BREBEhNtVCiCBFsPd4Gd",
+        description: "Tears of Steel",
+        hash: "hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc",
       },
     };
 
-    // CNN content
     this.flowContents = {
       "0": {
-        objectId: "iq__SoPtztGZavHUaSnkMRPQ6T138mp",
-        hash: "hq__8xLaEZhWVTjFifiCZRKNQ3m1BdBRjJ9Q7EwGd6K73TKbtFruiCFeptWcGF9tNkhqNV6Ho5gqr2",
-        filename: "NSilva_wave2.mp4",
-        description: "New York in Black and White, 4x4 grid",
-      },
-      "1": {
-        objectId: "iq__28vntkNAao7buCoAHMpSjo7tANE2",
-        hash: "hq__3GVpW3oYZteaUGyi3pjnNVDZfn7kdudjnANGRXogTeoZkeG6uCqSk2YfphdwkT7iksGd2Do4Ue",
-        filename: "06_CNN_NFT_SE_2020PresCall_1920x1080_V01.mp4",
-        description: "Election Day In America",
-      },
-      "2": {
-        objectId: "iq__7Lr8DajdkarPBGTe1fmaefNy8nG",
-        hash: "hq__GrQ7G7ZppPSkbfmARrKWv3mA5jx7cw1wAcCp8UcWTxNAoeHKeyGEkXvmRB6G1hDUdcTJbPZtMz",
-        filename: "NYSLNFT_CardPack.mp4",
-        description: "New York Subliners",
+        objectId: "iq__xGNmhvgxi6Nrc9M4kgekXPQgiiZ",
+        hash: "hq__CH4Efhpbr2sEkeFkFiLkAc9dcWCy3Ev6L4sLTusCTFDvvEPYcfzSMkqb6BUjwQTS77M8pBmM9w",
+        filename: "Caminandes - Ep 1 (copy)",
+        description: "Caminandes - Ep 1",
       }
     };
 
@@ -144,9 +145,9 @@ export class CrossChainOracle {
       window.console.log("msg.asset_id", msg.asset_id);
       this.item = this.ethContents[msg.asset_id] || this.ethContents["default"];
     } else if(type == "solana") {
-      this.item = {}; // XXX set this to some valid content with a policy
+      this.item = this.solanaContents[0];
     } else {
-      this.item = this.flowContents[Math.floor(Math.random() * 3)];
+      this.item = this.flowContents[0];
     }
     this.contentHash = this.item.hash;
     window.console.log("using", this.item);
