@@ -255,7 +255,7 @@ const App = () => {
 
   return (
     <div className="page-container">
-      <h1>Cross-chain Oracle Demo</h1>
+      <h1>Cross-chain Authorization Demo</h1>
 
       <div><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/" target="_blank">
         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="-elv-icon github-icon">
