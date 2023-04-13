@@ -5,6 +5,8 @@
  * access fabric resources.
  */
 
+const Pako = require("pako");
+
 const Utils = require("@eluvio/elv-client-js/src/Utils.js");
 
 export class CrossChainOracle {
@@ -100,7 +102,24 @@ export class CrossChainOracle {
    */
   SendXcoMessage = async ({msg}) => {
     // Need an owner-signed token in order to access the cross-chain oracle API
-    const token = await this.client.staticToken;
+    let token = await this.walletClient.AuthToken();
+
+    if(msg.chain_type === "eip155" && this.walletClient.UserInfo().walletName === "Metamask") {
+      try {
+        const address = await this.walletClient.UserInfo().address;
+        window.console.log("is MetaMask", this.walletClient.UserInfo(), msg, address);
+
+        //await this.walletClient.PersonalSign({message: msg});
+        window.console.log("window.ethereum", window.ethereum);
+        const ps = await window.ethereum.request({
+          method: "personal_sign",
+          params: [JSON.stringify(msg), address],
+        });
+        window.console.log("ps", ps);
+      } catch (err) {
+        window.console.log("mm err", err);
+      }
+    }
     window.console.log("submitting xco msg", msg);
     window.console.log("with token", token, client.utils.DecodeSignedToken(token));
 
@@ -115,6 +134,37 @@ export class CrossChainOracle {
         },
       })
     );
+  };
+
+  CreateEthFabricToken = async ({
+    duration=24 * 60 * 60 * 1000,
+    spec={},
+    address,
+  }={}) => {
+    let token = {
+      ...spec,
+      sub:`iusr${Utils.AddressToHash(address)}`,
+      adr: Buffer.from(address.replace(/^0x/, ""), "hex").toString("base64"),
+      spc: await this.walletClient.client.ContentSpaceId(),
+      iat: Date.now(),
+      exp: Date.now() + duration,
+    };
+    window.console.log("token", token);
+
+    let message = `Eluvio Content Fabric Access Token 1.0\n${JSON.stringify(token)}`;
+
+    const signature = await window.ethereum.request({
+      method: "personal_sign",
+      params: [JSON.stringify(message), address],
+    });
+
+    const compressedToken = Pako.deflateRaw(Buffer.from(JSON.stringify(token), "utf-8"));
+    return `acspjc${this.walletClient.client.utils.B58(
+      Buffer.concat([
+        Buffer.from(signature.replace(/^0x/, ""), "hex"),
+        Buffer.from(compressedToken)
+      ])
+    )}`;
   };
 
   /**
