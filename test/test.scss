@@ -15,6 +15,8 @@ body,
 $text-color: #ddd;
 $button-color: #235;
 $elv-color-darkblue: #003c7e;
+$elv-color-darkpurple: #312c46;
+$elv-color-light: #F7F9FC;
 
 @mixin button-style {
   background-color: $button-color;
@@ -63,7 +65,7 @@ select {
 }
 
 .app {
-  background: linear-gradient(305deg, darken($elv-color-darkblue, 15%), darken($elv-color-darkblue, 12%), darken($elv-color-darkblue, 20%));
+  background-color: $elv-color-light;
 }
 
 .embed-frame {
@@ -107,6 +109,8 @@ pre {
   background: #333;
   padding: 40px;
   word-break: break-all;
+  font-size: 0.875rem;
+  font-family: "Consolas", menlo, monospace;
 }
 
 code {
@@ -280,8 +284,8 @@ input {
   flex-direction: row;
   align-items: center;
   height: 70px;
-  background-color: darken($elv-color-darkblue, 30%);
-  border-bottom: 2px solid darken($elv-color-darkblue, 17%);
+  background-color: $elv-color-darkpurple;
+  border-bottom: 2px solid darken($elv-color-light, 2%);
   padding: 0 4rem;
   gap: 2rem;
 
@@ -326,12 +330,16 @@ input {
 .video-container {
   margin-top: 3rem;
   padding: 0 70px;
+
+  label {
+    color: #000;
+  }
 }
 
 .main-content {
   display: flex;
-  min-height: 100vh;
-  padding: 2rem 1.5rem;
+  margin-top: 2rem;
+  min-height: 100%;
   width: 100%;
 
   .display-section {
@@ -342,15 +350,20 @@ input {
   }
 
   .json-container {
-    padding: 1rem 2rem;
+    padding: 0 4rem;
     width: 100%;
+  }
+
+  .json-section {
+    margin-bottom: 2rem;
   }
 }
 
 .main-sidebar-controls {
+  background-color: $elv-color-darkpurple;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
   flex: 0 0 500px;
   padding: 1rem 2rem;
 

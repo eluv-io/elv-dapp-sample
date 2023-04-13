@@ -74,7 +74,7 @@ const JsonSection = ({inputs, results, embed}) => {
     <div className="json-container">
       {
         inputs &&
-        <div>
+        <div className="json-section">
           <div className="preformat-header">Input</div>
           <pre>{stringify(inputs)}</pre>
         </div>
@@ -82,7 +82,7 @@ const JsonSection = ({inputs, results, embed}) => {
 
       {
         results &&
-        <div>
+        <div className="json-section">
           <div className="preformat-header">Output</div>
           <pre>{stringify(results)}</pre>
         </div>
