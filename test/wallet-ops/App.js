@@ -30,7 +30,7 @@ const AuthSection = ({walletClient}) => {
   const [loggedIn, setLoggedIn] = useState(walletClient.loggedIn);
 
   const LogIn = async ({method}) => {
-    await walletClient.LogIn({
+    window.client = await walletClient.LogIn({
       method,
       callbackUrl: window.location.href,
       marketplaceParams,
@@ -341,7 +341,7 @@ const App = () => {
                   <iframe id="iframe3" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG/meta/public/asset_metadata/images/hero/default&mt=v&nwm="/>
                   <label>Agent 327</label>
-                  <label>Ethereum mainnet Wallet XXX</label>
+                  <label>Solana Wallet</label>
                 </div>
               </div>
               <div className="iframe-row">
