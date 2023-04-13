@@ -52,6 +52,12 @@ There are other samples alongside it in the `test/` directory, feel free to run 
 
 NOTES for site-sample crossover cross-chain app
 
+*** this is out fo date and has been migrated to ~todd/ops/policy/starflix-demo/
+
+which doesn't help you dear reader but I need to run these as scripts, will check in later.
+
+----
+
 network: demov3
 user: starflicks-elv-admin
 site: starflicks - Properties > Site - starflicks (copy) : iq__4JsnwpGJur9VPYMjj5h59SC4Vrba
@@ -77,7 +83,7 @@ objects:
 
 {
 "name": "Caminandes - Ep 1 (copy)",
-"hash": "hq__CH4Efhpbr2sEkeFkFiLkAc9dcWCy3Ev6L4sLTusCTFDvvEPYcfzSMkqb6BUjwQTS77M8pBmM9w",
+"hash": "hq__9xS9V4VpFp9xN9rAQdjD3q1hTWGGz2RpCj9MBTSQaR1nuWrPjpCdxVe1onXTTtg921w8oQxnMK",
 "objectId": "iq__xGNmhvgxi6Nrc9M4kgekXPQgiiZ",
 "contract": "0x4464eb827821c819921a73b2604d6bddadb9e676",
 "authorizedAssets": [
@@ -88,7 +94,7 @@ objects:
 
 {
 "name": "Caminandes - Ep 2 (copy)",
-"hash": "hq__KcVj3b2i4YCXx4CixuaDMddoYHzMwPhc9XCHBJgDMKjMdSZWAi35gojGUpQsb9ajNgGQ55Rxeq",
+"hash": "hq__2wgaPpzjcRUJsctv7YcjGdqyG6GnuEdtS2fwnFNprQFLCia7XywQ98E57aMNqckUcEgaiQHYwf",
 "objectId": "iq__fPwqqp139xqLxApiyt6hoSgu3zm",
 "contract": "0x2f8461e1f803c10791fb6d25517431cae5a1a00e",
 "authorizedAsset": "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT"
@@ -96,7 +102,7 @@ objects:
 
 {
 "name": "Caminandes - Ep 3 (copy)",
-"hash": "hq__KR4i87mGsixMXbZrSvDuZ5EtA4oYq9mYMrKuyr34gdKtNQU6rg4F5EXo5ETsmXr2G7qQndUoZi",
+"hash": "hq__KHcKw9YUgR72p1vcYeGHAAd7L9XMHr5QPXnepbSBibhZMQTBpz3DDVHUCrtCTmwyqVvDNhLDcg",
 "objectId": "iq__2QaBrtbffYaopCLGzU5tXpTHeTfn",
 "contract": "0x64f374dfe3e39641cfe9b4d122118eba70c00939",
 "authorizedAsset": "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT"
@@ -107,13 +113,24 @@ owners:
 eluvio: todd.hodes@eluvio.io
 - access Tears of Steel (copy) via ownership of 0x43842733179fa1c38560a44f1d9067677461c8ca
 
-metamask: 0xb516b92fe8f422555f0d04ef139c6a68fe57af08
-- owns Caminandes - Ep 1 (copy) via ownership of 0x5755ceaa00991d223853f34a9fbc0ae0a5f683d9
-
-phantom: Loren Wallet
+solana: Loren Wallet
 - owns Meridian (copy) via ownership of Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
 
 flow: user 0xcbd420284fd5e19b
-- owns Caminandes - Ep 1-3 (copy) via ownership of 0x329feb3ab062d289:CNN_NFT
+- owns Caminandes - Ep 1 via ownership of 0x329feb3ab062d289:CNN_NFT
+ 
+metamask: serban-acct: 0xcD8323Da264E9C599AF47A0D559DcDCB335D44aB
+- owns Caminandes - Ep 2 (copy) via ownership of eth mainnet stoner cat: 
+  - 0xD4d871419714B778eBec2E22C7c53572b573706e 
+  - 0xd4d871419714b778ebec2e22c7c53572b573706e
 
+metamask: serban-acct: 0xcD8323Da264E9C599AF47A0D559DcDCB335D44aB
+- owns Caminandes - Ep 3 (copy) via ownership of polygon 0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a
+
+
+wns eth mainnet stoner cat: 0xD4d871419714B778eBec2E22C7c53572b573706e 
+on ethereum  Krap Chicken  https://etherscan.io/address/0x5a57ed460bd0368bfcf48dd3dd246a56b4bbb891
+on polygon 0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a 
+
+Starflicks 'All Access' on our chain 0x250d641f36bf16c34467d6533542f96e23c6f2bd
 
