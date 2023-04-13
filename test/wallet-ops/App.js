@@ -59,7 +59,7 @@ const AuthSection = ({walletClient}) => {
 
   return (
     <div className="auth-container">
-      <div className="auth-text">Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</div>
+      <div className="auth-text" title={walletClient.UserInfo()?.email || walletClient.UserAddress()}>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</div>
       <button onClick={() => LogOut()}>
         Log Out
       </button>
@@ -365,10 +365,6 @@ const App = () => {
               </div>
             </div>
             <div className="main-content">
-              <div className="display-section">
-                <JsonSection inputs={inputs} results={results} embed={embed} />
-              </div>
-
               <div className="main-sidebar-controls">
                 <div className="form-item">
                   <label htmlFor="evmNft">EVM NFT chain ID:</label>
@@ -405,6 +401,10 @@ const App = () => {
                   <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
                   <button onClick={Playout}>Embed content</button>
                 </div>
+              </div>
+
+              <div className="display-section">
+                <JsonSection inputs={inputs} results={results} embed={embed} />
               </div>
             </div>
           </> : null

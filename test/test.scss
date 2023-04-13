@@ -73,6 +73,10 @@ select {
   max-width: 100%;
   display: flex;
   flex-direction: column;
+
+  iframe {
+    background-color: black;
+  }
 }
 .clear{
   clear:both;
@@ -312,6 +316,8 @@ input {
 
     .auth-text {
       font-size: .75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     select,
@@ -334,6 +340,10 @@ input {
   label {
     color: #000;
   }
+}
+
+.video-background {
+  background-color: black;
 }
 
 .main-content {
