@@ -436,7 +436,6 @@ rules:
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1: ETH mainnet</label>
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955210: ELV demo</label>
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955305: ELV main</label>
-                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11297108109: Palm mainnet</label>
                 </div>
                 <label style={{marginTop: 12+ "px"}}></label>
                 <div className="form-item">
