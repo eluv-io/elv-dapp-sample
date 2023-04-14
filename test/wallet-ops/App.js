@@ -432,8 +432,13 @@ rules:
                   <input type="text" size="50" id="evmNft" name="evmNft" />
                   <button onClick={async () =>
                     await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
+                  <label style={{marginTop: 8+ "px"}}>&nbsp;&nbsp;&nbsp;Chain IDs:</label>
+                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1: ETH mainnet</label>
+                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955210: ELV demo</label>
+                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955305: ELV main</label>
+                  <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11297108109: Palm mainnet</label>
                 </div>
-                <br/>
+                <label style={{marginTop: 12+ "px"}}></label>
                 <div className="form-item">
                   <label htmlFor="flowNft">Flow NFT contract address:</label>
                   <input type="text" size="50" id="flowNft" name="flowNft" />
