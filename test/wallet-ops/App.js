@@ -213,8 +213,45 @@ const App = () => {
     }
   };
 
-  const ShowPolicies = async () => {
+  const ShowPolicy = async () => {
+    setResults(`
+$ ./elv-live nft_get_policy_permissions iq__2QaBrtbffYaopCLGzU5tXpTHeTfn
 
+name: policy nft-cross-chain
+desc: |
+  policy for testing access to cross-chain contract nft.
+type: ast
+expr:
+  rule: authorize
+rules:
+  settings:
+    literal:
+      authorizedSigners:
+        - "0xdD0402bb72FA5554BB79a84ABC8a59E1b8Df4F45"
+      authorizedAssets:
+        - "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT"
+        - "eip155:1/erc721:0xd4d871419714b778ebec2e22c7c53572b573706e"
+        - "eip155:137/erc721:0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a"
+        - "eip155:955210/erc721:0x250d641f36bf16c34467d6533542f96e23c6f2bd"
+  authorize:
+    rule: validateToken
+  isValidTokenSigner:
+    in:
+      - env: token/adr
+      - rule: settings/authorizedSigners
+  isValidXcmsg:
+    and:
+      - in:
+          - env: token/ctx/xc_msg/asset
+          - rule: settings/authorizedAssets
+      - ge:
+          - env: token/ctx/xc_msg/results/balance
+          - 1
+  validateToken:
+    and:
+      - rule: isValidTokenSigner
+      - rule: isValidXcmsg
+    `);
   };
 
   const Playout = async () => {
@@ -408,7 +445,7 @@ const App = () => {
                   <button onClick={Playout}>Embed content</button>
                 </div>
                 <div className="form-item">
-                  <button onClick={ShowPolicies}>Policies</button>
+                  <button onClick={ShowPolicy}>Show Policy</button>
                 </div>
               </div>
 
