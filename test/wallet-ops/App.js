@@ -412,9 +412,6 @@ rules:
                 <div className="form-item">
                   <label htmlFor="evmNft">EVM NFT chain ID:</label>
                   <input type="text" size="50" id="evmChain" name="evmChain" />
-                  <button className="hidden-placeholder"></button>
-                </div>
-                <div className="form-item">
                   <label htmlFor="evmNft">EVM NFT contract address:</label>
                   <input type="text" size="50" id="evmNft" name="evmNft" />
                   <button onClick={async () =>
@@ -437,15 +434,13 @@ rules:
                 <div className="form-item">
                   <label htmlFor="playoutToken">Gated content access token:</label>
                   <input type="text" size="50" id="playoutToken" name="playoutToken" />
-                  <button className="hidden-placeholder"></button>
-                </div>
-                <div className="form-item">
                   <label htmlFor="playoutVersionHash">Gated content version hash:</label>
                   <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
                   <button onClick={Playout}>Embed content</button>
                 </div>
+                <br/>
                 <div className="form-item">
-                  <button onClick={ShowPolicy}>Show Policy</button>
+                  <button onClick={ShowPolicy}>Show Policy Details</button>
                 </div>
               </div>
 
