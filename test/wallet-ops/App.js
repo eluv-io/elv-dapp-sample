@@ -213,6 +213,10 @@ const App = () => {
     }
   };
 
+  const ShowPolicies = async () => {
+
+  };
+
   const Playout = async () => {
     let playoutToken = getInput("playoutToken");
     let playoutVersionHash = getInput("playoutVersionHash");
@@ -402,6 +406,9 @@ const App = () => {
                   <label htmlFor="playoutVersionHash">Gated content version hash:</label>
                   <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
                   <button onClick={Playout}>Embed content</button>
+                </div>
+                <div className="form-item">
+                  <button onClick={ShowPolicies}>Policies</button>
                 </div>
               </div>
 
