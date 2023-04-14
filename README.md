@@ -48,7 +48,7 @@ of the wallet client, and that code remains in the main `src/` directory for ref
 There are other samples alongside it in the `test/` directory, feel free to run and reference them, too.
 
 
-## DApp Cross-chain app
+## DApp Cross-chain app branch
 
 Notes for site-sample-style crossover cross-chain app
 
@@ -111,9 +111,9 @@ metamask: serban-acct: 0xcD8323Da264E9C599AF47A0D559DcDCB335D44aB
 - owns Caminandes - Ep 3  via ownership of polygon 0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a
 - https://polygonscan.com/token/0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a
 
-owns eth mainnet stoner cat: 0xD4d871419714B778eBec2E22C7c53572b573706e 
+owns eth     mainnet stoner cat: 0xD4d871419714B778eBec2E22C7c53572b573706e 
 on ethereum  Krap Chicken  https://etherscan.io/address/0x5a57ed460bd0368bfcf48dd3dd246a56b4bbb891
-on polygon 0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a 
+on polygon   0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a 
 
 Starflicks 'All Access' on our chain 0x250d641f36bf16c34467d6533542f96e23c6f2bd
 
