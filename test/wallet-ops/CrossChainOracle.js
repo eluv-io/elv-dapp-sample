@@ -18,6 +18,15 @@ export class CrossChainOracle {
 
     // FUTURE: migrate hardcoded samples to (i) icon reference material
 
+    this.allExamples = {
+      "Ethereum: Stoner Cat": "eip155:1/erc721:0xd4d871419714b778ebec2e22c7c53572b573706e",
+      "Polygon: Masked Singer Loyalty Pass": "eip155:137/erc721:0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a",
+      "Solana: Sol chipmunks #627": "solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ/nonfungibletoken:Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q",
+      "Flow: CNN_NFT": "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT",
+      "ELV: Starflix all-access": "eip155:955210/erc721:0x250d641f36bf16c34467d6533542f96e23c6f2bd",
+      "ELV: single-movie ticket: Tears of Steel": "eip155:955210/erc721:0x43842733179fa1c38560a44f1d9067677461c8ca",
+    };
+
     this.ethSampleXcMsg = {
       "chain_type": "eip155",
       "chain_id": "955210",

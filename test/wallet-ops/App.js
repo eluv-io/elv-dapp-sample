@@ -148,6 +148,8 @@ const App = () => {
     if(!walletClient) { return; }
 
     SetDefaults();
+    setInputs(" ");
+    setResults({ "result": "<no input>", "examples": new CrossChainOracle(walletClient).allExamples });
   }, [walletClient]);
 
   if(!walletClient) {
@@ -288,7 +290,6 @@ const App = () => {
     for(const i of [1, 2, 3, 4, 5, 6]) {
       const iframe = document.getElementById("iframe" + i);
       const src = iframe.src;
-      window.console.log("iframe" + i, iframe);
       let href = new URL(src);
       href.searchParams.set("ath", token);
       iframe.src = href.toString();
@@ -326,41 +327,41 @@ const App = () => {
             <div className="video-container">
               <div className="iframe-row">
                 <div className="embed-frame">
-                  <iframe id="iframe1" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
-                    src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
-                  <label>Tears of Steel</label>
-                  <label>ELV wallet</label>
-                </div>
-                <div className="embed-frame">
                   <iframe id="iframe2" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s/meta/public/asset_metadata/images/hero/default&mt=v&nwm="/>
                   <label>Meridian</label>
-                  <label>Solana Wallet</label>
+                  <label>Solana Sol Chipmunk 627 & Starflix All-Access</label>
+                </div>
+                <div className="embed-frame">
+                  <iframe id="iframe1" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
+                    src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
+                  <label>Tears of Steel</label>
+                  <label>ELV Single-movie Ticket & Starflix All-access</label>
                 </div>
                 <div className="embed-frame">
                   <iframe id="iframe3" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG/meta/public/asset_metadata/images/hero/default&mt=v&nwm="/>
                   <label>Agent 327</label>
-                  <label>Solana Wallet</label>
+                  <label>Solana Sol Chipmunk 627 & Starflix All-Access</label>
                 </div>
               </div>
               <div className="iframe-row">
                 <div className="embed-frame">
                   <iframe id="iframe4" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__9xS9V4VpFp9xN9rAQdjD3q1hTWGGz2RpCj9MBTSQaR1nuWrPjpCdxVe1onXTTtg921w8oQxnMK&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__9xS9V4VpFp9xN9rAQdjD3q1hTWGGz2RpCj9MBTSQaR1nuWrPjpCdxVe1onXTTtg921w8oQxnMK/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
                   <label>Caminandes (Episode 1) </label>
-                  <label>Flow wallet</label>
+                  <label>Flow CNN & Ethereum Stoner Cat & Starflix All-Access</label>
                 </div>
                 <div className="embed-frame">
                   <iframe id="iframe5" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__2wgaPpzjcRUJsctv7YcjGdqyG6GnuEdtS2fwnFNprQFLCia7XywQ98E57aMNqckUcEgaiQHYwf&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__2wgaPpzjcRUJsctv7YcjGdqyG6GnuEdtS2fwnFNprQFLCia7XywQ98E57aMNqckUcEgaiQHYwf/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
                   <label>Caminandes (Episode 2) </label>
-                  <label>ETH mainnet wallet</label>
+                  <label>Flow CNN & Ethereum Stoner Cat & Starflix All-Access</label>
                 </div>
                 <div className="embed-frame">
                   <iframe id="iframe6" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__E8fxNTi4Y4MMiEwY7rCt3wTnY8DWpuED2JQbZBNAcZrcqCjSNZ1frCEJ9kVSxXqJZswbCccR92&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__E8fxNTi4Y4MMiEwY7rCt3wTnY8DWpuED2JQbZBNAcZrcqCjSNZ1frCEJ9kVSxXqJZswbCccR92/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
                   <label>Caminandes (Episode 3) </label>
-                  <label>Polygon wallet</label>
+                  <label>Flow CNN & Ethereum Stoner Cat & Polygon & Starflix All-Access</label>
                 </div>
               </div>
             </div>
