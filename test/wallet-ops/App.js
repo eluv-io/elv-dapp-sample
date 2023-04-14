@@ -306,8 +306,8 @@ const App = () => {
 
         <div className="actions">
           <select value={network} onChange={ChangeNetwork}>
-            <option value="main">Selected Network: main</option>
-            <option value="demo">Selected Network: demo</option>
+            <option value="main">Content Fabric: main</option>
+            <option value="demo">Content Fabric: demo</option>
           </select>
 
           <AuthSection walletClient={walletClient} />
