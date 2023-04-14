@@ -106,7 +106,7 @@ const SetDefaults = () => {
     flowNft: "0x329feb3ab062d289:CNN_NFT",
     solanaNft: "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q",
     playoutToken: "",
-    playoutVersionHash: ""
+    playoutVersionHash: "hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s",
   };
 
   ["evmChain", "evmNft", "flowNft", "solanaNft", "playoutToken", "playoutVersionHash"].forEach(inputId => {
@@ -219,6 +219,8 @@ const App = () => {
     setInputs({playoutVersionHash: playoutVersionHash, playoutToken: playoutToken});
     setResults("");
 
+    await window.console.log(await GetPlayout(playoutVersionHash));
+
     if(playoutVersionHash.startsWith("hq__")) {
       let embedUrl = `https://embed.v3.contentfabric.io//?net=${network}&p&ct=h&vid=${playoutVersionHash}&ath=${playoutToken}`;
       setEmbed(EmbedCode(embedUrl));
@@ -253,6 +255,23 @@ const App = () => {
         />
       </div>
     );
+  };
+
+  const GetPlayout = async (contentHash) => {
+    // First retrieve title metadata (title, synopsis, cast, ...)
+    let meta = await walletClient.client.ContentObjectMetadata({
+      versionHash: contentHash,
+      metadataSubtree: "/public/asset_metadata"
+    }).catch(err => { return err; });
+    window.console.log("META", meta);
+
+    // Retrieve playout info (DASH and HLS URLs)
+    let playoutOptions = await walletClient.client.PlayoutOptions({
+      versionHash: contentHash,
+      drms: ["clear", "aes-128", "fairplay", "widevine"]
+    }).catch(err => { return err; });
+
+    return { metadata: meta, playoutOptions: playoutOptions};
   };
 
   const ChangeNetwork = async (event) => {
