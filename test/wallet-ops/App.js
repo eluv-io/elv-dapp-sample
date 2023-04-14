@@ -213,47 +213,6 @@ const App = () => {
     }
   };
 
-  const ShowPolicy = async () => {
-    setResults(`
-$ ./elv-live nft_get_policy_permissions iq__2QaBrtbffYaopCLGzU5tXpTHeTfn
-
-name: policy nft-cross-chain
-desc: |
-  policy for testing access to cross-chain contract nft.
-type: ast
-expr:
-  rule: authorize
-rules:
-  settings:
-    literal:
-      authorizedSigners:
-        - "0xdD0402bb72FA5554BB79a84ABC8a59E1b8Df4F45"
-      authorizedAssets:
-        - "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT"
-        - "eip155:1/erc721:0xd4d871419714b778ebec2e22c7c53572b573706e"
-        - "eip155:137/erc721:0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a"
-        - "eip155:955210/erc721:0x250d641f36bf16c34467d6533542f96e23c6f2bd"
-  authorize:
-    rule: validateToken
-  isValidTokenSigner:
-    in:
-      - env: token/adr
-      - rule: settings/authorizedSigners
-  isValidXcmsg:
-    and:
-      - in:
-          - env: token/ctx/xc_msg/asset
-          - rule: settings/authorizedAssets
-      - ge:
-          - env: token/ctx/xc_msg/results/balance
-          - 1
-  validateToken:
-    and:
-      - rule: isValidTokenSigner
-      - rule: isValidXcmsg
-    `);
-  };
-
   const Playout = async () => {
     let playoutToken = getInput("playoutToken");
     let playoutVersionHash = getInput("playoutVersionHash");
@@ -303,10 +262,6 @@ rules:
     window.location = url;
   };
 
-  const LoadMarketplaces = async () => {
-    await new MarketplaceLoader(walletClient, marketplaceParams).loadMarketplaces();
-  };
-
   const CrossChainAuth = async (type, addr, chainId) => {
     window.console.log("CrossChainAuth:", type, addr, chainId);
     if(type == "eth" && !chainId) {
@@ -337,8 +292,51 @@ rules:
     }
   };
 
-  // TODO: this is getting called too much: twice on start, and after method calls
-  setTimeout(LoadMarketplaces, 1);
+  const GoLive = async () => {
+    const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__4dEr2SYKpVkqgKpeWLMUFi2SMk4PthsMMGBCa55ojbdLix5EFeoA3oMB4GCbXzWbwTNHd4LLCy&mt=v";
+    document.getElementById("iframe6").src = live;
+  };
+
+  const ShowPolicy = async () => {
+    setResults(`
+$ ./elv-live nft_get_policy_permissions iq__2QaBrtbffYaopCLGzU5tXpTHeTfn
+
+name: policy nft-cross-chain
+desc: |
+  policy for testing access to cross-chain contract nft.
+type: ast
+expr:
+  rule: authorize
+rules:
+  settings:
+    literal:
+      authorizedSigners:
+        - "0xdD0402bb72FA5554BB79a84ABC8a59E1b8Df4F45"
+      authorizedAssets:
+        - "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT"
+        - "eip155:1/erc721:0xd4d871419714b778ebec2e22c7c53572b573706e"
+        - "eip155:137/erc721:0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a"
+        - "eip155:955210/erc721:0x250d641f36bf16c34467d6533542f96e23c6f2bd"
+  authorize:
+    rule: validateToken
+  isValidTokenSigner:
+    in:
+      - env: token/adr
+      - rule: settings/authorizedSigners
+  isValidXcmsg:
+    and:
+      - in:
+          - env: token/ctx/xc_msg/asset
+          - rule: settings/authorizedAssets
+      - ge:
+          - env: token/ctx/xc_msg/results/balance
+          - 1
+  validateToken:
+    and:
+      - rule: isValidTokenSigner
+      - rule: isValidXcmsg
+    `);
+  };
 
   return (
     <div className="page-container">
@@ -438,9 +436,11 @@ rules:
                   <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
                   <button onClick={Playout}>Embed content</button>
                 </div>
-                <br/>
                 <div className="form-item">
+                  <br/>
                   <button onClick={ShowPolicy}>Show Policy Details</button>
+                  <br/>
+                  <button onClick={GoLive}>Go Live (camera 6)</button>
                 </div>
               </div>
 
