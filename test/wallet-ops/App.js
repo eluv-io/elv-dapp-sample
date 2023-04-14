@@ -302,7 +302,7 @@ const App = () => {
   return (
     <div className="page-container">
       <div className="top-bar">
-        <h1>CROSS-CHAIN TOKEN-GATED MEDIA</h1>
+        <h1>Cross-Chain Token-Gated Media</h1>
 
         <div className="actions">
           <select value={network} onChange={ChangeNetwork}>
