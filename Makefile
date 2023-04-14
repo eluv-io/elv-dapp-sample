@@ -12,6 +12,11 @@ run:
 	@echo :8094
 	npm run serve-wallet-ops-test
 
-deploy:
+deploy_ds:
 	firebase use production-260101
 	npm run build-wallet-ops-test && firebase deploy --only hosting:elv-dapp-sample
+
+deploy_ccm:
+	firebase use production-260101
+	npm run build-wallet-ops-test && firebase deploy --only hosting:elv-cross-chain-media
+
