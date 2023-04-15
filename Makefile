@@ -1,6 +1,3 @@
-#
-# The deploy targets are for internal Eluvio use
-#
 
 build:
 	npm install
@@ -19,14 +16,3 @@ run_ds:
 run_ccm:
 	@echo :8094
 	npm run serve-cross-chain-media
-
-deploy_ds:
-	cp firebase-ds.json firebase.json
-	firebase use production-260101
-	npm run build-dapp-sample && firebase deploy --only hosting:elv-dapp-sample
-
-deploy_ccm:
-	cp firebase-ccm.json firebase.json
-	firebase use production-260101
-	npm run build-cross-chain-media && firebase deploy --only hosting:elv-cross-chain-media
-
