@@ -144,7 +144,7 @@ export class CrossChainOracle {
       window.console.log("msg.asset_id", msg.asset_id);
       this.item = this.ethContents[msg.asset_id] || this.ethContents["default"];
     } else if(type == "solana") {
-      this.item = {}; // XXX set this to some valid content with a policy
+      this.item = this.ethContents["default"];
     } else {
       this.item = this.flowContents[Math.floor(Math.random() * 3)];
     }

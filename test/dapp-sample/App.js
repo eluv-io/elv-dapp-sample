@@ -7,7 +7,7 @@ import { render } from "react-dom";
 import { ElvWalletClient } from "@eluvio/elv-client-js/src/walletClient";
 import { PageLoader } from "Components/common/Loaders";
 
-import { EluvioLive } from "../common//EluvioLive.js";
+import { EluvioLive } from "../common/EluvioLive";
 import { MarketplaceLoader } from "../common/MarketplaceLoader.js";
 import { CrossChainOracle } from "./CrossChainOracle.js";
 
