@@ -5,9 +5,8 @@
   "targets": {
     "production-260101": {
       "hosting": {
-        "elv-dapp-sample": [
-          "elv-dapp-sample"
-        ]
+        "elv-dapp-sample": [ "elv-dapp-sample" ],
+        "elv-cross-chain-media": [ "elv-cross-chain-media" ]
       }
     }
   }

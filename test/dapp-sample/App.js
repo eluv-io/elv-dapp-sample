@@ -1,5 +1,5 @@
 import "../../src/static/stylesheets/reset.scss";
-import "../test.scss";
+import "./dapp-sample.scss";
 import "../../src/static/stylesheets/loaders.scss";
 
 import React, { useEffect, useState } from "react";
@@ -7,8 +7,8 @@ import { render } from "react-dom";
 import { ElvWalletClient } from "@eluvio/elv-client-js/src/walletClient";
 import { PageLoader } from "Components/common/Loaders";
 
-import { EluvioLive } from "./EluvioLive.js";
-import { MarketplaceLoader } from "./MarketplaceLoader.js";
+import { EluvioLive } from "../common//EluvioLive.js";
+import { MarketplaceLoader } from "../common/MarketplaceLoader.js";
 import { CrossChainOracle } from "./CrossChainOracle.js";
 
 // eluvio EvWalletClient mode -- "staging" or "production"
