@@ -69,27 +69,26 @@ There are other samples alongside it in the `test/` directory, feel free to run 
 ### CF Playable Assets
 
 network: demov3
-user: starflicks-elv-admin
 
-"name": "Tears of Steel ",
-"hash": "hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc",
-"objectId": "iq__3SpYjqE2gsMkbKtxaLA1HB1Pb6Mg",
+name: Tears of Steel
+hash: hq__8RBeZSEeZKGRucRNFDFN6Td3SgS71Yq2Lz5k4bf773HabL2B22DKxkxWGELPX2kEUQjgBG4wRc
+objectId: iq__3SpYjqE2gsMkbKtxaLA1HB1Pb6Mg
 
-"name": "Meridian ",
-"hash": "hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s",
-"objectId": "iq__2b7yLgWuVRZKyFXdew7kbSCu5deD",
+name: Meridian
+hash: hq__BJ4ury6zXvHv4tG4FndgqynDR15ejEwQyeN1sojDvygqtzsfNmpkZnWLvkyfRBHBKFQoCyS53s
+objectId: iq__2b7yLgWuVRZKyFXdew7kbSCu5deD
 
-"name": "Caminandes - Ep 1 ",
-"hash": "hq__9xS9V4VpFp9xN9rAQdjD3q1hTWGGz2RpCj9MBTSQaR1nuWrPjpCdxVe1onXTTtg921w8oQxnMK",
-"objectId": "iq__xGNmhvgxi6Nrc9M4kgekXPQgiiZ",
+name: Caminandes - Ep 1
+hash: hq__9xS9V4VpFp9xN9rAQdjD3q1hTWGGz2RpCj9MBTSQaR1nuWrPjpCdxVe1onXTTtg921w8oQxnMK
+objectId: iq__xGNmhvgxi6Nrc9M4kgekXPQgiiZ
 
-"name": "Caminandes - Ep 2 ",
-"hash": "hq__2wgaPpzjcRUJsctv7YcjGdqyG6GnuEdtS2fwnFNprQFLCia7XywQ98E57aMNqckUcEgaiQHYwf",
-"objectId": "iq__fPwqqp139xqLxApiyt6hoSgu3zm",
+name: Caminandes - Ep 2
+hash: hq__2wgaPpzjcRUJsctv7YcjGdqyG6GnuEdtS2fwnFNprQFLCia7XywQ98E57aMNqckUcEgaiQHYwf
+objectId: iq__fPwqqp139xqLxApiyt6hoSgu3zm
 
-"name": "Caminandes - Ep 3 ",
-"hash": "hq__KHcKw9YUgR72p1vcYeGHAAd7L9XMHr5QPXnepbSBibhZMQTBpz3DDVHUCrtCTmwyqVvDNhLDcg",
-"objectId": "iq__2QaBrtbffYaopCLGzU5tXpTHeTfn",
+name: Caminandes - Ep 3
+hash: hq__KHcKw9YUgR72p1vcYeGHAAd7L9XMHr5QPXnepbSBibhZMQTBpz3DDVHUCrtCTmwyqVvDNhLDcg
+objectId: iq__2QaBrtbffYaopCLGzU5tXpTHeTfn
 
 
 ### Blockchain Controlling Assets
@@ -97,17 +96,17 @@ user: starflicks-elv-admin
 Starflix Meridian movie:
 - https://media-wallet-dv3.dev.app.eluv.io/#/marketplace/iq__2GReTbzD3TM4pXigx6XzNwPCRk5P/store/Hn5JScGHxJDrCG2VVK485v
 
-Starflicks 'All Access' 
+Starflicks 'All Access'
 - https://media-wallet-dv3.dev.app.eluv.io/#/marketplace/iq__2GReTbzD3TM4pXigx6XzNwPCRk5P/store/5Zb7yp4sHjkjr3UZChy4z7
 - contract address 0x250d641f36bf16c34467d6533542f96e23c6f2bd
 
-solana: 
+solana:
 - https://explorer.solana.com/address/Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q
 
-flow: 
+flow:
 - https://flowscan.org/contract/A.329feb3ab062d289.CNN_NFT
- 
-ethereum mainnet: 
+
+ethereum mainnet:
 - https://dappradar.com/hub/assets/eth/0xd4d871419714b778ebec2e22c7c53572b573706e/7369
 - https://etherscan.io/address/0x5a57ed460bd0368bfcf48dd3dd246a56b4bbb891
 
