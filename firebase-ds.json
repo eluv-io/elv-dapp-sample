@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "elv-dapp-sample",
-    "public": "test/dist/test-wallet-ops",
+    "public": "test/dist/test-dapp-sample",
     "ignore": [
       "firebase.json",
       "**/.*",

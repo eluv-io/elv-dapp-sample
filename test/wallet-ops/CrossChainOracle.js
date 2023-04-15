@@ -5,8 +5,6 @@
  * access fabric resources.
  */
 
-const Pako = require("pako");
-
 const Utils = require("@eluvio/elv-client-js/src/Utils.js");
 
 export class CrossChainOracle {
@@ -97,37 +95,6 @@ export class CrossChainOracle {
         },
       })
     );
-  };
-
-  CreateEthFabricToken = async ({
-    duration=24 * 60 * 60 * 1000,
-    spec={},
-    address,
-  }={}) => {
-    let token = {
-      ...spec,
-      sub:`iusr${Utils.AddressToHash(address)}`,
-      adr: Buffer.from(address.replace(/^0x/, ""), "hex").toString("base64"),
-      spc: await this.walletClient.client.ContentSpaceId(),
-      iat: Date.now(),
-      exp: Date.now() + duration,
-    };
-    window.console.log("token", token);
-
-    let message = `Eluvio Content Fabric Access Token 1.0\n${JSON.stringify(token)}`;
-
-    const signature = await window.ethereum.request({
-      method: "personal_sign",
-      params: [JSON.stringify(message), address],
-    });
-
-    const compressedToken = Pako.deflateRaw(Buffer.from(JSON.stringify(token), "utf-8"));
-    return `acspjc${this.walletClient.client.utils.B58(
-      Buffer.concat([
-        Buffer.from(signature.replace(/^0x/, ""), "hex"),
-        Buffer.from(compressedToken)
-      ])
-    )}`;
   };
 
   Run = async (type, msg) => {

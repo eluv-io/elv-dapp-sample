@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "elv-dapp-sample",
+    "target": "elv-cross-chain-media",
     "public": "test/dist/test-wallet-ops",
     "ignore": [
       "firebase.json",

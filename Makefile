@@ -5,17 +5,25 @@
 build:
 	npm install
 
-clean:
-	rm -rf dist/
+build_apps:
+	npm run build-wallet-ops-test
+	npm run build-dapp-sample
 
-run:
+clean:
+	rm -rf dist/ test/dist/
+
+run_ds:
+	@echo :8094
+	npm run serve-dapp-sample
+
+run_ccm:
 	@echo :8094
 	npm run serve-wallet-ops-test
 
 deploy_ds:
 	cp firebase-ds.json firebase.json
 	firebase use production-260101
-	npm run build-wallet-ops-test && firebase deploy --only hosting:elv-dapp-sample
+	npm run build-dapp-sample && firebase deploy --only hosting:elv-dapp-sample
 
 deploy_ccm:
 	cp firebase-ccm.json firebase.json

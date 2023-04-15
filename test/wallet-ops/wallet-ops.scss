@@ -1,0 +1,402 @@
+html,
+body,
+.-elv-media-wallet-frame,
+.app,
+.wallet-target,
+.page-container {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+}
+
+$text-color: #ddd;
+$button-color: #235;
+$elv-color-darkblue: #003c7e;
+$elv-color-darkpurple: #312c46;
+$elv-color-light: #F7F9FC;
+
+@mixin button-style {
+  background-color: $button-color;
+  border: 1px solid #d3d3d3;
+  border-radius: 0.5em;
+  cursor: pointer;
+  flex: 1 1 auto;
+  outline: 0;
+  padding: 3px 10px;
+  max-width: 320px;
+
+  &.active,
+  &:hover {
+    background-color: #6495ed;
+    color: #fff;
+  }
+
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+* {
+  color: $text-color;
+  max-width: 100%;
+}
+
+input {
+  background-color: #445;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+}
+
+select {
+  background-color: transparent;
+
+  &:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+}
+
+.preformat-header, .embed {
+  background-color: #447;
+  padding-bottom: 1em;
+}
+
+.app {
+  background-color: $elv-color-light;
+}
+
+.embed-frame {
+  float:left;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  iframe {
+    background-color: black;
+  }
+}
+.clear{
+  clear:both;
+}
+
+.lds-default__element {
+  background: gray!important;
+}
+
+body {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+h1,
+h2 {
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+pre {
+  color: #ccc;
+  white-space: pre-wrap;
+  background: #333;
+  padding: 40px;
+  word-break: break-all;
+  font-size: 0.875rem;
+  font-family: "Consolas", menlo, monospace;
+}
+
+code {
+  font-family: monospace;
+}
+
+select {
+  border: 1px solid gray;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px 0;
+  padding: 5px 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35 20.63'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px;%7D%3C/style%3E%3C/defs%3E%3Cpolyline class='cls-1' points='2 2 17.8 17.8 33 2.6'/%3E%3C/svg%3E");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 14px 7px;
+}
+
+.description {
+  margin: 15px auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.section {
+  margin: 20px 0;
+}
+
+.wallet-route {
+  width: 75%;
+  margin: 50px auto 0;
+  padding: 15px;
+  font-size: 14px;
+  color: white;
+  letter-spacing: 0.5px;
+  background: black;
+}
+
+.wallet-target {
+  display: block;
+  height: 75%;
+  margin: 50px auto;
+  width: 90%;
+  //height: 2250px;
+}
+
+.-elv-media-wallet-frame {
+  border: 0;
+  min-height: 75vh;
+  height: 100%;
+  outline: 0;
+  //height: 2250px;
+}
+
+@media screen and (max-width: 600px) {
+  .wallet-route,
+  .wallet-target,
+  .-elv-media-wallet-frame {
+    width: 100vw;
+  }
+}
+
+.iframe-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 24px;
+
+  p {
+    margin-right: 10px;
+  }
+}
+
+.button-row {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 10px;
+  width: 75%;
+
+  p {
+    margin-right: 10px;
+  }
+
+  button {
+    @include button-style;
+  }
+}
+
+.client-events,
+.client-results {
+  background-color: #777;
+  border: 1px solid #d3d3d3;
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  white-space: pre-wrap;
+  width: 75%;
+  word-wrap: break-word;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.preformat-header {
+  font-size: 16px;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+input {
+  font-size: 0.875rem;
+  margin-right: 2em;
+}
+
+.hidden-placeholder {
+  visibility: hidden;
+}
+
+#marketplaceSelector {
+  margin-top: 0px;
+}
+
+.source-link {
+  align-items: center;
+  background: #333;
+  border-radius: 3px;
+  display: flex;
+  font-size: 0.8rem;
+  padding: 0.33rem 0.5rem;
+  width: auto;
+
+  .github-icon {
+    fill: #fff;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    stroke: #fff;
+    width: 1.4rem;
+  }
+}
+
+.-elv-icon {
+  color: #555;
+  display: block;
+  height: 30px;
+  stroke: #555;
+  width: 30px;
+}
+
+ .source-link.source-link {
+   color: #ccc;
+ }
+
+ .header-section {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+
+   .network-details,
+   .section {
+     display: flex;
+     justify-content: center;
+   }
+ }
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 70px;
+  background-color: $elv-color-darkpurple;
+  border-bottom: 2px solid darken($elv-color-light, 2%);
+  padding: 0 4rem;
+  gap: 2rem;
+
+  .actions {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: 2rem;
+    justify-content: center;
+
+    button {
+      @include button-style;
+      background-color: transparent;
+
+      &:hover {
+        background-color: rgba(255,255,255,0.2);
+      }
+    }
+
+    .auth-container {
+      align-items: center;
+    }
+
+    .auth-text {
+      font-size: .75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    select,
+    button {
+      font-size: 0.875rem;
+    }
+  }
+
+  .auth-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.video-container {
+  margin-top: 3rem;
+  padding: 0 70px;
+
+  label {
+    color: #000;
+  }
+}
+
+.video-background {
+  background-color: black;
+}
+
+.main-content {
+  display: flex;
+  margin-top: 2rem;
+  min-height: 100%;
+  width: 100%;
+
+  .display-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .json-container {
+    padding: 0 4rem;
+    width: 100%;
+  }
+
+  .json-section {
+    margin-bottom: 2rem;
+  }
+}
+
+.main-sidebar-controls {
+  background-color: $elv-color-darkpurple;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  flex: 0 0 500px;
+  padding: 1rem 2rem;
+
+  .form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    label,
+    button {
+      font-size: 0.875rem;
+    }
+
+    button {
+      @include button-style;
+    }
+
+    input {
+      width: 100%;
+      font-size: 0.75rem;
+      margin: 0.5rem 0;
+    }
+  }
+}
