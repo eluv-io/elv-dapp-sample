@@ -386,7 +386,7 @@ rules:
           <AuthSection walletClient={walletClient} />
         </div>
 
-        <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/" target="_blank">
+        <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/cross-chain-media" target="_blank">
           <ImageIcon className="-elv-icon github-icon" icon={GithubIcon} />
           Source available on GitHub
         </a></div>
