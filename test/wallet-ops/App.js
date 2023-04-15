@@ -161,10 +161,22 @@ const App = () => {
     );
   }
 
+  const CheckLogin = () => {
+    if(!walletClient.loggedIn) {
+      window.console.log("login first");
+      setInputs("<login first>");
+      setResults("<login first>");
+      return false;
+    }
+    return true;
+  };
+
   const SignSolana = async () => {
     // input is a Mint address, not Token address
     const input = getInput("solanaNft") || "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q";
     // alternative valid contract to test balance == 0: "7bRxdUMy7KoZAv4SXPBNTciWZGGATkSUczv1AjYqWnsT"
+
+    if(!CheckLogin()) { return; }
 
     setInputs({ "solana contract address": input });
     setResults("<operation pending>");
@@ -284,6 +296,8 @@ const App = () => {
 
   const CrossChainAuth = async (type, addr, chainId) => {
     window.console.log("CrossChainAuth:", type, addr, chainId);
+    if(!CheckLogin()) { return; }
+
     if(type == "eth" && !chainId) {
       window.console.log("set default eth network:", networkNumber(network));
       chainId = networkNumber(network);
@@ -379,7 +393,6 @@ rules:
       </div>
 
       {
-        walletClient.loggedIn ?
           <>
             <div className="video-container">
               <div className="iframe-row">
@@ -470,7 +483,7 @@ rules:
                 <JsonSection inputs={inputs} results={results} embed={embed} />
               </div>
             </div>
-          </> : null
+          </>
       }
     </div>
   );
