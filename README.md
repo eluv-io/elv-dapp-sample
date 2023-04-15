@@ -1,15 +1,15 @@
 
 # Eluvio DApp Samples
 
-
-## Basic "dapp-sample" Wallet Examples
-
-
 This repository illustrates how to develop for the Eluvio Content Fabric CDN and Marketplace,
 specifically via an Eluvio Content Fabric crypto wallet and its associated libraries.
 
-A version of this app is hosted for your convenience at
-[https://dapp-sample.app.eluv.io/](https://dapp-sample.app.eluv.io/).
+A version of these apps are hosted for your convenience at:
+- [https://dapp-sample.app.eluv.io/](https://dapp-sample.app.eluv.io/)
+- [https://https://elv-cross-chain-media.web.app//](https://https://elv-cross-chain-media.web.app/)
+
+
+## Basics Daap -"dapp-sample"
 
 ![sample screenshot](images/dapp-sample-screenshot.png)
 
@@ -20,10 +20,7 @@ The library is used for login, retrieving information about the user's assets,
 signing, and Marketplace access. Operations highlighted by this sample:
 - User methods: calls that get info on the currently logged-in user
 - Marketplace methods: calls that get info on the marketplaces for primary and secondary sales
-- NFT ownership validation:
-  - Use a cross-chain oracle query to check for ownership on an EVM blockchain (Eluvio, mainnet, polkadot, or any other)
-  - Use a cross-chain oracle query to check for ownership on the flow blockchain
-  - Use a cross-chain oracle query to check for ownership on the solana blockchain
+- NFT ownership validation: Use a cross-chain oracle query to check for ownership on an EVM, flow, solana blockchain
 - Embed token-gated content: simplify the embedding of fabric-hosted DRM video in an `<iframe>`
 
 The library is documented here:
@@ -49,7 +46,7 @@ There are other samples alongside it in the `test/` directory, feel free to run 
 For example, the Cross-Chain Token-Gated Media one we describe next.
 
 
-## Cross-Chain Token-Gated Media
+## Cross-Chain Token-Gated Media - "cross-chain-media"
 
 This is a specialized sampler focused on cross-chain authorization and token-gated access to Content Fabric media.
 
