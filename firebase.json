@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "elv-cross-chain-media",
-    "public": "test/dist/test-wallet-ops",
+    "public": "test/dist/test-cross-chain-media",
     "ignore": [
       "firebase.json",
       "**/.*",

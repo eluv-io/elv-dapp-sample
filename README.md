@@ -61,10 +61,10 @@ This is a specialized sampler focused on cross-chain authorization and token-gat
 To run this sample:
 - clone this repo
 - run `npm install`
-- run `npm run serve-wallet-ops-test`
+- run `npm run serve-cross-chain-media`
 - open your browser to [https://localhost:8094](https://localhost:8094)
 
-The matching source code for the sample is in the `test/wallet-ops` subdirectory.  It was built atop a clone
+The matching source code for the sample is in the `test/cross-chain-media` subdirectory.  It was built atop a clone
 of the wallet client, and that code remains in the main `src/` directory for reference.
 There are other samples alongside it in the `test/` directory, feel free to run and reference them, too.
 

@@ -1,5 +1,5 @@
 import "../../src/static/stylesheets/reset.scss";
-import "./wallet-ops.scss";
+import "./cross-chain.scss";
 import "../../src/static/stylesheets/loaders.scss";
 
 import React, { useEffect, useState } from "react";
