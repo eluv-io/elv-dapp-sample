@@ -320,7 +320,8 @@ input {
   flex-direction: row;
   align-items: center;
   height: 70px;
-  background-color: $elv-color-darkpurple;
+  //background-color: $elv-color-darkpurple;
+  background-color: #222;
   border-bottom: 2px solid darken($elv-color-light, 2%);
   padding: 0 4rem;
   gap: 2rem;
