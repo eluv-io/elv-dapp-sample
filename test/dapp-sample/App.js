@@ -10,6 +10,8 @@ import { PageLoader } from "Components/common/Loaders";
 import { EluvioLive } from "../common/EluvioLive";
 import { MarketplaceLoader } from "../common/MarketplaceLoader.js";
 import { CrossChainOracle } from "./CrossChainOracle.js";
+import ImageIcon from "Components/common/ImageIcon";
+import GithubIcon from "../common/github.svg";
 
 // eluvio EvWalletClient mode -- "staging" or "production"
 const mode = "staging";
@@ -49,28 +51,21 @@ const AuthSection = ({walletClient}) => {
 
   if(!loggedIn) {
     return (
-      <div className="section">
-        <div className="button-row">
-          <button onClick={() => LogIn({method: "redirect"})}>
-            Login
-          </button>
-        </div>
+      <div className="auth-container">
+        <button onClick={() => LogIn({method: "redirect"})}>
+          Login
+        </button>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="section">
-        <h2>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</h2>
-        <div className="button-row">
-          <button onClick={() => LogOut()}>
-            Log Out
-          </button>
-        </div>
-      </div>
-      <br />
-    </>
+    <div className="auth-container">
+      <h2>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</h2>
+      <button onClick={() => LogOut()}>
+        Log Out
+      </button>
+    </div>
   );
 };
 
@@ -176,7 +171,7 @@ const App = () => {
     const signature = await walletClient.client.CreateFabricToken({duration: 1000 * 30}).catch(err => { return err; });
     // url for local testing
     //const url = "http://localhost:3030/register/" +
-    const url = "https://appsvc.svc.eluv.io/push/" + (network == "main" ? "main/" : "dv3/") +
+    const url = "https://appsvc.svc.eluv.io/push/" + (network === "main" ? "main/" : "dv3/") +
       "register/" + walletClient.UserAddress() + "/" + signature;
     const source = new EventSource(url);
     window.console.log("url:", source.url, "withCreds:", source.withCredentials, "ready:", source.readyState);
@@ -275,7 +270,7 @@ const App = () => {
 
   const CrossChainAuth = async (type, addr, chainId) => {
     window.console.log("CrossChainAuth:", type, addr, chainId);
-    if(type == "eth" && !chainId) {
+    if(type === "eth" && !chainId) {
       window.console.log("set default eth network:", networkNumber(network));
       chainId = networkNumber(network);
     }
@@ -291,7 +286,37 @@ const App = () => {
   };
 
   const networkNumber = (networkName) => {
-    return networkName == "main" ? "955305" : "955210";
+    return networkName === "main" ? "955305" : "955210";
+  };
+
+  const JsonSection = ({inputs, results, embed}) => {
+    if(!(inputs || results || embed)) {
+      inputs = "<none>";
+    }
+
+    return (
+      <div className="json-container">
+        {
+          inputs &&
+          <div className="json-section">
+            <div className="preformat-header">Input</div>
+            <pre>{stringify(inputs)}</pre>
+          </div>
+        }
+
+        {
+          results &&
+          <div className="json-section">
+            <div className="preformat-header">Output</div>
+            <pre>{stringify(results)}</pre>
+          </div>
+        }
+
+        {
+          !!embed && embed
+        }
+      </div>
+    );
   };
 
   // TODO: this is getting called too much: twice on start, and after method calls
@@ -299,115 +324,107 @@ const App = () => {
 
   return (
     <div className="page-container">
-      <h1>DApp Wallet Examples</h1>
+      <div className="top-bar">
+        <h1>DApp Wallet Examples</h1>
 
-      <div className="button-row">
-        <a href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/dapp-sample">https://github.com/eluv-io/elv-dapp-sample/tree/main/test/dapp-sample</a>
+        <div className="actions">
+          <select value={network} onChange={ChangeNetwork}>
+            <option value="main">Content Fabric: main</option>
+            <option value="demo">Content Fabric: demo</option>
+          </select>
+
+          <AuthSection walletClient={walletClient} />
+        </div>
+
+        <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/dapp-sample" target="_blank">
+          <ImageIcon className="-elv-icon github-icon" icon={GithubIcon} />
+          Source available on GitHub
+        </a></div>
       </div>
-      <div className="button-row">
-        <select value={network} onChange={ChangeNetwork}>
-          <option value="main">Selected Network: main</option>
-          <option value="demo">Selected Network: demo</option>
-        </select>
-      </div>
 
-      <AuthSection walletClient={walletClient} />
-
-      {
-        walletClient.loggedIn ?
-          <>
-            <div className="button-row">
+      <div className="video-container">
+        <div className="main-sidebar-controls">
+          <br/><br/><br/>
+          <div className="text-button-row-container">
+            <div className="text-button-row">
               <label htmlFor="signMsg">Sign a Message:</label>
               <input type="text" size="50" id="signMsg" name="signMsg" />
               <button onClick={Sign}>Sign</button>
             </div>
-            <br/>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
               <button className="hidden-placeholder"></button>
             </div>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT contract address:</label>
               <input type="text" size="50" id="evmNft" name="evmNft" />
               <button onClick={async () =>
                 await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
             </div>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="flowNft">Flow NFT contract address:</label>
               <input type="text" size="50" id="flowNft" name="flowNft" />
               <button onClick={async () =>
                 await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Query Flow Cross-chain Oracle</button>
             </div>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="solanaNft">Solana NFT contract address:</label>
               <input type="text" size="50" id="solanaNft" name="solanaNft" />
               <button onClick={async () => await SignSolana()}>Query Solana Cross-chain Oracle</button>
             </div>
             <br/>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="playoutToken">Gated content access token:</label>
               <input type="text" size="50" id="playoutToken" name="playoutToken" />
               <button className="hidden-placeholder"></button>
             </div>
-            <div className="button-row">
+            <div className="text-button-row">
               <label htmlFor="playoutVersionHash">Gated content version hash:</label>
               <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
               <button onClick={Playout}>Embed content</button>
             </div>
-            <br />
-            <h2>User Methods</h2>
-            <div className="button-row">
-              <button onClick={async () => clearAndShow(await walletClient.UserInfo())}>UserInfo</button>
-              <button onClick={async () => clearAndShow(await walletClient.UserItems({sortBy: "default"}))}>UserItems</button>
-            </div>
-            <div className="button-row">
-              <button onClick={async () => clearAndShow(await walletClient.UserItemInfo())}>UserItemInfo</button>
-              <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
-            </div>
-            <div className="button-row">
-              <button onClick={async () => clearAndShow(await walletClient.client.CreateFabricToken())}>CreateFabricToken</button>
-              <button onClick={async () => clearAndShow(
-                JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
-              )}>DecodeSignedToken</button>
-            </div>
-            <br />
-            <h2>Notification Service Methods</h2>
-            <div className="button-row">
-              <button onClick={async () => await StartListening()}>PushService listen</button>
-              <button onClick={async () => await StopListening()}>PushService stop</button>
-            </div>
-            <br/>
-            <h2>Marketplace Methods</h2>
-            <div className="button-row">
-              <select id="marketplaceSelector" onChange={ChangeMarketplace}/>
-            </div>
-            <div className="button-row">
-              <button onClick={async () => clearAndShow(await walletClient.Listings({marketplaceParams}))}>Listings</button>
-              <button onClick={async () => clearAndShow(await walletClient.MarketplaceStock({marketplaceParams}))}>Stock</button>
-            </div>
-          </> : null
-      }
+          </div>
+          <br />
+          <h2>User Methods</h2>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await walletClient.UserInfo())}>UserInfo</button>
+            <button onClick={async () => clearAndShow(await walletClient.UserItems({sortBy: "default"}))}>UserItems</button>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await walletClient.UserItemInfo())}>UserItemInfo</button>
+            <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await walletClient.client.CreateFabricToken())}>CreateFabricToken</button>
+            <button onClick={async () => clearAndShow(
+              JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
+            )}>DecodeSignedToken</button>
+          </div>
+          <br />
+          <h2>Notification Service Methods</h2>
+          <div className="button-row">
+            <button onClick={async () => await StartListening()}>PushService listen</button>
+            <button onClick={async () => await StopListening()}>PushService stop</button>
+          </div>
+          <br/>
+          <h2>Marketplace Methods</h2>
+          <div className="button-row">
+            <select id="marketplaceSelector" onChange={ChangeMarketplace}/>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await walletClient.Listings({marketplaceParams}))}>Listings</button>
+            <button onClick={async () => clearAndShow(await walletClient.MarketplaceStock({marketplaceParams}))}>Stock</button>
+          </div>
+          <br/>
+          <br/>
+        </div>
+      </div>
 
-      {
-        inputs ?
-          <div>
-            <div className="preformat-header">Input</div>
-            <pre>{stringify(inputs)}</pre>
-          </div> : <><br/><br/><br/></>
-      }
 
-      {
-        results ?
-          <div>
-            <div className="preformat-header">Output</div>
-            <pre>{stringify(results)}</pre>
-          </div> : null
-      }
-
-      {
-        embed ? <>{embed}</> : null
-      }
+      <div className="display-section">
+        <JsonSection inputs={inputs} results={results} embed={embed} />
+      </div>
     </div>
   );
 };

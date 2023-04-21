@@ -298,7 +298,7 @@ const App = () => {
     window.console.log("CrossChainAuth:", type, addr, chainId);
     if(!CheckLogin()) { return; }
 
-    if(type == "eth" && !chainId) {
+    if(type === "eth" && !chainId) {
       window.console.log("set default eth network:", networkNumber(network));
       chainId = networkNumber(network);
     }
