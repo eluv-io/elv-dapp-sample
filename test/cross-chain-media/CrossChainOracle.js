@@ -19,7 +19,7 @@ export class CrossChainOracle {
     this.allExamples = {
       "Ethereum: Stoner Cat": "eip155:1/erc721:0xd4d871419714b778ebec2e22c7c53572b573706e",
       "Polygon: Masked Singer Loyalty Pass": "eip155:137/erc721:0xfb12a21eea1e1e8825531be2c2329ddcc5a22a7a",
-      "Solana: Sol chipmunks #627": "solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ/nonfungibletoken:Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q",
+      "Solana: Sol Chipmunk": "solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ/nonfungibletoken:Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q",
       "Flow: CNN_NFT": "flow:mainnet/nonfungibletoken:0x329feb3ab062d289:CNN_NFT",
       "ELV: Starflix All-Access": "eip155:955210/erc721:0x250d641f36bf16c34467d6533542f96e23c6f2bd",
       "ELV: Movie ticket - Meridian": "eip155:955210/erc721:0x5755ceaa00991d223853f34a9fbc0ae0a5f683d9",

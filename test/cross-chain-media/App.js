@@ -329,6 +329,8 @@ const App = () => {
   const GoLive = async () => {
     const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__4dEr2SYKpVkqgKpeWLMUFi2SMk4PthsMMGBCa55ojbdLix5EFeoA3oMB4GCbXzWbwTNHd4LLCy&mt=v";
     document.getElementById("iframe6").src = live;
+    document.getElementById("live_label1").innerText = "Live Feed";
+    document.getElementById("live_label2").innerHTML = "&nbsp;";
   };
 
   const ShowPolicy = async () => {
@@ -412,7 +414,7 @@ rules:
                   <iframe id="iframe3" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__FMoXffaXr5mochFba2MYpQMexQpgmy5tx61CxZRZBZ8K4XFrqcpy9hsLtWGAt5j4Ge8eN6cTGG/meta/public/asset_metadata/images/hero/default&mt=v&nwm="/>
                   <label>Agent 327</label>
-                  <label>Solana Sol Chipmunk 627 & Starflix All-Access</label>
+                  <label>Solana Sol Chipmunk & Starflix All-Access</label>
                 </div>
               </div>
               <br/>
@@ -431,8 +433,8 @@ rules:
                 <div className="embed-frame">
                   <iframe id="iframe6" width="500" height="240" scrolling="no" marginHeight="0" marginWidth="0" frameBorder="0" type="text/html" allow="encrypted-media"
                     src="https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__E8fxNTi4Y4MMiEwY7rCt3wTnY8DWpuED2JQbZBNAcZrcqCjSNZ1frCEJ9kVSxXqJZswbCccR92&pst=https://demov3.net955210.contentfabric.io/s/demov3/q/hq__E8fxNTi4Y4MMiEwY7rCt3wTnY8DWpuED2JQbZBNAcZrcqCjSNZ1frCEJ9kVSxXqJZswbCccR92/meta/public/asset_metadata/images/hero/default&mt=v&nwm"/>
-                  <label>Caminandes (Episode 3) </label>
-                  <label>Polygon & Flow & Ethereum & Starflix All-Access</label>
+                  <label id="live_label1">Caminandes (Episode 3) </label>
+                  <label id="live_label2">Polygon & Flow & Ethereum & Starflix All-Access</label>
                 </div>
               </div>
             </div>
@@ -475,7 +477,7 @@ rules:
                   <br/>
                   <button onClick={ShowPolicy}>Show Policy Details</button>
                   <br/>
-                  <button onClick={GoLive}>Go Live (camera 6)</button>
+                  <button onClick={GoLive}>Go Live (screen 6)</button>
                 </div>
               </div>
 
