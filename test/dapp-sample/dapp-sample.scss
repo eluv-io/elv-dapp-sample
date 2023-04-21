@@ -1,3 +1,10 @@
+
+$text-color: #ddd;
+$button-color: #235;
+$elv-color-darkblue: #003c7e;
+$elv-color-darkpurple: #312c46;
+$elv-color-light: #F7F9FC;
+
 html,
 body,
 .-elv-media-wallet-frame,
@@ -10,13 +17,8 @@ body,
   padding: 0;
   width: 100%;
   max-width: 100vw;
+  background-color: $elv-color-darkpurple;
 }
-
-$text-color: #ddd;
-$button-color: #235;
-$elv-color-darkblue: #003c7e;
-$elv-color-darkpurple: #312c46;
-$elv-color-light: #F7F9FC;
 
 @mixin button-style {
   background-color: $button-color;

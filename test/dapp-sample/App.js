@@ -421,7 +421,6 @@ const App = () => {
         </div>
       </div>
 
-
       <div className="display-section">
         <JsonSection inputs={inputs} results={results} embed={embed} />
       </div>
