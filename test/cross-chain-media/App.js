@@ -16,7 +16,7 @@ import ImageIcon from "Components/common/ImageIcon";
 const mode = "staging";
 
 // eluvio backend network configuration -- "main" or "demo"
-const network = new URLSearchParams(window.location.search).get("network-name") || "main";
+const network = new URLSearchParams(window.location.search).get("network-name") || "demo";
 
 // marketplace configuration -- returns { tenantSlug:, marketplaceSlug: }
 const marketplaceParams = MarketplaceLoader.parseMarketplaceParams();
