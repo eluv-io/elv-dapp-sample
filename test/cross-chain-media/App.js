@@ -327,7 +327,7 @@ const App = () => {
   };
 
   const GoLive = async () => {
-    const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__4dEr2SYKpVkqgKpeWLMUFi2SMk4PthsMMGBCa55ojbdLix5EFeoA3oMB4GCbXzWbwTNHd4LLCy&mt=v";
+    const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BRanRmxVYTD9u4KFripy9YYYE1QtVE2zYb89HJboJqg3FMuJU52gGYG1uBjiLHjPCgCN19aUVs&mt=v";
     document.getElementById("iframe6").src = live;
     document.getElementById("live_label1").innerText = "Live Feed";
     document.getElementById("live_label2").innerHTML = "&nbsp;";
