@@ -103,7 +103,7 @@ const networkNumber = (networkName) => {
 const SetDefaults = () => {
   const defaults = {
     evmChain: networkNumber(network),
-    evmNft: "0x43842733179fa1c38560a44f1d9067677461c8ca",
+    evmNft: "0x250d641f36bf16c34467d6533542f96e23c6f2bd",
     flowNft: "0x329feb3ab062d289:CNN_NFT",
     solanaNft: "Ag3m1p1B6FMWKunTQwDW98fLEpcPaobmuthx1u9xLP9q",
     playoutToken: "",
