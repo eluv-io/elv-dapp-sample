@@ -9,7 +9,7 @@ A version of these apps are hosted for your convenience at:
 - [https://https://elv-cross-chain-media.web.app//](https://https://elv-cross-chain-media.web.app/)
 
 
-## Basics Daap -"dapp-sample"
+## Basics DApp -"dapp-sample"
 
 ![sample screenshot](images/dapp-sample-screenshot.png)
 
