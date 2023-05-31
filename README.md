@@ -6,7 +6,7 @@ specifically via an Eluvio Content Fabric crypto wallet and its associated libra
 
 A version of these apps are hosted for your convenience at:
 - [https://dapp-sample.app.eluv.io/](https://dapp-sample.app.eluv.io/)
-- [https://https://elv-cross-chain-media.web.app//](https://https://elv-cross-chain-media.web.app/)
+- [https://dapp-sample-xco.app.eluv.io/](https://dapp-sample-xco.app.eluv.io/)
 
 
 ## Basics DApp -"dapp-sample"
