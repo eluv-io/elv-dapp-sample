@@ -120,10 +120,13 @@ const App = () => {
     const chainId = networkId;
     const from = walletClient.UserAddress();
 
+    let contract = getInput("signPermitMsg");
+    const tok = "ELVD Test Token";
+
     const domain = {
-      name: 'MyToken',
+      name: tok,
       version: '1',
-      verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+      verifyingContract: contract,
       chainId,
     };
 
@@ -175,7 +178,7 @@ const App = () => {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
-      setInputs({ "account": accounts, messageToSign: msgParams});
+      setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
       sign = await window.ethereum.request({
         method: 'eth_signTypedData_v4',
         params: [accounts[0], JSON.stringify(msgParams)],
@@ -426,12 +429,12 @@ const App = () => {
           <div className="text-button-row-container">
             <div className="text-button-row">
               <label htmlFor="signMsg">Sign a Message:</label>
-              <input type="text" size="50" id="signMsg" name="signMsg" />
+              <input type="text" size="50" id="signMsg" name="signMsg" value="hello"/>
               <button onClick={Sign}>Sign</button>
             </div>
             <div className="text-button-row">
-              <label htmlFor="signMsg">SignPermit:</label>
-              <input type="text" size="50" id="signMsg" name="signMsg" />
+              <label htmlFor="signMsg">SignPermit Contract:</label>
+              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" value="0x899fC7bddc2d9a095e8444F118032f1aE231A9B5" />
               <button onClick={SignPermit}>SignPermit</button>
             </div>
             <div className="text-button-row">
