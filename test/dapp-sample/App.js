@@ -137,17 +137,17 @@ const App = () => {
     }
 
     const domain = {
-      name: tok,
-      version: "1",
-      verifyingContract: contract,
       chainId,
+      name: tok,
+      verifyingContract: contract,
+      version: "1",
     };
 
     const EIP712Domain = [
       { name: "name", type: "string" },
       { name: "version", type: "string" },
-      { name: "verifyingContract", type: "address" },
       { name: "chainId", type: "uint256" },
+      { name: "verifyingContract", type: "address" },
     ];
 
     let amount = getInput("signPermitMsg");
