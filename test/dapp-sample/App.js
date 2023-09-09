@@ -120,12 +120,12 @@ const App = () => {
     const chainId = networkId;
     let from = walletClient.UserAddress();
     let accounts;
-    try{
+    try {
       accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
+        method: "eth_requestAccounts",
       });
       from = accounts[0];
-    } catch (err) {
+    } catch(err) {
       window.console.error(err);
       setResults({"sign err": { err }});
     }
@@ -135,16 +135,16 @@ const App = () => {
 
     const domain = {
       name: tok,
-      version: '1',
+      version: "1",
       verifyingContract: contract,
       chainId,
     };
 
     const EIP712Domain = [
-      { name: 'name', type: 'string' },
-      { name: 'version', type: 'string' },
-      { name: 'verifyingContract', type: 'address' },
-      { name: 'chainId', type: 'uint256' },
+      { name: "name", type: "string" },
+      { name: "version", type: "string" },
+      { name: "verifyingContract", type: "address" },
+      { name: "chainId", type: "uint256" },
     ];
 
     const permit = {
@@ -156,18 +156,18 @@ const App = () => {
     };
 
     const Permit = [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' },
+      { name: "owner", type: "address" },
+      { name: "spender", type: "address" },
+      { name: "value", type: "uint256" },
+      { name: "nonce", type: "uint256" },
+      { name: "deadline", type: "uint256" },
     ];
 
     const splitSig = (sig) => {
-      const pureSig = sig.replace('0x', '');
+      const pureSig = sig.replace("0x", "");
 
-      const _r = Buffer.from(pureSig.substring(0, 64), 'hex');
-      const _s = Buffer.from(pureSig.substring(64, 128), 'hex');
+      const _r = Buffer.from(pureSig.substring(0, 64), "hex");
+      const _s = Buffer.from(pureSig.substring(64, 128), "hex");
       const _v = Buffer.from(
         parseInt(pureSig.substring(128, 130), 16).toString(),
       );
@@ -181,22 +181,22 @@ const App = () => {
     let v;
 
     const msgParams = {
-      types: {EIP712Domain, Permit,}, primaryType: 'Permit', domain, message: permit,
+      types: {EIP712Domain, Permit,}, primaryType: "Permit", domain, message: permit,
     };
 
     try {
       setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
       sign = await window.ethereum.request({
-        method: 'eth_signTypedData_v4',
+        method: "eth_signTypedData_v4",
         params: [accounts[0], JSON.stringify(msgParams)],
       });
       const { _r, _s, _v } = splitSig(sign);
-      r = `0x${_r.toString('hex')}`;
-      s = `0x${_s.toString('hex')}`;
+      r = `0x${_r.toString("hex")}`;
+      s = `0x${_s.toString("hex")}`;
       v = _v.toString();
 
-      setResults({"sign, r, s, v": { sign, r, s, v }});
-    } catch (err) {
+      setResults({ sign, r, s, v });
+    } catch(err) {
       window.console.error(err);
       setResults({"sign err": { err }});
     }
@@ -290,7 +290,7 @@ const App = () => {
       })
       .catch(err => { return { error: err.toString()}; });
 
-    if (ownedOrError?.error) {
+    if(ownedOrError?.error) {
       setResults(ownedOrError);
     } else {
       let nftStats = await walletClient.NFTContractStats({contractAddress: inputs.addr})
