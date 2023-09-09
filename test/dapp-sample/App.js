@@ -137,10 +137,10 @@ const App = () => {
     }
 
     const domain = {
-      chainId,
       name: tok,
-      verifyingContract: contract,
       version: "1",
+      chainId,
+      verifyingContract: contract,
     };
 
     const EIP712Domain = [
