@@ -110,9 +110,22 @@ const App = () => {
 
   const Sign = async () => {
     let msgToSign = getInput("signMsg");
+    msgToSign = msgToSign || "Hello World";
     setInputs({ messageToSign: msgToSign});
-    let res = await walletClient.PersonalSign({message: msgToSign})
-      .catch(err => { return err; });
+
+    let res;
+    if(client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask") {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      res = await window.ethereum.request({
+        method: "personal_sign",
+        params: [accounts[0], msgToSign],
+      });
+    } else {
+      res = await walletClient.PersonalSign({message: msgToSign})
+        .catch(err => { return err; });
+    }
     setResults(res);
   };
 
@@ -450,7 +463,7 @@ const App = () => {
               <button onClick={Sign}>Sign</button>
             </div>
             <div className="text-button-row">
-              <label htmlFor="signMsg">SignPermit Amount:</label>
+              <label htmlFor="signMsg">SignPermit (amount):</label>
               <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
               <button onClick={SignPermit}>SignPermit</button>
             </div>
