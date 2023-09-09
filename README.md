@@ -45,6 +45,12 @@ of the wallet client, and that code remains in the main `src/` directory for ref
 There are other samples alongside it in the `test/` directory, feel free to run and reference them, too.
 For example, the Cross-Chain Token-Gated Media one we describe next.
 
+### Metamask
+
+If you are logged in via metamask, you'll see an option to test SignPermit.  See
+https://gist.github.com/APTy/f2a6864a97889793c587635b562c7d72
+for details,
+
 
 ## Cross-Chain Token-Gated Media - "cross-chain-media"
 
