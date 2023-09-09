@@ -60,7 +60,7 @@ export class MarketplaceLoader {
     const searchParams = new URLSearchParams(window.location.search);
     const network = searchParams.get("network-name") || "main";
     const [tenantDefault, marketplaceDefault] = network == "main" ?
-      [ "bcl", "maskverse-marketplace" ] :
+      [ "eluvio", "eluvio-community-marketplace" ] :
       [ "starflicks", "starflicks-marketplace"];
 
     const marketplaceParams = {
