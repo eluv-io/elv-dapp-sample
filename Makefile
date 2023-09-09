@@ -11,6 +11,7 @@ clean:
 
 run_ds:
 	@echo :8094
+	open https://elv-test.io:8094/?network-name=demo
 	npm run serve-dapp-sample
 
 run_ccm:

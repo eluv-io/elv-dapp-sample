@@ -130,7 +130,7 @@ const App = () => {
       setResults({"sign err": { err }});
     }
 
-    let contract = getInput("signPermitMsg");
+    let contract = "0x899fC7bddc2d9a095e8444F118032f1aE231A9B5";
     const tok = "ELVD Test Token";
 
     const domain = {
@@ -147,10 +147,11 @@ const App = () => {
       { name: "chainId", type: "uint256" },
     ];
 
+    let amount = getInput("signPermitMsg");
     const permit = {
       owner: from,
       spender: from,
-      value: 30,
+      value: amount,
       nonce: 0,
       deadline: 20000000000,
     };
@@ -436,12 +437,12 @@ const App = () => {
           <div className="text-button-row-container">
             <div className="text-button-row">
               <label htmlFor="signMsg">Sign a Message:</label>
-              <input type="text" size="50" id="signMsg" name="signMsg" value="hello"/>
+              <input type="text" size="50" id="signMsg" name="signMsg" />
               <button onClick={Sign}>Sign</button>
             </div>
             <div className="text-button-row">
-              <label htmlFor="signMsg">SignPermit Contract:</label>
-              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" value="0x899fC7bddc2d9a095e8444F118032f1aE231A9B5" />
+              <label htmlFor="signMsg">SignPermit Amount:</label>
+              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
               <button onClick={SignPermit}>SignPermit</button>
             </div>
             <div className="text-button-row">
