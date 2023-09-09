@@ -37,7 +37,7 @@ const AuthSection = ({walletClient}) => {
     await walletClient.LogIn({
       method,
       callbackUrl: window.location.href,
-      marketplaceParams,
+      //marketplaceParams,
       clearLogin: true
     });
 
