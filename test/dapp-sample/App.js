@@ -131,12 +131,10 @@ const App = () => {
       });
       from = accounts[0];
       nonce = await new EluvioLive(walletClient).AccountNonce({addr: contract, ownerAddr: from});
-
     } catch(err) {
       window.console.error(err);
       setResults({"sign err": { err }});
     }
-
 
     const domain = {
       name: tok,
@@ -191,7 +189,7 @@ const App = () => {
     };
 
     try {
-      setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
+      setInputs({ "account": accounts, "domain": domain, messageToSign: JSON.stringify(msgParams), "msgParams": msgParams});
       sign = await window.ethereum.request({
         method: "eth_signTypedData_v4",
         params: [accounts[0], JSON.stringify(msgParams)],
