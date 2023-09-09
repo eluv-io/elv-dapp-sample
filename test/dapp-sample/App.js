@@ -118,7 +118,17 @@ const App = () => {
 
   const SignPermit = async () => {
     const chainId = networkId;
-    const from = walletClient.UserAddress();
+    let from = walletClient.UserAddress();
+    let accounts;
+    try{
+      accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      from = accounts[0];
+    } catch (err) {
+      window.console.error(err);
+      setResults({"sign err": { err }});
+    }
 
     let contract = getInput("signPermitMsg");
     const tok = "ELVD Test Token";
@@ -175,9 +185,6 @@ const App = () => {
     };
 
     try {
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
       setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
       sign = await window.ethereum.request({
         method: 'eth_signTypedData_v4',
