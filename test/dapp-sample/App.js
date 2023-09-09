@@ -120,18 +120,23 @@ const App = () => {
     const chainId = networkId;
     let from = walletClient.UserAddress();
     let accounts;
+    let nonce;
+
+    const contract = "0x899fC7bddc2d9a095e8444F118032f1aE231A9B5";
+    const tok = "ELVD Test Token";
+
     try {
       accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       from = accounts[0];
+      nonce = await new EluvioLive(walletClient).AccountNonce({addr: contract, ownerAddr: from});
+
     } catch(err) {
       window.console.error(err);
       setResults({"sign err": { err }});
     }
 
-    let contract = "0x899fC7bddc2d9a095e8444F118032f1aE231A9B5";
-    const tok = "ELVD Test Token";
 
     const domain = {
       name: tok,
@@ -152,7 +157,7 @@ const App = () => {
       owner: from,
       spender: "0xb48406b4f2c14a7e02ad55d7323f7286bdcb28f8",
       value: amount,
-      nonce: 0,
+      nonce: nonce,
       deadline: 20000000000,
     };
 
