@@ -433,6 +433,15 @@ const App = () => {
   // TODO: this is getting called too much: twice on start, and after method calls
   setTimeout(LoadMarketplaces, 1);
 
+  const isMM = client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
+  const signPermit = (
+    <div className="text-button-row">
+      <label htmlFor="signPermitMsg">SignPermit (amount):</label>
+      <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
+      <button onClick={SignPermit}>SignPermit</button>
+    </div>
+  );
+
   return (
     <div className="page-container">
       <div className="top-bar">
@@ -462,11 +471,7 @@ const App = () => {
               <input type="text" size="50" id="signMsg" name="signMsg" />
               <button onClick={Sign}>Sign</button>
             </div>
-            <div className="text-button-row">
-              <label htmlFor="signMsg">SignPermit (amount):</label>
-              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
-              <button onClick={SignPermit}>SignPermit</button>
-            </div>
+            { isMM && signPermit }
             <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
