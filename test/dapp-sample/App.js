@@ -27,6 +27,8 @@ const walletAppUrl = network === "demo" ?
   "https://core.test.contentfabric.io/wallet-demo" :
   "https://core.test.contentfabric.io/wallet";
 
+const networkId = network === "demo" ? "955210" : "955305";
+
 
 const AuthSection = ({walletClient}) => {
   const [loggedIn, setLoggedIn] = useState(walletClient.loggedIn);
@@ -112,6 +114,92 @@ const App = () => {
     let res = await walletClient.PersonalSign({message: msgToSign})
       .catch(err => { return err; });
     setResults(res);
+  };
+
+  const SignPermit = async () => {
+    const chainId = networkId;
+    let from = walletClient.UserAddress();
+    let accounts;
+    try{
+      accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      from = accounts[0];
+    } catch (err) {
+      window.console.error(err);
+      setResults({"sign err": { err }});
+    }
+
+    let contract = getInput("signPermitMsg");
+    const tok = "ELVD Test Token";
+
+    const domain = {
+      name: tok,
+      version: '1',
+      verifyingContract: contract,
+      chainId,
+    };
+
+    const EIP712Domain = [
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'verifyingContract', type: 'address' },
+      { name: 'chainId', type: 'uint256' },
+    ];
+
+    const permit = {
+      owner: from,
+      spender: from,
+      value: 30,
+      nonce: 0,
+      deadline: 20000000000,
+    };
+
+    const Permit = [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+      { name: 'value', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'deadline', type: 'uint256' },
+    ];
+
+    const splitSig = (sig) => {
+      const pureSig = sig.replace('0x', '');
+
+      const _r = Buffer.from(pureSig.substring(0, 64), 'hex');
+      const _s = Buffer.from(pureSig.substring(64, 128), 'hex');
+      const _v = Buffer.from(
+        parseInt(pureSig.substring(128, 130), 16).toString(),
+      );
+
+      return { _r, _s, _v };
+    };
+
+    let sign;
+    let r;
+    let s;
+    let v;
+
+    const msgParams = {
+      types: {EIP712Domain, Permit,}, primaryType: 'Permit', domain, message: permit,
+    };
+
+    try {
+      setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
+      sign = await window.ethereum.request({
+        method: 'eth_signTypedData_v4',
+        params: [accounts[0], JSON.stringify(msgParams)],
+      });
+      const { _r, _s, _v } = splitSig(sign);
+      r = `0x${_r.toString('hex')}`;
+      s = `0x${_s.toString('hex')}`;
+      v = _v.toString();
+
+      setResults({"sign, r, s, v": { sign, r, s, v }});
+    } catch (err) {
+      window.console.error(err);
+      setResults({"sign err": { err }});
+    }
   };
 
   const SignSolana = async () => {
@@ -348,8 +436,13 @@ const App = () => {
           <div className="text-button-row-container">
             <div className="text-button-row">
               <label htmlFor="signMsg">Sign a Message:</label>
-              <input type="text" size="50" id="signMsg" name="signMsg" />
+              <input type="text" size="50" id="signMsg" name="signMsg" value="hello"/>
               <button onClick={Sign}>Sign</button>
+            </div>
+            <div className="text-button-row">
+              <label htmlFor="signMsg">SignPermit Contract:</label>
+              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" value="0x899fC7bddc2d9a095e8444F118032f1aE231A9B5" />
+              <button onClick={SignPermit}>SignPermit</button>
             </div>
             <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
