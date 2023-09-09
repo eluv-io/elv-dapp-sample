@@ -192,7 +192,10 @@ const App = () => {
     };
 
     try {
-      setInputs({ "account": accounts, "domain": domain, messageToSign: JSON.stringify(msgParams), "msgParams": msgParams});
+      setInputs({
+        "arg1 to eth_signTypedData_v4 (accounts[0])": accounts[0],
+        "arg2 to eth_signTypedData_v4 (JSON.stringify(msgParams))": JSON.stringify(msgParams),
+        "msgParams": msgParams});
       sign = await window.ethereum.request({
         method: "eth_signTypedData_v4",
         params: [accounts[0], JSON.stringify(msgParams)],
