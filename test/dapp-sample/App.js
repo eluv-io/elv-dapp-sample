@@ -185,10 +185,10 @@ const App = () => {
     let v;
 
     const msgParams = {
+      types: {EIP712Domain, Permit,},
+      primaryType: "Permit",
       domain,
       message: permit,
-      primaryType: "Permit",
-      types: {EIP712Domain, Permit,},
     };
 
     try {
