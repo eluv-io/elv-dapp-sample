@@ -47,9 +47,11 @@ For example, the Cross-Chain Token-Gated Media one we describe next.
 
 ### Metamask
 
-If you are logged in via metamask, you'll see an option to test SignPermit.  See
-https://gist.github.com/APTy/f2a6864a97889793c587635b562c7d72
-for details,
+If you are logged in via metamask, you'll see an option to test SignPermit which is a
+special form of `eth_signTypedData_v4` use in place of `personal_sign` for ethereum signing.
+
+See [How to sign data](https://docs.metamask.io/wallet/how-to/sign-data/) for general details
+and [this gist](https://gist.github.com/APTy/f2a6864a97889793c587635b562c7d72) for technical details.
 
 
 ## Cross-Chain Token-Gated Media - "cross-chain-media"
