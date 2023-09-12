@@ -110,9 +110,22 @@ const App = () => {
 
   const Sign = async () => {
     let msgToSign = getInput("signMsg");
+    msgToSign = msgToSign || "Hello World";
     setInputs({ messageToSign: msgToSign});
-    let res = await walletClient.PersonalSign({message: msgToSign})
-      .catch(err => { return err; });
+
+    let res;
+    if(client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask") {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      res = await window.ethereum.request({
+        method: "personal_sign",
+        params: [accounts[0], msgToSign],
+      });
+    } else {
+      res = await walletClient.PersonalSign({message: msgToSign})
+        .catch(err => { return err; });
+    }
     setResults(res);
   };
 
@@ -131,25 +144,23 @@ const App = () => {
       });
       from = accounts[0];
       nonce = await new EluvioLive(walletClient).AccountNonce({addr: contract, ownerAddr: from});
-
     } catch(err) {
       window.console.error(err);
       setResults({"sign err": { err }});
     }
 
-
     const domain = {
       name: tok,
       version: "1",
-      verifyingContract: contract,
       chainId,
+      verifyingContract: contract,
     };
 
     const EIP712Domain = [
       { name: "name", type: "string" },
       { name: "version", type: "string" },
-      { name: "verifyingContract", type: "address" },
       { name: "chainId", type: "uint256" },
+      { name: "verifyingContract", type: "address" },
     ];
 
     let amount = getInput("signPermitMsg");
@@ -187,11 +198,17 @@ const App = () => {
     let v;
 
     const msgParams = {
-      types: {EIP712Domain, Permit,}, primaryType: "Permit", domain, message: permit,
+      types: {EIP712Domain, Permit,},
+      primaryType: "Permit",
+      domain,
+      message: permit,
     };
 
     try {
-      setInputs({ "account": accounts, "domain": domain, messageToSign: msgParams});
+      setInputs({
+        "arg1 to eth_signTypedData_v4 (accounts[0])": accounts[0],
+        "arg2 to eth_signTypedData_v4 (JSON.stringify(msgParams))": JSON.stringify(msgParams),
+        "msgParams": msgParams});
       sign = await window.ethereum.request({
         method: "eth_signTypedData_v4",
         params: [accounts[0], JSON.stringify(msgParams)],
@@ -416,6 +433,15 @@ const App = () => {
   // TODO: this is getting called too much: twice on start, and after method calls
   setTimeout(LoadMarketplaces, 1);
 
+  const isMM = client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
+  const signPermit = (
+    <div className="text-button-row">
+      <label htmlFor="signPermitMsg">SignPermit (amount):</label>
+      <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
+      <button onClick={SignPermit}>SignPermit</button>
+    </div>
+  );
+
   return (
     <div className="page-container">
       <div className="top-bar">
@@ -445,11 +471,7 @@ const App = () => {
               <input type="text" size="50" id="signMsg" name="signMsg" />
               <button onClick={Sign}>Sign</button>
             </div>
-            <div className="text-button-row">
-              <label htmlFor="signMsg">SignPermit Amount:</label>
-              <input type="text" size="50" id="signPermitMsg" name="signPermitMsg" />
-              <button onClick={SignPermit}>SignPermit</button>
-            </div>
+            { isMM && signPermit }
             <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
