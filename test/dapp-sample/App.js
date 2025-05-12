@@ -14,7 +14,7 @@ import ImageIcon from "Components/common/ImageIcon";
 import GithubIcon from "../common/github.svg";
 
 // eluvio EvWalletClient mode -- "staging" or "production"
-const mode = "staging";
+const mode = "production";
 
 // eluvio backend network configuration -- "main" or "demo"
 const network = new URLSearchParams(window.location.search).get("network-name") || "main";
@@ -29,20 +29,60 @@ const walletAppUrl = network === "demo" ?
 
 const networkId = network === "demo" ? "955210" : "955305";
 
+const AuthSection = ({ walletClient, setWalletClient }) => {
+  const [loggedIn, setLoggedIn] = useState(walletClient?.loggedIn);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-const AuthSection = ({walletClient}) => {
-  const [loggedIn, setLoggedIn] = useState(walletClient.loggedIn);
+  const LogIn = async () => {
+    const apiUrl = (network === "demo" ?
+      "https://host-76-74-28-227.contentfabric.io/as/" : "https://host-76-74-28-232.contentfabric.io/as/") +
+      "wlt/ory/sign_in";
+    const requestBody = {
+      media_property: "test-property-slug",
+      email,
+      password,
+      nonce: "sample_nonce",
+    };
 
-  const LogIn = async ({method}) => {
-    await walletClient.LogIn({
-      method,
-      callbackUrl: window.location.href,
-      marketplaceParams,
-      clearLogin: true
-    });
+    try {
+      setError("");
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
 
-    if(method !== "redirect") {
+      if(!response.ok) {
+        window.console.error("Login error:", response.statusCode, response.statusText);
+        setError("Login failed. Please check your credentials.");
+        return;
+      }
+
+      const responseData = await response.json();
+      // contains "email", "id", "user_addr", "fabric_token", "cluster_token"
+
+      // Initialize the wallet client with the response data
+      const token = responseData.fabric_token;
+      const addr = responseData.user_addr;
+      const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+      walletClient.client.SetStaticToken({ token: responseData.fabric_token });
+      await walletClient.SetAuthorization({ fabricToken: token, address: addr, email: email, expiresAt });
+      window.console.log("walletClient init to", walletClient.UserInfo());
+
+      walletClient.client.walletAppUrl = walletAppUrl;
+      window.walletClient = walletClient;
+
+      //setWalletClient(client);
+      setWalletClient(walletClient);
       setLoggedIn(true);
+      setError(""); // Clear any previous errors
+    } catch(err) {
+      window.console.error("Login error:", err);
+      setError(err.message || "An unexpected error occurred.");
     }
   };
 
@@ -54,19 +94,31 @@ const AuthSection = ({walletClient}) => {
   if(!loggedIn) {
     return (
       <div className="auth-container">
-        <button onClick={() => LogIn({method: "redirect"})}>
-          Login
-        </button>
+        <div className="login-form">
+          <input
+            type="text" placeholder="Email" value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password" placeholder="Password" value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={LogIn}>Login</button>
+          {error && <div className="error-message">{error}</div>}
+        </div>
       </div>
     );
   }
 
+  let u = walletClient.UserAddress();
+  if(walletClient.UserInfo()) {
+    u = walletClient.UserInfo().email + " (" + walletClient.UserAddress() + ")";
+  }
+
   return (
     <div className="auth-container">
-      <h2>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</h2>
-      <button onClick={() => LogOut()}>
-        Log Out
-      </button>
+      <h2>Logged In as {u}</h2>
+      <button onClick={LogOut}>Log Out</button>
     </div>
   );
 };
@@ -83,21 +135,25 @@ const App = () => {
   const getInput = (name) => { return document.getElementsByName(name)?.item(0)?.value || ""; };
 
   useEffect(() => {
-    ElvWalletClient.Initialize({
-      network,
-      mode,
-      //marketplaceParams
-    })
-      .then(client => {
-        client.walletAppUrl = walletAppUrl;
+    if(window.walletClient) {
+      setWalletClient(window.walletClient);
+      walletClient.client.walletAppUrl = walletAppUrl;
+      walletClient.walletAppUrl = walletAppUrl;
+    } else {
+      ElvWalletClient.Initialize({
+        network,
+        mode
+      })
+        .then(client => {
+          window.console.log("client:", client);
+          client.walletAppUrl = walletAppUrl;
 
-        window.client = client;
+          // Replace CanSign method to force popup flow for personal sign with custodial wallet user
+          client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
 
-        // Replace CanSign method to force popup flow for personal sign with custodial wallet user
-        client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
-
-        setWalletClient(client);
-      });
+          setWalletClient(client);
+        });
+    }
   }, []);
 
   if(!walletClient) {
@@ -304,8 +360,14 @@ const App = () => {
   };
 
   const CheckNft = async () => {
-    const inputs = { addr: getInput("nftAddressToVerify"), ownerAddr: getInput("nftOwnerToVerify")};
+    // get the UserItems and take the first valid contractAddress in the list of objects
+    const ca = await GetFirstContractAddress(walletClient);
+    const inputs = { addr: ca, ownerAddr: walletClient.UserAddress()};
     setInputs(inputs);
+    if(!ca) {
+      setResults("Must own an item to run sample check; UserItems() is empty.");
+      return;
+    }
 
     let ownedOrError = await new EluvioLive(walletClient).NftBalanceOf(inputs)
       .then(balance => {
@@ -319,6 +381,36 @@ const App = () => {
       let nftStats = await walletClient.NFTContractStats({contractAddress: inputs.addr})
         .catch(err => { return err; });
       setResults({ ownership: ownedOrError, nftStats: nftStats });
+    }
+  };
+
+  const GetFirstContractAddress = async (walletClient) => {
+    try {
+      const userItems = await walletClient.UserItems({ sortBy: "default" });
+      if(userItems && userItems.results && userItems.results.length > 0) {
+        for(const item of userItems.results) {
+          if(item.contractAddress) {
+            return item.contractAddress;
+          }
+        }
+      }
+
+      window.console.warn("No valid contractAddress found in UserItems results.");
+      return null;
+    } catch(error) {
+      window.console.error("Error fetching UserItems:", error);
+      return null;
+    }
+  };
+
+  const CreateAndDecodeToken = async (walletClient) => {
+    try {
+      const token = await walletClient.client.CreateFabricToken();
+      const decoded_token = walletClient.utils.DecodeSignedToken(token);
+      return { token, decoded_token };
+    } catch(error) {
+      window.console.error("Error creating or decoding Fabric token:", error);
+      return { error: error.message };
     }
   };
 
@@ -433,6 +525,7 @@ const App = () => {
   // TODO: this is getting called too much: twice on start, and after method calls
   setTimeout(LoadMarketplaces, 1);
 
+  const client = walletClient.client;
   const isMM = client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
   const signPermit = (
     <div className="text-button-row">
@@ -453,7 +546,7 @@ const App = () => {
             <option value="demo">Content Fabric: demo</option>
           </select>
 
-          <AuthSection walletClient={walletClient} />
+          <AuthSection walletClient={walletClient} setWalletClient={setWalletClient}/>
         </div>
 
         <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/dapp-sample" target="_blank">
@@ -510,25 +603,17 @@ const App = () => {
           <h2>User Methods</h2>
           <div className="button-row">
             <button onClick={async () => clearAndShow(await walletClient.UserInfo())}>UserInfo</button>
-            <button onClick={async () => clearAndShow(await walletClient.UserItems({sortBy: "default"}))}>UserItems</button>
+            <button onClick={async () => clearAndShow(await CreateAndDecodeToken(walletClient))}>Create Fabric Token</button>
           </div>
           <div className="button-row">
-            <button onClick={async () => clearAndShow(await walletClient.UserItemInfo())}>UserItemInfo</button>
+            <button onClick={async () => clearAndShow(await walletClient.UserItems({sortBy: "default"}))}>UserItems</button>
+            <button onClick={async () => clearAndShow(await walletClient.UserListings())}>UserListings</button>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => await CheckNft()}>BalanceOf</button>
             <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
           </div>
-          <div className="button-row">
-            <button onClick={async () => clearAndShow(await walletClient.client.CreateFabricToken())}>CreateFabricToken</button>
-            <button onClick={async () => clearAndShow(
-              JSON.stringify(client.utils.DecodeSignedToken(await walletClient.client.CreateFabricToken()))
-            )}>DecodeSignedToken</button>
-          </div>
           <br />
-          <h2>Notification Service Methods</h2>
-          <div className="button-row">
-            <button onClick={async () => await StartListening()}>PushService listen</button>
-            <button onClick={async () => await StopListening()}>PushService stop</button>
-          </div>
-          <br/>
           <h2>Marketplace Methods</h2>
           <div className="button-row">
             <select id="marketplaceSelector" onChange={ChangeMarketplace}/>
@@ -536,6 +621,12 @@ const App = () => {
           <div className="button-row">
             <button onClick={async () => clearAndShow(await walletClient.Listings({marketplaceParams}))}>Listings</button>
             <button onClick={async () => clearAndShow(await walletClient.MarketplaceStock({marketplaceParams}))}>Stock</button>
+          </div>
+          <br/>
+          <h2>Notification Service Methods</h2>
+          <div className="button-row">
+            <button onClick={async () => await StartListening()}>PushService listen</button>
+            <button onClick={async () => await StopListening()}>PushService stop</button>
           </div>
           <br/>
           <br/>

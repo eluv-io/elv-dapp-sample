@@ -433,3 +433,21 @@ input {
     }
   }
 }
+
+.auth-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+}
+
