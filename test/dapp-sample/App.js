@@ -27,6 +27,10 @@ const walletAppUrl = network === "demo" ?
   "https://core.test.contentfabric.io/wallet-demo" :
   "https://core.test.contentfabric.io/wallet";
 
+const signInUrl = (network === "demo" ?
+  "https://host-76-74-28-227.contentfabric.io/as/" :
+  "https://host-76-74-28-232.contentfabric.io/as/") + "wlt/ory/sign_in";
+
 const networkId = network === "demo" ? "955210" : "955305";
 
 const AuthSection = ({ walletClient, setWalletClient }) => {
@@ -36,9 +40,6 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
   const [error, setError] = useState("");
 
   const LogIn = async () => {
-    const apiUrl = (network === "demo" ?
-      "https://host-76-74-28-227.contentfabric.io/as/" : "https://host-76-74-28-232.contentfabric.io/as/") +
-      "wlt/ory/sign_in";
     const requestBody = {
       media_property: "test-property-slug",
       email,
@@ -48,7 +49,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
 
     try {
       setError("");
-      const response = await fetch(apiUrl, {
+      const response = await fetch(signInUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +77,6 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
       walletClient.client.walletAppUrl = walletAppUrl;
       window.walletClient = walletClient;
 
-      //setWalletClient(client);
       setWalletClient(walletClient);
       setLoggedIn(true);
       setError(""); // Clear any previous errors
