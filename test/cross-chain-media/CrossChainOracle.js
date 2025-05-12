@@ -13,6 +13,7 @@ export class CrossChainOracle {
     this.walletClient = wallet;
     this.client = this.walletClient.client;
     this.authServicePath = "/as/xco/view";  // On main/demo net as /as/xco/view
+    window.console.log("walletClient", this.walletClient, "client", this.client);
 
     // FUTURE: migrate hardcoded samples to (i) icon reference material
 
@@ -82,7 +83,7 @@ export class CrossChainOracle {
       }
     }
     window.console.log("submitting xco msg", msg);
-    window.console.log("with token", client.utils.DecodeSignedToken(token), token);
+    window.console.log("with token", this.client.utils.DecodeSignedToken(token), token);
 
     return await Utils.ResponseToFormat(
       "json",

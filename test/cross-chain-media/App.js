@@ -27,19 +27,57 @@ const walletAppUrl = network === "demo" ?
   "https://core.test.contentfabric.io/wallet";
 
 
-const AuthSection = ({walletClient}) => {
-  const [loggedIn, setLoggedIn] = useState(walletClient.loggedIn);
+const AuthSection = ({ walletClient, setWalletClient }) => {
+  const [loggedIn, setLoggedIn] = useState(walletClient?.loggedIn);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const LogIn = async ({method}) => {
-    window.client = await walletClient.LogIn({
-      method,
-      callbackUrl: window.location.href,
-      marketplaceParams,
-      clearLogin: true
-    });
+  const LogIn = async () => {
+    const signInUrl = walletClient.client.authServiceURIs[0] + "/wlt/ory/sign_in";
+    const requestBody = {
+      media_property: "test-property-slug",
+      email,
+      password,
+      nonce: "sample_nonce",
+    };
 
-    if(method !== "redirect") {
+    try {
+      setError("");
+      const response = await fetch(signInUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if(!response.ok) {
+        window.console.error("Login error:", response.statusText);
+        setError("Login failed. Please check your credentials.");
+        return;
+      }
+
+      const responseData = await response.json();
+      // contains "email", "id", "user_addr", "fabric_token", "cluster_token"
+
+      // Initialize the wallet client with the response data
+      const token = responseData.fabric_token;
+      const addr = responseData.user_addr;
+      const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+      walletClient.client.SetStaticToken({ token: responseData.fabric_token });
+      await walletClient.SetAuthorization({ fabricToken: token, address: addr, email: email, expiresAt });
+      window.console.log("walletClient init to", walletClient.UserInfo());
+
+      walletClient.client.walletAppUrl = walletAppUrl;
+      window.walletClient = walletClient;
+
+      setWalletClient(walletClient);
       setLoggedIn(true);
+      setError(""); // Clear any previous errors
+    } catch(err) {
+      window.console.error("Login error:", err);
+      setError(err.message || "An unexpected error occurred.");
     }
   };
 
@@ -51,19 +89,31 @@ const AuthSection = ({walletClient}) => {
   if(!loggedIn) {
     return (
       <div className="auth-container">
-        <button onClick={() => LogIn({method: "redirect"})}>
-          Login
-        </button>
+        <div className="login-form">
+          <input
+            type="text" placeholder="Email" value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password" placeholder="Password" value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={LogIn}>Login</button>
+          {error && <div className="error-message">{error}</div>}
+        </div>
       </div>
     );
   }
 
+  let u = walletClient.UserAddress();
+  if(walletClient.UserInfo()) {
+    u = walletClient.UserInfo().email + " (" + walletClient.UserAddress().substring(0, 7) + "...)";
+  }
+
   return (
     <div className="auth-container">
-      <div className="auth-text" title={walletClient.UserInfo()?.email || walletClient.UserAddress()}>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</div>
-      <button onClick={() => LogOut()}>
-        Log Out
-      </button>
+      <h2>Logged In as {u}</h2>
+      <button onClick={LogOut}>Log Out</button>
     </div>
   );
 };
@@ -127,22 +177,25 @@ const App = () => {
   const getInput = (name) => { return document.getElementsByName(name)?.item(0)?.value || ""; };
 
   useEffect(() => {
-    ElvWalletClient.Initialize({
-      network,
-      mode,
-      //marketplaceParams
-    })
-      .then(client => {
-        client.walletAppUrl = walletAppUrl;
+    if(window.walletClient) {
+      setWalletClient(window.walletClient);
+      walletClient.client.walletAppUrl = walletAppUrl;
+      walletClient.walletAppUrl = walletAppUrl;
+    } else {
+      ElvWalletClient.Initialize({
+        network,
+        mode
+      })
+        .then(client => {
+          window.console.log("client:", client);
+          client.walletAppUrl = walletAppUrl;
 
-        window.client = client;
+          // Replace CanSign method to force popup flow for personal sign with custodial wallet user
+          client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
 
-        // Replace CanSign method to force popup flow for personal sign with custodial wallet user
-        client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
-
-
-        setWalletClient(client);
-      });
+          setWalletClient(client);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -385,7 +438,7 @@ rules:
             <option value="demo">Content Fabric: demo</option>
           </select>
 
-          <AuthSection walletClient={walletClient} />
+          <AuthSection walletClient={walletClient} setWalletClient={setWalletClient} />
         </div>
 
         <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/cross-chain-media" target="_blank">
