@@ -27,10 +27,6 @@ const walletAppUrl = network === "demo" ?
   "https://core.test.contentfabric.io/wallet-demo" :
   "https://core.test.contentfabric.io/wallet";
 
-const signInUrl = (network === "demo" ?
-  "https://host-76-74-28-227.contentfabric.io/as/" :
-  "https://host-76-74-28-232.contentfabric.io/as/") + "wlt/ory/sign_in";
-
 const networkId = network === "demo" ? "955210" : "955305";
 
 const AuthSection = ({ walletClient, setWalletClient }) => {
@@ -40,6 +36,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
   const [error, setError] = useState("");
 
   const LogIn = async () => {
+    const signInUrl = walletClient.client.authServiceURIs[0] + "/wlt/ory/sign_in";
     const requestBody = {
       media_property: "test-property-slug",
       email,
@@ -58,7 +55,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
       });
 
       if(!response.ok) {
-        window.console.error("Login error:", response.statusCode, response.statusText);
+        window.console.error("Login error:", response.statusText);
         setError("Login failed. Please check your credentials.");
         return;
       }
@@ -112,7 +109,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
 
   let u = walletClient.UserAddress();
   if(walletClient.UserInfo()) {
-    u = walletClient.UserInfo().email + " (" + walletClient.UserAddress() + ")";
+    u = walletClient.UserInfo().email + " (" + walletClient.UserAddress().substring(0, 7) + "...)";
   }
 
   return (
