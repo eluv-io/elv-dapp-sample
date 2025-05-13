@@ -307,7 +307,7 @@ const App = () => {
         <pre className="embed-code">{ embedCode }</pre>
         <div className="preformat-header">Embed URL</div>
         <pre className="embed-code">{ embedUrl }</pre>
-        <div className="preformat-header">Embedded Content (invisible if invalid)</div>
+        <div className="preformat-header">Embedded Content</div>
         <div className="embed"
           ref={element => {
             if(!element) { return; }
@@ -379,11 +379,9 @@ const App = () => {
     }
   };
 
-  const GoLive = async () => {
-    const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BRanRmxVYTD9u4KFripy9YYYE1QtVE2zYb89HJboJqg3FMuJU52gGYG1uBjiLHjPCgCN19aUVs&mt=v";
-    document.getElementById("iframe6").src = live;
-    document.getElementById("live_label1").innerText = "Live Feed";
-    document.getElementById("live_label2").innerHTML = "&nbsp;";
+  const GoToMarketplace = async () => {
+    const live = "https://wallet.demov3.contentfabric.io/marketplace/iq__2GReTbzD3TM4pXigx6XzNwPCRk5P/store";
+    window.open(live, "_blank");
   };
 
   const ShowPolicy = async () => {
@@ -529,8 +527,7 @@ rules:
                 <div className="form-item">
                   <br/>
                   <button onClick={ShowPolicy}>Show Policy Details</button>
-                  <br/>
-                  <button onClick={GoLive}>Go Live (screen 6)</button>
+                  <button onClick={GoToMarketplace}>Get a Starflix pass</button>
                 </div>
               </div>
 

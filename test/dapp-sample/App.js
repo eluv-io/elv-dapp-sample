@@ -437,7 +437,7 @@ const App = () => {
         <pre className="embed-code">{ embedCode }</pre>
         <div className="preformat-header">Embed URL</div>
         <pre className="embed-code">{ embedUrl }</pre>
-        <div className="preformat-header">Embedded Content (invisible if invalid)</div>
+        <div className="preformat-header">Embedded Content</div>
         <div className="embed"
           ref={element => {
             if(!element) { return; }
