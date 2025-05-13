@@ -34,6 +34,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const LogIn = async () => {
     const signInUrl = walletClient.client.authServiceURIs[0] + "/wlt/ory/sign_in";
@@ -45,6 +46,7 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
     };
 
     try {
+      setLoading(true);
       setError("");
       const response = await fetch(signInUrl, {
         method: "POST",
@@ -76,10 +78,12 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
 
       setWalletClient(walletClient);
       setLoggedIn(true);
-      setError(""); // Clear any previous errors
+      setError("");
     } catch(err) {
       window.console.error("Login error:", err);
       setError(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,7 +104,10 @@ const AuthSection = ({ walletClient, setWalletClient }) => {
             type="password" placeholder="Password" value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button onClick={LogIn}>Login</button>
+          <button onClick={LogIn} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+          {loading && <div className="spinner"></div>} {/* Spinner element */}
           {error && <div className="error-message">{error}</div>}
         </div>
       </div>
@@ -133,16 +140,15 @@ const App = () => {
 
   useEffect(() => {
     if(window.walletClient) {
-      setWalletClient(window.walletClient);
       walletClient.client.walletAppUrl = walletAppUrl;
       walletClient.walletAppUrl = walletAppUrl;
+      setWalletClient(window.walletClient);
     } else {
       ElvWalletClient.Initialize({
         network,
         mode
       })
         .then(client => {
-          window.console.log("client:", client);
           client.walletAppUrl = walletAppUrl;
 
           // Replace CanSign method to force popup flow for personal sign with custodial wallet user
