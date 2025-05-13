@@ -527,7 +527,9 @@ rules:
                 <div className="form-item">
                   <br/>
                   <button onClick={ShowPolicy}>Show Policy Details</button>
-                  <button onClick={GoToMarketplace}>Get a Starflix pass</button>
+                </div>
+                <div className="form-item">
+                  <button onClick={GoToMarketplace}>Get a Ticket or Starflix Pass</button>
                 </div>
               </div>
 
