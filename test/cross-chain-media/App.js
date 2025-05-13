@@ -7,7 +7,6 @@ import { render } from "react-dom";
 import { ElvWalletClient } from "@eluvio/elv-client-js/src/walletClient";
 import { PageLoader } from "Components/common/Loaders";
 
-import { MarketplaceLoader } from "../common/MarketplaceLoader.js";
 import GithubIcon from "../common/github.svg";
 import { CrossChainOracle } from "./CrossChainOracle.js";
 import ImageIcon from "Components/common/ImageIcon";
@@ -16,30 +15,68 @@ import ImageIcon from "Components/common/ImageIcon";
 const mode = "staging";
 
 // eluvio backend network configuration -- "main" or "demo"
-const network = new URLSearchParams(window.location.search).get("network-name") || "main";
-
-// marketplace configuration -- returns { tenantSlug:, marketplaceSlug: }
-const marketplaceParams = MarketplaceLoader.parseMarketplaceParams();
+const network = new URLSearchParams(window.location.search).get("network-name") || "demo";
 
 // wallet app configuration
 const walletAppUrl = network === "demo" ?
-  "https://core.test.contentfabric.io/wallet-demo" :
-  "https://core.test.contentfabric.io/wallet";
+  "https://wallet.demov3.contentfabric.io/" :
+  "https://wallet.contentfabric.io/";
 
+const AuthSection = ({ walletClient, setWalletClient }) => {
+  const [loggedIn, setLoggedIn] = useState(walletClient?.loggedIn);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const AuthSection = ({walletClient}) => {
-  const [loggedIn, setLoggedIn] = useState(walletClient.loggedIn);
+  const LogIn = async () => {
+    const signInUrl = walletClient.client.authServiceURIs[0] + "/wlt/ory/sign_in";
+    const requestBody = {
+      media_property: "test-property-slug",
+      email,
+      password,
+      nonce: "sample_nonce",
+    };
 
-  const LogIn = async ({method}) => {
-    window.client = await walletClient.LogIn({
-      method,
-      callbackUrl: window.location.href,
-      marketplaceParams,
-      clearLogin: true
-    });
+    try {
+      setLoading(true);
+      setError("");
+      const response = await fetch(signInUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
 
-    if(method !== "redirect") {
+      if(!response.ok) {
+        window.console.error("Login error:", response.statusText);
+        setError("Login failed. Please check your credentials.");
+        return;
+      }
+
+      const responseData = await response.json();
+      // contains "email", "id", "user_addr", "fabric_token", "cluster_token"
+
+      // Initialize the wallet client with the response data
+      const token = responseData.fabric_token;
+      const addr = responseData.user_addr;
+      const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+      walletClient.client.SetStaticToken({ token: responseData.fabric_token });
+      await walletClient.SetAuthorization({ fabricToken: token, address: addr, email: email, expiresAt });
+      window.console.log("walletClient init to", walletClient.UserInfo());
+
+      walletClient.client.walletAppUrl = walletAppUrl;
+      window.walletClient = walletClient;
+
+      setWalletClient(walletClient);
       setLoggedIn(true);
+      setError("");
+    } catch(err) {
+      window.console.error("Login error:", err);
+      setError(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,19 +88,34 @@ const AuthSection = ({walletClient}) => {
   if(!loggedIn) {
     return (
       <div className="auth-container">
-        <button onClick={() => LogIn({method: "redirect"})}>
-          Login
-        </button>
+        <div className="login-form">
+          <input
+            type="text" placeholder="Email" value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password" placeholder="Password" value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={LogIn} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+          {loading && <div className="spinner"></div>} {/* Spinner element */}
+          {error && <div className="error-message">{error}</div>}
+        </div>
       </div>
     );
   }
 
+  let u = walletClient.UserAddress();
+  if(walletClient.UserInfo()) {
+    u = walletClient.UserInfo().email + " (" + walletClient.UserAddress().substring(0, 7) + "...)";
+  }
+
   return (
     <div className="auth-container">
-      <div className="auth-text" title={walletClient.UserInfo()?.email || walletClient.UserAddress()}>Logged In as { walletClient.UserInfo()?.email || walletClient.UserAddress() }</div>
-      <button onClick={() => LogOut()}>
-        Log Out
-      </button>
+      <h2>Logged In as {u}</h2>
+      <button onClick={LogOut}>Log Out</button>
     </div>
   );
 };
@@ -127,22 +179,24 @@ const App = () => {
   const getInput = (name) => { return document.getElementsByName(name)?.item(0)?.value || ""; };
 
   useEffect(() => {
-    ElvWalletClient.Initialize({
-      network,
-      mode,
-      //marketplaceParams
-    })
-      .then(client => {
-        client.walletAppUrl = walletAppUrl;
+    if(window.walletClient) {
+      walletClient.client.walletAppUrl = walletAppUrl;
+      walletClient.walletAppUrl = walletAppUrl;
+      setWalletClient(window.walletClient);
+    } else {
+      ElvWalletClient.Initialize({
+        network,
+        mode
+      })
+        .then(client => {
+          client.walletAppUrl = walletAppUrl;
 
-        window.client = client;
+          // Replace CanSign method to force popup flow for personal sign with custodial wallet user
+          client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
 
-        // Replace CanSign method to force popup flow for personal sign with custodial wallet user
-        client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
-
-
-        setWalletClient(client);
-      });
+          setWalletClient(client);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -254,7 +308,7 @@ const App = () => {
         <pre className="embed-code">{ embedCode }</pre>
         <div className="preformat-header">Embed URL</div>
         <pre className="embed-code">{ embedUrl }</pre>
-        <div className="preformat-header">Embedded Content (invisible if invalid)</div>
+        <div className="preformat-header">Embedded Content</div>
         <div className="embed"
           ref={element => {
             if(!element) { return; }
@@ -326,11 +380,9 @@ const App = () => {
     }
   };
 
-  const GoLive = async () => {
-    const live = "https://embed.v3.contentfabric.io/?net=demo&p&ct=h&vid=hq__BRanRmxVYTD9u4KFripy9YYYE1QtVE2zYb89HJboJqg3FMuJU52gGYG1uBjiLHjPCgCN19aUVs&mt=v";
-    document.getElementById("iframe6").src = live;
-    document.getElementById("live_label1").innerText = "Live Feed";
-    document.getElementById("live_label2").innerHTML = "&nbsp;";
+  const GoToMarketplace = async () => {
+    const live = "https://wallet.demov3.contentfabric.io/marketplace/iq__2GReTbzD3TM4pXigx6XzNwPCRk5P/store";
+    window.open(live, "_blank");
   };
 
   const ShowPolicy = async () => {
@@ -385,7 +437,7 @@ rules:
             <option value="demo">Content Fabric: demo</option>
           </select>
 
-          <AuthSection walletClient={walletClient} />
+          <AuthSection walletClient={walletClient} setWalletClient={setWalletClient} />
         </div>
 
         <div className="github-container"><a className="source-link" href="https://github.com/eluv-io/elv-dapp-sample/tree/main/test/cross-chain-media" target="_blank">
@@ -443,14 +495,14 @@ rules:
                 <div className="form-item">
                   <label htmlFor="evmNft">EVM NFT chain ID:</label>
                   <input type="text" size="50" id="evmChain" name="evmChain" />
-                  <label htmlFor="evmNft">EVM NFT contract address:</label>
-                  <input type="text" size="50" id="evmNft" name="evmNft" />
-                  <button onClick={async () =>
-                    await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
-                  <label style={{marginTop: 8+ "px"}}>&nbsp;&nbsp;&nbsp;Chain IDs:</label>
+                  <label>&nbsp;&nbsp;&nbsp;Chain IDs:</label>
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1: ETH mainnet</label>
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955210: ELV demo</label>
                   <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;955305: ELV main</label>
+                  <label htmlFor="evmNft" style={{marginTop: 8+ "px"}}>EVM NFT contract address:</label>
+                  <input type="text" size="50" id="evmNft" name="evmNft" />
+                  <button onClick={async () =>
+                    await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
                 </div>
                 <label style={{marginTop: 12+ "px"}}></label>
                 <div className="form-item">
@@ -466,6 +518,7 @@ rules:
                   <button onClick={async () => await SignSolana()}>Query Solana Cross-chain Oracle</button>
                 </div>
                 <br/>
+                <label><b>Generate a gated embed:</b></label>
                 <div className="form-item">
                   <label htmlFor="playoutToken">Gated content access token:</label>
                   <input type="text" size="50" id="playoutToken" name="playoutToken" />
@@ -476,8 +529,9 @@ rules:
                 <div className="form-item">
                   <br/>
                   <button onClick={ShowPolicy}>Show Policy Details</button>
-                  <br/>
-                  <button onClick={GoLive}>Go Live (screen 6)</button>
+                </div>
+                <div className="form-item">
+                  <button onClick={GoToMarketplace}>Get a Ticket or Starflix Pass</button>
                 </div>
               </div>
 
