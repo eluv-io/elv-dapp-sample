@@ -24,8 +24,8 @@ const marketplaceParams = MarketplaceLoader.parseMarketplaceParams();
 
 // wallet app configuration
 const walletAppUrl = network === "demo" ?
-  "https://core.test.contentfabric.io/wallet-demo" :
-  "https://core.test.contentfabric.io/wallet";
+  "https://wallet.demov3.contentfabric.io/" :
+  "https://wallet.contentfabric.io/";
 
 const networkId = network === "demo" ? "955210" : "955305";
 
@@ -152,7 +152,7 @@ const App = () => {
           client.walletAppUrl = walletAppUrl;
 
           // Replace CanSign method to force popup flow for personal sign with custodial wallet user
-          client.CanSign = () => client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask";
+          client.CanSign = () => client.loggedIn && client.UserInfo()?.walletName?.toLowerCase() === "metamask";
 
           setWalletClient(client);
         });
@@ -173,7 +173,7 @@ const App = () => {
     setInputs({ messageToSign: msgToSign});
 
     let res;
-    if(client.loggedIn && client.UserInfo().walletName.toLowerCase() === "metamask") {
+    if(client.loggedIn && client.UserInfo()?.walletName?.toLowerCase() === "metamask") {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -182,8 +182,14 @@ const App = () => {
         params: [accounts[0], msgToSign],
       });
     } else {
+      walletClient.client.walletAppUrl = walletAppUrl;
+      walletClient.walletAppUrl = walletAppUrl;
       res = await walletClient.PersonalSign({message: msgToSign})
-        .catch(err => { return err; });
+        .catch(err => {
+          window.console.error("Sign error:", err);
+          setResults("Error signing message: " + err);
+          return err;
+        });
     }
     setResults(res);
   };
@@ -560,7 +566,7 @@ const App = () => {
 
       <div className="video-container">
         <div className="main-sidebar-controls">
-          <br/><br/><br/>
+          <br/><br/>
           <div className="text-button-row-container">
             <div className="text-button-row">
               <label htmlFor="signMsg">Sign a Message:</label>
@@ -568,6 +574,7 @@ const App = () => {
               <button onClick={Sign}>Sign</button>
             </div>
             { isMM && signPermit }
+            <br/>
             <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
@@ -578,17 +585,6 @@ const App = () => {
               <input type="text" size="50" id="evmNft" name="evmNft" />
               <button onClick={async () =>
                 await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
-            </div>
-            <div className="text-button-row">
-              <label htmlFor="flowNft">Flow NFT contract address:</label>
-              <input type="text" size="50" id="flowNft" name="flowNft" />
-              <button onClick={async () =>
-                await CrossChainAuth("flow", getInput("flowNft"), "mainnet")}>Query Flow Cross-chain Oracle</button>
-            </div>
-            <div className="text-button-row">
-              <label htmlFor="solanaNft">Solana NFT contract address:</label>
-              <input type="text" size="50" id="solanaNft" name="solanaNft" />
-              <button onClick={async () => await SignSolana()}>Query Solana Cross-chain Oracle</button>
             </div>
             <br/>
             <div className="text-button-row">

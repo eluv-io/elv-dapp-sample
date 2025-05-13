@@ -19,8 +19,8 @@ const network = new URLSearchParams(window.location.search).get("network-name") 
 
 // wallet app configuration
 const walletAppUrl = network === "demo" ?
-  "https://core.test.contentfabric.io/wallet-demo" :
-  "https://core.test.contentfabric.io/wallet";
+  "https://wallet.demov3.contentfabric.io/" :
+  "https://wallet.contentfabric.io/";
 
 
 const AuthSection = ({ walletClient, setWalletClient }) => {
