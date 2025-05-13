@@ -182,8 +182,8 @@ const App = () => {
         params: [accounts[0], msgToSign],
       });
     } else {
-      walletClient.client.walletAppUrl = walletAppUrl;
-      walletClient.walletAppUrl = walletAppUrl;
+      walletClient.client.appUrl = walletAppUrl;
+      walletClient.appUrl = walletAppUrl;
       res = await walletClient.PersonalSign({message: msgToSign})
         .catch(err => {
           window.console.error("Sign error:", err);

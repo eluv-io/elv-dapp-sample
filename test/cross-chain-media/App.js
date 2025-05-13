@@ -22,7 +22,6 @@ const walletAppUrl = network === "demo" ?
   "https://wallet.demov3.contentfabric.io/" :
   "https://wallet.contentfabric.io/";
 
-
 const AuthSection = ({ walletClient, setWalletClient }) => {
   const [loggedIn, setLoggedIn] = useState(walletClient?.loggedIn);
   const [email, setEmail] = useState("");
