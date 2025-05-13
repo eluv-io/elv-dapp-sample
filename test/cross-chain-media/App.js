@@ -15,7 +15,7 @@ import ImageIcon from "Components/common/ImageIcon";
 const mode = "staging";
 
 // eluvio backend network configuration -- "main" or "demo"
-const network = new URLSearchParams(window.location.search).get("network-name") || "main";
+const network = new URLSearchParams(window.location.search).get("network-name") || "demo";
 
 // wallet app configuration
 const walletAppUrl = network === "demo" ?
