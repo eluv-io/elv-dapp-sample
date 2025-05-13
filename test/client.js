@@ -30,8 +30,6 @@ if(window.location.hostname === "core.test.contentfabric.io") {
   walletAppUrl = network === "demo" ?
     "https://wallet.demov3.contentfabric.io/" :
     "https://wallet.contentfabric.io/";
-
-
 } else {
   const url = new URL(window.location.origin);
   url.port = "8090";
