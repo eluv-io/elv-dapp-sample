@@ -5,6 +5,7 @@ import "../../src/static/stylesheets/loaders.scss";
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { ElvWalletClient } from "@eluvio/elv-client-js/src/walletClient";
+import Pako from "pako";
 import { PageLoader } from "Components/common/Loaders";
 
 import { EluvioLive } from "../common/EluvioLive";
@@ -412,6 +413,53 @@ const App = () => {
     }
   };
 
+  const parseDuration = (str) => {
+    const match = str.trim().match(/^(\d+(?:\.\d+)?)\s*([smhdw]?)$/i);
+    if(!match) return NaN;
+    const value = parseFloat(match[1]);
+    const multipliers = { s: 1000, m: 60*1000, h: 3600*1000, d: 86400*1000, w: 7*86400*1000, "": 1 };
+    return Math.round(value * (multipliers[match[2].toLowerCase()] ?? 1));
+  };
+
+  const CreateExpiredFabricToken = async (walletClient) => {
+    try {
+      const issueInput = getInput("expiredTokIssueTime");
+      const issueTime  = Date.now() - parseDuration(issueInput || "1w");
+      const duration   = 60 * 60 * 1000;
+
+      const client  = walletClient.client;
+      const address = client.CurrentAccountAddress();
+
+      const token = {
+        sub: `iusr${walletClient.utils.AddressToHash(address)}`,
+        adr: Buffer.from(address.replace(/^0x/, ""), "hex").toString("base64"),
+        spc: await client.ContentSpaceId(),
+        iat: issueTime,
+        exp: issueTime + duration,
+        ctx: {}
+      };
+
+      const message   = `Eluvio Content Fabric Access Token 1.0\n${JSON.stringify(token)}`;
+      const signature = await client.PersonalSign({message, addEthereumPrefix: true});
+
+      const compressedToken = Pako.deflateRaw(Buffer.from(JSON.stringify(token), "utf-8"));
+      const fabricToken = `acspjc${walletClient.utils.B58(
+        Buffer.concat([
+          Buffer.from(signature.replace(/^0x/, ""), "hex"),
+          Buffer.from(compressedToken)
+        ])
+      )}`;
+
+      return {
+        token: fabricToken,
+        decoded_token: walletClient.utils.DecodeSignedToken(fabricToken)
+      };
+    } catch(error) {
+      window.console.error("Error creating expired fabric token:", error);
+      return { error: error.message };
+    }
+  };
+
   const CreateAndDecodeToken = async (walletClient) => {
     try {
       const token = await walletClient.client.CreateFabricToken();
@@ -576,26 +624,26 @@ const App = () => {
             { isMM && signPermit }
             <br/>
             <div className="text-button-row">
-              <label htmlFor="evmNft">EVM NFT chain ID:</label>
-              <input type="text" size="50" id="evmChain" name="evmChain" />
-              <button className="hidden-placeholder"></button>
-            </div>
-            <div className="text-button-row">
-              <label htmlFor="evmNft">EVM NFT contract address:</label>
-              <input type="text" size="50" id="evmNft" name="evmNft" />
-              <button onClick={async () =>
-                await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
-            </div>
-            <br/>
-            <div className="text-button-row">
               <label htmlFor="playoutToken">Gated content access token:</label>
               <input type="text" size="50" id="playoutToken" name="playoutToken" />
-              <button className="hidden-placeholder"></button>
+              <button onClick={Playout}>Embed content</button>
             </div>
             <div className="text-button-row">
               <label htmlFor="playoutVersionHash">Gated content version hash:</label>
               <input type="text" size="50" id="playoutVersionHash" name="playoutVersionHash" />
-              <button onClick={Playout}>Embed content</button>
+              <button className="hidden-placeholder"></button>
+            </div>
+            <br/>
+            <div className="text-button-row">
+              <label htmlFor="evmNft">EVM NFT chain ID:</label>
+              <input type="text" size="50" id="evmChain" name="evmChain" />
+              <button onClick={async () =>
+                await CrossChainAuth("eth", getInput("evmNft"), getInput("evmChain"))}>Query EVM Cross-chain Oracle</button>
+            </div>
+            <div className="text-button-row">
+              <label htmlFor="evmNft">EVM NFT contract address:</label>
+              <input type="text" size="50" id="evmNft" name="evmNft" />
+              <button className="hidden-placeholder"></button>
             </div>
           </div>
           <br />
@@ -611,6 +659,9 @@ const App = () => {
           <div className="button-row">
             <button onClick={async () => await CheckNft()}>BalanceOf</button>
             <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await CreateExpiredFabricToken(walletClient))}>Create Expired Fabric Token</button>
           </div>
           <br />
           <h2>Marketplace Methods</h2>
