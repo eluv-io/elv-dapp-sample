@@ -424,8 +424,8 @@ const App = () => {
   const CreateExpiredFabricToken = async (walletClient) => {
     try {
       const issueInput = getInput("expiredTokIssueTime");
-      const issueTime  = Date.now() - parseDuration(issueInput || "1h");
-      const duration   = 1000;
+      const issueTime  = Date.now() - parseDuration(issueInput || "1w");
+      const duration   = 60 * 60 * 1000;
 
       const client  = walletClient.client;
       const address = client.CurrentAccountAddress();
@@ -635,12 +635,6 @@ const App = () => {
             </div>
             <br/>
             <div className="text-button-row">
-              <label htmlFor="expiredTokIssueTime">Token issued how long ago (e.g. 30s, 1w, ...):</label>
-              <input type="text" size="50" id="expiredTokIssueTime" name="expiredTokIssueTime" />
-              <button onClick={async () => clearAndShow(await CreateExpiredFabricToken(walletClient))}>Create Expired Fabric Token</button>
-            </div>
-            <br/>
-            <div className="text-button-row">
               <label htmlFor="evmNft">EVM NFT chain ID:</label>
               <input type="text" size="50" id="evmChain" name="evmChain" />
               <button onClick={async () =>
@@ -665,6 +659,9 @@ const App = () => {
           <div className="button-row">
             <button onClick={async () => await CheckNft()}>BalanceOf</button>
             <button onClick={async () => clearAndShow(await walletClient.AvailableMarketplaces())}>AvailableMarketplaces</button>
+          </div>
+          <div className="button-row">
+            <button onClick={async () => clearAndShow(await CreateExpiredFabricToken(walletClient))}>Create Expired Fabric Token</button>
           </div>
           <br />
           <h2>Marketplace Methods</h2>
